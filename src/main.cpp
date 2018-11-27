@@ -14,6 +14,8 @@
 #include "simplesystem.h"
 #include "pendulumsystem.h"
 #include "clothsystem.h"
+#include "fluidsystem.h"
+
 
 using namespace std;
 
@@ -56,6 +58,7 @@ GLuint program_light;
 SimpleSystem* simpleSystem;
 PendulumSystem* pendulumSystem;
 ClothSystem* clothSystem;
+FluidSystem* fluidSystem;
 
 // Function implementations
 static void keyCallback(GLFWwindow* window, int key,
@@ -184,18 +187,21 @@ void initSystem()
     default: printf("Unrecognized integrator\n"); exit(-1);
     }
 
-    simpleSystem = new SimpleSystem();
+    // simpleSystem = new SimpleSystem();
     // TODO you can modify the number of particles
-    pendulumSystem = new PendulumSystem();
+    // pendulumSystem = new PendulumSystem();
     // TODO customize initialization of cloth system
-    clothSystem = new ClothSystem();
+    // clothSystem = new ClothSystem();
+    fluidSystem = new FluidSystem();
+
 }
 
 void freeSystem() {
-    delete simpleSystem; simpleSystem = nullptr;
-    delete timeStepper; timeStepper = nullptr;
-    delete pendulumSystem; pendulumSystem = nullptr;
-    delete clothSystem; clothSystem = nullptr;
+    // delete simpleSystem; simpleSystem = nullptr;
+    // delete timeStepper; timeStepper = nullptr;
+    // delete pendulumSystem; pendulumSystem = nullptr;
+    // delete clothSystem; clothSystem = nullptr;
+    delete fluidSystem; fluidSystem = nullptr;
 }
 
 void resetTime() {
@@ -210,9 +216,10 @@ void stepSystem()
 {
     // step until simulated_s has caught up with elapsed_s.
     while (simulated_s < elapsed_s) {
-        timeStepper->takeStep(simpleSystem, h);
-        timeStepper->takeStep(pendulumSystem, h);
-        timeStepper->takeStep(clothSystem, h);
+        // timeStepper->takeStep(simpleSystem, h);
+        // timeStepper->takeStep(pendulumSystem, h);
+        // timeStepper->takeStep(clothSystem, h);
+        timeStepper->takeStep(fluidSystem, h);
         simulated_s += h;
     }
 }
@@ -227,7 +234,9 @@ void drawSystem()
 
     simpleSystem->draw(gl);
     pendulumSystem->draw(gl);
-    clothSystem->draw(gl);
+    // clothSystem->draw(gl);
+    fluidSystem->draw(gl);
+
 
     // set uniforms for floor
     gl.updateMaterial(FLOOR_COLOR);
