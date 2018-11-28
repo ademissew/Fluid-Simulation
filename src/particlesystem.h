@@ -4,6 +4,7 @@
 #include <vector>
 #include <vecmath.h>
 #include <cstdint>
+#include <iostream>
 
 
 // helper for uniform distribution

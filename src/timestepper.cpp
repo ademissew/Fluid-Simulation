@@ -1,9 +1,10 @@
 #include "timestepper.h"
-
+#include <iostream>
 #include <cstdio>
 
 void ForwardEuler::takeStep(ParticleSystem* particleSystem, float stepSize)
 {
+
     std::vector<Vector3f> x = particleSystem -> getState();
     std::vector<Vector3f> f = particleSystem -> evalF(particleSystem -> getState());
     std::vector<Vector3f> new_state;
@@ -16,6 +17,7 @@ void ForwardEuler::takeStep(ParticleSystem* particleSystem, float stepSize)
 
 void Trapezoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
 {
+
     std::vector<Vector3f> x = particleSystem -> getState();
     std::vector<Vector3f> f_0 = particleSystem -> evalF(particleSystem -> getState());
     std::vector<Vector3f> new_state;
@@ -33,11 +35,16 @@ void Trapezoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
 
 
 void RK4::takeStep(ParticleSystem* particleSystem, float stepSize)
-{
+{    
+                        std::cout << typeid(particleSystem).name() << std::endl;
+
     std::vector<Vector3f> x = particleSystem -> getState();
+                        std::cout << "hi3" << std::endl;
+
     std::vector<Vector3f> k_1 = particleSystem -> evalF(particleSystem -> getState());
     std::vector<Vector3f> new_state;
     std::vector<Vector3f> input1,input2,input3; 
+
     for(int i=0; i<x.size(); ++i){
         input1.push_back(x[i]+stepSize*k_1[i]/2);
     } 

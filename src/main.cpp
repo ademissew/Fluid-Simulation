@@ -52,7 +52,7 @@ bool gMousePressed = false;
 GLuint program_color;
 GLuint program_light;
 
-std::vector<std::vector<std::vector<Cell>>> grid; //3D grid of cells
+std::vector<std::vector<std::vector<Cell*>>>* grid; //3D grid of cells
 
 
 // Function implementations
@@ -183,24 +183,30 @@ void initSystem()
     }
 
     // initializes a 11x11 grid
-    std::vector<std::vector<std::vector<Cell>>> init_grid;
+    std::vector<std::vector<std::vector<Cell*>>> init_grid;
     for (int i = -5; i <= 5; ++i){
-        std::vector<std::vector<Cell>> vec;
+        std::vector<std::vector<Cell*>> vec;
         for (int j = -5; j <= 5; ++j){
-            std::vector<Cell> cells;
+            std::vector<Cell*> cells;
             for (int k = -5; k <= 5; ++k){
-                cells.push_back(Cell(Vector3f(0,0,0),Vector3f(i,j,k),h,false));
+                Cell cell = Cell(Vector3f(0,0,0),Vector3f(i,j,k),h,false);
+                cells.push_back(&cell);
             }
             vec.push_back(cells);
         }
         init_grid.push_back(vec);
     }
-    grid = init_grid;
+    grid = &init_grid;
+                                    std::cout << "sdjfalkdf" << std::endl;
+    std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
+                                    std::cout << actualgrid.size() << std::endl;
+    
 }
 
 void freeSystem() {
     // delete simpleSystem; simpleSystem = nullptr;
     delete timeStepper; timeStepper = nullptr;
+    delete grid; grid = nullptr;
     // delete cell; cell = nullptr;
     // delete pendulumSystem; pendulumSystem = nullptr;
     // delete clothSystem; clothSystem = nullptr;
@@ -217,16 +223,27 @@ void resetTime() {
 void stepSystem()
 {
     // step until simulated_s has caught up with elapsed_s.
-    while (simulated_s < elapsed_s) {
-        for (int i = -5; i <= 5; ++i){
-            for (int j = -5; j <= 5; ++j){
-                for (int k = -5; k <= 5; ++k){
-                    timeStepper -> takeStep(&grid[i][j][k],h);
+    int x = 0;
+                            std::cout << "hi" << std::endl;
+
+    std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
+                        std::cout << "hiwfeece" << std::endl;
+
+    for (int i = 0; i <= 11; ++i){
+            for (int j = 0; j <= 11; ++j){
+                for (int k = 0; k <= 11; ++k){
+                    while (simulated_s < elapsed_s) {
+                        // std::cout << typeid(actualgrid[i][j][k]).name() << std::endl;
+                        std::cout << actualgrid.size() << std::endl;
+                        Cell* cell = actualgrid[i][j][k];
+
+                        timeStepper -> takeStep(actualgrid[i][j][k],h);
+                        simulated_s += h;
+                    }
                 }
             }
         }
-        simulated_s += h;
-    }
+    
 }
 
 // Draw the current particle positions
@@ -236,7 +253,17 @@ void drawSystem()
     // particle systems need for drawing themselves
     GLProgram gl(program_light, program_color, &camera);
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
+    std::vector<std::vector<std::vector<Cell*>>> actualgrid; //3D grid of cells
 
+    for (int i = -5; i <= 5; ++i){
+            for (int j = -5; j <= 5; ++j){
+                for (int k = -5; k <= 5; ++k){
+                    while (simulated_s < elapsed_s) {
+                        actualgrid[i+5][j+5][k+5]->draw(gl);
+                    }
+                }
+            }
+        }
     // set uniforms for floor
     gl.updateMaterial(FLOOR_COLOR);
     gl.updateModelMatrix(Matrix4f::translation(0, -5.0f, 0));
@@ -306,7 +333,11 @@ int main(int argc, char** argv)
     camera.SetDistance(10);
 
     // Setup particle system
+                                    std::cout << "hi" << std::endl;
+
     initSystem();
+std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
+                                    std::cout << actualgrid.size() << std::endl;
 
     // Main Loop
     uint64_t freq = glfwGetTimerFrequency();
@@ -323,6 +354,10 @@ int main(int argc, char** argv)
 
         uint64_t now = glfwGetTimerValue();
         elapsed_s = (double)(now - start_tick) / freq;
+            std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
+                                    std::cout << actualgrid.size() << std::endl;
+
+
         stepSystem();
 
         // Draw the simulation

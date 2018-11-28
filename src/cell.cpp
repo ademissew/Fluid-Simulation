@@ -56,7 +56,7 @@ void Cell::draw(GLProgram& gl)
 
     const Vector3f PARTICLE_COLOR(0.4f, 0.7f, 1.0f);
     gl.updateMaterial(PARTICLE_COLOR);
-    if (_filled){
+    if (true || _filled){
         for(Vector3f particle: m_vVecState){
             Vector3f pos(particle);
             gl.updateModelMatrix(Matrix4f::translation(pos));
