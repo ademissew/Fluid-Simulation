@@ -51,24 +51,18 @@ list (APPEND A3_SRC
   src/starter3_util.cpp
   src/camera.cpp
   src/vertexrecorder.cpp
-  src/clothsystem.cpp
   src/timestepper.cpp
   src/particlesystem.cpp
-  src/pendulumsystem.cpp
-  src/simplesystem.cpp
-  src/fluidsystem.cpp
+  src/cell.cpp
 )
 list (APPEND A3_HEADER
   src/gl.h
   src/starter3_util.h
   src/camera.h
   src/vertexrecorder.h
-  src/clothsystem.h
   src/timestepper.h
   src/particlesystem.h
-  src/pendulumsystem.h
-  src/simplesystem.h
-  src/fluidsystem.h
+  src/cell.h
 )
 
 add_executable(a3 ${A3_SRC} ${A3_HEADER})

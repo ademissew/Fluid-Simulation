@@ -11,10 +11,7 @@
 #include "starter3_util.h"
 #include "camera.h"
 #include "timestepper.h"
-#include "simplesystem.h"
-#include "pendulumsystem.h"
-#include "clothsystem.h"
-#include "fluidsystem.h"
+#include "cell.h"
 
 
 using namespace std;
@@ -55,10 +52,8 @@ bool gMousePressed = false;
 GLuint program_color;
 GLuint program_light;
 
-SimpleSystem* simpleSystem;
-PendulumSystem* pendulumSystem;
-ClothSystem* clothSystem;
-FluidSystem* fluidSystem;
+std::vector<std::vector<std::vector<Cell>>> grid; //3D grid of cells
+
 
 // Function implementations
 static void keyCallback(GLFWwindow* window, int key,
@@ -187,21 +182,28 @@ void initSystem()
     default: printf("Unrecognized integrator\n"); exit(-1);
     }
 
-    // simpleSystem = new SimpleSystem();
-    // TODO you can modify the number of particles
-    // pendulumSystem = new PendulumSystem();
-    // TODO customize initialization of cloth system
-    // clothSystem = new ClothSystem();
-    fluidSystem = new FluidSystem();
-
+    // initializes a 11x11 grid
+    std::vector<std::vector<std::vector<Cell>>> init_grid;
+    for (int i = -5; i <= 5; ++i){
+        std::vector<std::vector<Cell>> vec;
+        for (int j = -5; j <= 5; ++j){
+            std::vector<Cell> cells;
+            for (int k = -5; k <= 5; ++k){
+                cells.push_back(Cell(Vector3f(0,0,0),Vector3f(i,j,k),h,false));
+            }
+            vec.push_back(cells);
+        }
+        init_grid.push_back(vec);
+    }
+    grid = init_grid;
 }
 
 void freeSystem() {
     // delete simpleSystem; simpleSystem = nullptr;
-    // delete timeStepper; timeStepper = nullptr;
+    delete timeStepper; timeStepper = nullptr;
+    // delete cell; cell = nullptr;
     // delete pendulumSystem; pendulumSystem = nullptr;
     // delete clothSystem; clothSystem = nullptr;
-    delete fluidSystem; fluidSystem = nullptr;
 }
 
 void resetTime() {
@@ -216,10 +218,13 @@ void stepSystem()
 {
     // step until simulated_s has caught up with elapsed_s.
     while (simulated_s < elapsed_s) {
-        // timeStepper->takeStep(simpleSystem, h);
-        // timeStepper->takeStep(pendulumSystem, h);
-        // timeStepper->takeStep(clothSystem, h);
-        timeStepper->takeStep(fluidSystem, h);
+        for (int i = -5; i <= 5; ++i){
+            for (int j = -5; j <= 5; ++j){
+                for (int k = -5; k <= 5; ++k){
+                    timeStepper -> takeStep(&grid[i][j][k],h);
+                }
+            }
+        }
         simulated_s += h;
     }
 }
@@ -231,12 +236,6 @@ void drawSystem()
     // particle systems need for drawing themselves
     GLProgram gl(program_light, program_color, &camera);
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
-
-    simpleSystem->draw(gl);
-    pendulumSystem->draw(gl);
-    // clothSystem->draw(gl);
-    fluidSystem->draw(gl);
-
 
     // set uniforms for floor
     gl.updateMaterial(FLOOR_COLOR);
