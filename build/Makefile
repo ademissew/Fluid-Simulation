@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/Alenta/Desktop/6.837/alenta_ps3
+CMAKE_SOURCE_DIR = /Users/Alenta/Desktop/6.837/project/Fluid-Simulation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/Alenta/Desktop/6.837/alenta_ps3/build
+CMAKE_BINARY_DIR = /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -176,32 +176,32 @@ src/camera.cpp.s:
 	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/camera.cpp.s
 .PHONY : src/camera.cpp.s
 
-src/clothsystem.o: src/clothsystem.cpp.o
+src/cell.o: src/cell.cpp.o
 
-.PHONY : src/clothsystem.o
+.PHONY : src/cell.o
 
 # target to build an object file
-src/clothsystem.cpp.o:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/clothsystem.cpp.o
-.PHONY : src/clothsystem.cpp.o
+src/cell.cpp.o:
+	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/cell.cpp.o
+.PHONY : src/cell.cpp.o
 
-src/clothsystem.i: src/clothsystem.cpp.i
+src/cell.i: src/cell.cpp.i
 
-.PHONY : src/clothsystem.i
+.PHONY : src/cell.i
 
 # target to preprocess a source file
-src/clothsystem.cpp.i:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/clothsystem.cpp.i
-.PHONY : src/clothsystem.cpp.i
+src/cell.cpp.i:
+	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/cell.cpp.i
+.PHONY : src/cell.cpp.i
 
-src/clothsystem.s: src/clothsystem.cpp.s
+src/cell.s: src/cell.cpp.s
 
-.PHONY : src/clothsystem.s
+.PHONY : src/cell.s
 
 # target to generate assembly for a file
-src/clothsystem.cpp.s:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/clothsystem.cpp.s
-.PHONY : src/clothsystem.cpp.s
+src/cell.cpp.s:
+	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/cell.cpp.s
+.PHONY : src/cell.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -256,60 +256,6 @@ src/particlesystem.s: src/particlesystem.cpp.s
 src/particlesystem.cpp.s:
 	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/particlesystem.cpp.s
 .PHONY : src/particlesystem.cpp.s
-
-src/pendulumsystem.o: src/pendulumsystem.cpp.o
-
-.PHONY : src/pendulumsystem.o
-
-# target to build an object file
-src/pendulumsystem.cpp.o:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/pendulumsystem.cpp.o
-.PHONY : src/pendulumsystem.cpp.o
-
-src/pendulumsystem.i: src/pendulumsystem.cpp.i
-
-.PHONY : src/pendulumsystem.i
-
-# target to preprocess a source file
-src/pendulumsystem.cpp.i:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/pendulumsystem.cpp.i
-.PHONY : src/pendulumsystem.cpp.i
-
-src/pendulumsystem.s: src/pendulumsystem.cpp.s
-
-.PHONY : src/pendulumsystem.s
-
-# target to generate assembly for a file
-src/pendulumsystem.cpp.s:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/pendulumsystem.cpp.s
-.PHONY : src/pendulumsystem.cpp.s
-
-src/simplesystem.o: src/simplesystem.cpp.o
-
-.PHONY : src/simplesystem.o
-
-# target to build an object file
-src/simplesystem.cpp.o:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/simplesystem.cpp.o
-.PHONY : src/simplesystem.cpp.o
-
-src/simplesystem.i: src/simplesystem.cpp.i
-
-.PHONY : src/simplesystem.i
-
-# target to preprocess a source file
-src/simplesystem.cpp.i:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/simplesystem.cpp.i
-.PHONY : src/simplesystem.cpp.i
-
-src/simplesystem.s: src/simplesystem.cpp.s
-
-.PHONY : src/simplesystem.s
-
-# target to generate assembly for a file
-src/simplesystem.cpp.s:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/simplesystem.cpp.s
-.PHONY : src/simplesystem.cpp.s
 
 src/starter3_util.o: src/starter3_util.cpp.o
 
@@ -406,21 +352,15 @@ help:
 	@echo "... src/camera.o"
 	@echo "... src/camera.i"
 	@echo "... src/camera.s"
-	@echo "... src/clothsystem.o"
-	@echo "... src/clothsystem.i"
-	@echo "... src/clothsystem.s"
+	@echo "... src/cell.o"
+	@echo "... src/cell.i"
+	@echo "... src/cell.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/particlesystem.o"
 	@echo "... src/particlesystem.i"
 	@echo "... src/particlesystem.s"
-	@echo "... src/pendulumsystem.o"
-	@echo "... src/pendulumsystem.i"
-	@echo "... src/pendulumsystem.s"
-	@echo "... src/simplesystem.o"
-	@echo "... src/simplesystem.i"
-	@echo "... src/simplesystem.s"
 	@echo "... src/starter3_util.o"
 	@echo "... src/starter3_util.i"
 	@echo "... src/starter3_util.s"
