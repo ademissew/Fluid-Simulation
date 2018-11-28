@@ -52,7 +52,8 @@ bool gMousePressed = false;
 GLuint program_color;
 GLuint program_light;
 
-std::vector<std::vector<std::vector<Cell*>>>* grid; //3D grid of cells
+std::vector<std::vector<std::vector<Cell>>> grid; //3D grid of cells
+//std::vector<std::vector<std::vector<Cell*>>> init_grid;
 
 
 // Function implementations
@@ -181,32 +182,31 @@ void initSystem()
     case 'r': timeStepper = new RK4(); break;
     default: printf("Unrecognized integrator\n"); exit(-1);
     }
-
+    grid.clear();
     // initializes a 11x11 grid
-    std::vector<std::vector<std::vector<Cell*>>> init_grid;
-    for (int i = -5; i <= 5; ++i){
-        std::vector<std::vector<Cell*>> vec;
-        for (int j = -5; j <= 5; ++j){
-            std::vector<Cell*> cells;
-            for (int k = -5; k <= 5; ++k){
+    for (int i = -1; i <= 1; ++i){
+        std::vector<std::vector<Cell>> vec;
+        for (int j = -1; j <= 1; ++j){
+            std::vector<Cell> cells;
+            for (int k = -1; k <= 1; ++k){
                 Cell cell = Cell(Vector3f(0,0,0),Vector3f(i,j,k),h,false);
-                cells.push_back(&cell);
+
+                cells.push_back(cell);
             }
             vec.push_back(cells);
         }
-        init_grid.push_back(vec);
+        grid.push_back(vec);
     }
-    grid = &init_grid;
                                     std::cout << "sdjfalkdf" << std::endl;
-    std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
-                                    std::cout << actualgrid.size() << std::endl;
+    //actualgrid = *grid; //3D grid of cells
+                                    std::cout << grid.size() << std::endl;
     
 }
 
 void freeSystem() {
     // delete simpleSystem; simpleSystem = nullptr;
     delete timeStepper; timeStepper = nullptr;
-    delete grid; grid = nullptr;
+    grid.clear();
     // delete cell; cell = nullptr;
     // delete pendulumSystem; pendulumSystem = nullptr;
     // delete clothSystem; clothSystem = nullptr;
@@ -224,20 +224,27 @@ void stepSystem()
 {
     // step until simulated_s has caught up with elapsed_s.
     int x = 0;
-                            std::cout << "hi" << std::endl;
+    //                         std::cout << "hi" << std::endl;
 
-    std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
-                        std::cout << "hiwfeece" << std::endl;
+    // std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
+    //                     std::cout << "hiwfeece" << std::endl;
 
-    for (int i = 0; i <= 11; ++i){
-            for (int j = 0; j <= 11; ++j){
-                for (int k = 0; k <= 11; ++k){
+    for (int i = 0; i <= 2; ++i){
+            for (int j = 0; j <= 2; ++j){
+                for (int k = 0; k <= 2; ++k){
                     while (simulated_s < elapsed_s) {
                         // std::cout << typeid(actualgrid[i][j][k]).name() << std::endl;
-                        std::cout << actualgrid.size() << std::endl;
-                        Cell* cell = actualgrid[i][j][k];
+                        //std::cout << actualgrid.size() << std::endl;
+                            std::cout << "? length is:" << std::endl;
+        std::cout << grid.size() << std::endl;
+        std::cout << grid[0].size() << std::endl;
+        std::cout << grid[0][0].size() << std::endl;
 
-                        timeStepper -> takeStep(actualgrid[i][j][k],h);
+                        // Cell cell = *cellPointer;
+                        // std::cout << "bleh" << std::endl;
+                        // std::cout << cell.m_vVecState.size() << std::endl;
+
+                        timeStepper -> takeStep(&grid[i][j][k],h);
                         simulated_s += h;
                     }
                 }
@@ -253,14 +260,14 @@ void drawSystem()
     // particle systems need for drawing themselves
     GLProgram gl(program_light, program_color, &camera);
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
-    std::vector<std::vector<std::vector<Cell*>>> actualgrid; //3D grid of cells
+    //std::vector<std::vector<std::vector<Cell*>>> actualgrid; //3D grid of cells
 
-    for (int i = -5; i <= 5; ++i){
-            for (int j = -5; j <= 5; ++j){
-                for (int k = -5; k <= 5; ++k){
-                    while (simulated_s < elapsed_s) {
-                        actualgrid[i+5][j+5][k+5]->draw(gl);
-                    }
+    for (int i = 0; i <= 2; ++i){
+            for (int j = 0; j <= 2; ++j){
+                for (int k = 0; k <= 2; ++k){
+                    Cell* cell_pointer = &grid[i][j][k];
+                    cell_pointer->draw(gl);
+                    
                 }
             }
         }
@@ -333,11 +340,13 @@ int main(int argc, char** argv)
     camera.SetDistance(10);
 
     // Setup particle system
-                                    std::cout << "hi" << std::endl;
+    std::cout << "hi :) " << std::endl;
 
     initSystem();
-std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
-                                    std::cout << actualgrid.size() << std::endl;
+                                    
+    std::cout << "initizlied length is:" << std::endl;
+        std::cout << grid.size() << std::endl;
+
 
     // Main Loop
     uint64_t freq = glfwGetTimerFrequency();
@@ -354,11 +363,17 @@ std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of ce
 
         uint64_t now = glfwGetTimerValue();
         elapsed_s = (double)(now - start_tick) / freq;
-            std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
-                                    std::cout << actualgrid.size() << std::endl;
+            // std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
+            //                         std::cout << actualgrid.size() << std::endl;
+
+            std::cout << "entering stepsystem" << std::endl;
+                    std::cout << grid.size() << std::endl;
+        std::cout << grid[0].size() << std::endl;
+        std::cout << grid[0][0].size() << std::endl;
 
 
         stepSystem();
+        std::cout << "entering drawsystem" << std::endl;
 
         // Draw the simulation
         drawSystem();

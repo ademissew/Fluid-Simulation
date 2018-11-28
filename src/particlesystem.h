@@ -25,7 +25,7 @@ public:
     // setter method for the system's state
     virtual void setState(const std::vector<Vector3f>  & newState){ m_vVecState = newState; };
 
- protected:
+ //protected:
     std::vector<Vector3f> m_vVecState;
 };
 

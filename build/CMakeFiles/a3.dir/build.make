@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CMake.app/Contents/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.12.2/bin/cmake
 
 # The command to remove a file.
-RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
+RM = /usr/local/Cellar/cmake/3.12.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/Alenta/Desktop/6.837/project/Fluid-Simulation
+CMAKE_SOURCE_DIR = /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build
+CMAKE_BINARY_DIR = /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/a3.dir/depend.make
@@ -59,94 +59,94 @@ include CMakeFiles/a3.dir/flags.make
 
 CMakeFiles/a3.dir/src/main.cpp.o: CMakeFiles/a3.dir/flags.make
 CMakeFiles/a3.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/a3.dir/src/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/main.cpp.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/a3.dir/src/main.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/main.cpp.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/main.cpp
 
 CMakeFiles/a3.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/a3.dir/src/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/main.cpp > CMakeFiles/a3.dir/src/main.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/main.cpp > CMakeFiles/a3.dir/src/main.cpp.i
 
 CMakeFiles/a3.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/a3.dir/src/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/main.cpp -o CMakeFiles/a3.dir/src/main.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/main.cpp -o CMakeFiles/a3.dir/src/main.cpp.s
 
 CMakeFiles/a3.dir/src/starter3_util.cpp.o: CMakeFiles/a3.dir/flags.make
 CMakeFiles/a3.dir/src/starter3_util.cpp.o: ../src/starter3_util.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/a3.dir/src/starter3_util.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/starter3_util.cpp.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/starter3_util.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/a3.dir/src/starter3_util.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/starter3_util.cpp.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/starter3_util.cpp
 
 CMakeFiles/a3.dir/src/starter3_util.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/a3.dir/src/starter3_util.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/starter3_util.cpp > CMakeFiles/a3.dir/src/starter3_util.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/starter3_util.cpp > CMakeFiles/a3.dir/src/starter3_util.cpp.i
 
 CMakeFiles/a3.dir/src/starter3_util.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/a3.dir/src/starter3_util.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/starter3_util.cpp -o CMakeFiles/a3.dir/src/starter3_util.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/starter3_util.cpp -o CMakeFiles/a3.dir/src/starter3_util.cpp.s
 
 CMakeFiles/a3.dir/src/camera.cpp.o: CMakeFiles/a3.dir/flags.make
 CMakeFiles/a3.dir/src/camera.cpp.o: ../src/camera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/a3.dir/src/camera.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/camera.cpp.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/camera.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/a3.dir/src/camera.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/camera.cpp.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.cpp
 
 CMakeFiles/a3.dir/src/camera.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/a3.dir/src/camera.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/camera.cpp > CMakeFiles/a3.dir/src/camera.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.cpp > CMakeFiles/a3.dir/src/camera.cpp.i
 
 CMakeFiles/a3.dir/src/camera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/a3.dir/src/camera.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/camera.cpp -o CMakeFiles/a3.dir/src/camera.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.cpp -o CMakeFiles/a3.dir/src/camera.cpp.s
 
 CMakeFiles/a3.dir/src/vertexrecorder.cpp.o: CMakeFiles/a3.dir/flags.make
 CMakeFiles/a3.dir/src/vertexrecorder.cpp.o: ../src/vertexrecorder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/a3.dir/src/vertexrecorder.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/vertexrecorder.cpp.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/vertexrecorder.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/a3.dir/src/vertexrecorder.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/vertexrecorder.cpp.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.cpp
 
 CMakeFiles/a3.dir/src/vertexrecorder.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/a3.dir/src/vertexrecorder.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/vertexrecorder.cpp > CMakeFiles/a3.dir/src/vertexrecorder.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.cpp > CMakeFiles/a3.dir/src/vertexrecorder.cpp.i
 
 CMakeFiles/a3.dir/src/vertexrecorder.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/a3.dir/src/vertexrecorder.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/vertexrecorder.cpp -o CMakeFiles/a3.dir/src/vertexrecorder.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.cpp -o CMakeFiles/a3.dir/src/vertexrecorder.cpp.s
 
 CMakeFiles/a3.dir/src/timestepper.cpp.o: CMakeFiles/a3.dir/flags.make
 CMakeFiles/a3.dir/src/timestepper.cpp.o: ../src/timestepper.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/a3.dir/src/timestepper.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/timestepper.cpp.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/timestepper.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/a3.dir/src/timestepper.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/timestepper.cpp.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.cpp
 
 CMakeFiles/a3.dir/src/timestepper.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/a3.dir/src/timestepper.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/timestepper.cpp > CMakeFiles/a3.dir/src/timestepper.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.cpp > CMakeFiles/a3.dir/src/timestepper.cpp.i
 
 CMakeFiles/a3.dir/src/timestepper.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/a3.dir/src/timestepper.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/timestepper.cpp -o CMakeFiles/a3.dir/src/timestepper.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.cpp -o CMakeFiles/a3.dir/src/timestepper.cpp.s
 
 CMakeFiles/a3.dir/src/particlesystem.cpp.o: CMakeFiles/a3.dir/flags.make
 CMakeFiles/a3.dir/src/particlesystem.cpp.o: ../src/particlesystem.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/a3.dir/src/particlesystem.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/particlesystem.cpp.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particlesystem.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/a3.dir/src/particlesystem.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/particlesystem.cpp.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.cpp
 
 CMakeFiles/a3.dir/src/particlesystem.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/a3.dir/src/particlesystem.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particlesystem.cpp > CMakeFiles/a3.dir/src/particlesystem.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.cpp > CMakeFiles/a3.dir/src/particlesystem.cpp.i
 
 CMakeFiles/a3.dir/src/particlesystem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/a3.dir/src/particlesystem.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particlesystem.cpp -o CMakeFiles/a3.dir/src/particlesystem.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.cpp -o CMakeFiles/a3.dir/src/particlesystem.cpp.s
 
 CMakeFiles/a3.dir/src/cell.cpp.o: CMakeFiles/a3.dir/flags.make
 CMakeFiles/a3.dir/src/cell.cpp.o: ../src/cell.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/a3.dir/src/cell.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/cell.cpp.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/cell.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/a3.dir/src/cell.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/a3.dir/src/cell.cpp.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/cell.cpp
 
 CMakeFiles/a3.dir/src/cell.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/a3.dir/src/cell.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/cell.cpp > CMakeFiles/a3.dir/src/cell.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/cell.cpp > CMakeFiles/a3.dir/src/cell.cpp.i
 
 CMakeFiles/a3.dir/src/cell.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/a3.dir/src/cell.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/cell.cpp -o CMakeFiles/a3.dir/src/cell.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/cell.cpp -o CMakeFiles/a3.dir/src/cell.cpp.s
 
 # Object files for target a3
 a3_OBJECTS = \
@@ -172,7 +172,7 @@ a3: CMakeFiles/a3.dir/build.make
 a3: 3rd_party/glfw/src/libglfw3.a
 a3: vecmath/libvecmath.a
 a3: CMakeFiles/a3.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable a3"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable a3"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/a3.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -185,6 +185,6 @@ CMakeFiles/a3.dir/clean:
 .PHONY : CMakeFiles/a3.dir/clean
 
 CMakeFiles/a3.dir/depend:
-	cd /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/Alenta/Desktop/6.837/project/Fluid-Simulation /Users/Alenta/Desktop/6.837/project/Fluid-Simulation /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/a3.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/a3.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/a3.dir/depend
 

@@ -39,9 +39,13 @@ void RK4::takeStep(ParticleSystem* particleSystem, float stepSize)
                         std::cout << typeid(particleSystem).name() << std::endl;
 
     std::vector<Vector3f> x = particleSystem -> getState();
-                        std::cout << "hi3" << std::endl;
+                        std::cout << x.size() << std::endl;
+                        std::cout << particleSystem -> m_vVecState.size() << std::endl;
 
-    std::vector<Vector3f> k_1 = particleSystem -> evalF(particleSystem -> getState());
+
+    std::vector<Vector3f> k_1 = particleSystem -> evalF(x);
+                            std::cout << "hi100" << std::endl;
+
     std::vector<Vector3f> new_state;
     std::vector<Vector3f> input1,input2,input3; 
 
@@ -52,6 +56,8 @@ void RK4::takeStep(ParticleSystem* particleSystem, float stepSize)
     for(int i=0; i<x.size(); ++i){
         input2.push_back(x[i]+stepSize*k_2[i]/2);
     }
+                            std::cout << "hi4" << std::endl;
+
     std::vector<Vector3f> k_3 = particleSystem -> evalF(input2);
     for(int i=0; i<x.size(); ++i){
         input3.push_back(x[i]+stepSize*k_3[i]);
@@ -61,6 +67,7 @@ void RK4::takeStep(ParticleSystem* particleSystem, float stepSize)
         new_state.push_back(x[i]+(stepSize/6)*(k_1[i]+2*k_2[i]+2*k_3[i]+k_4[i]));
     }
     particleSystem -> setState(new_state);
+    std::cout << "hi5" << std::endl;
 
 }
 

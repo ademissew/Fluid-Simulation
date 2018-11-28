@@ -2,6 +2,7 @@
 #include "timestepper.h"
 #include "camera.h"
 #include "vertexrecorder.h"
+#include <iostream>
 
 Cell::Cell(Vector3f vel, Vector3f pos, float h, bool filled)
 {
@@ -56,11 +57,12 @@ void Cell::draw(GLProgram& gl)
 
     const Vector3f PARTICLE_COLOR(0.4f, 0.7f, 1.0f);
     gl.updateMaterial(PARTICLE_COLOR);
+    std::cout << "are we drawing" << std::endl;
+
     if (true || _filled){
-        for(Vector3f particle: m_vVecState){
-            Vector3f pos(particle);
-            gl.updateModelMatrix(Matrix4f::translation(pos));
-            drawSphere(0.075f, 10, 10);
-            }
+        std::cout << "are we drawing" << std::endl;
+        Vector3f pos(m_vVecState[0]);
+        gl.updateModelMatrix(Matrix4f::translation(pos));
+        drawSphere(0.075f, 10, 10);
     }
 }

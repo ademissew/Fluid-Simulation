@@ -1,4 +1,4 @@
-# Install script for directory: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/3rd_party/glfw
+# Install script for directory: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/3rd_party/glfw
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/3rd_party/glfw/src/cmake_install.cmake")
+  include("/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/3rd_party/glfw/src/cmake_install.cmake")
 
 endif()
 
