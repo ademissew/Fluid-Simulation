@@ -129,6 +129,8 @@ timestepper.h
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.h
 cell.h
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/cell.h
+math.h
+-
 
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.h
 vector

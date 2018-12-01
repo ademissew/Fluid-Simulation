@@ -54,7 +54,7 @@ GLuint program_color;
 GLuint program_light;
 
 std::vector<std::vector<std::vector<float>>> grid; //3D grid of cells
-vector<Cells> particles;
+vector<Cell> particles;
 int n = 10;
 
 
@@ -237,6 +237,7 @@ void stepSystem()
         for (int j = 0; j <= 10; ++j){
             for (int k = 0; k <= 10; ++k){
                 timeStepper -> takeStep(&particles[index],h);
+
                 index += 1;
             }
         }
@@ -244,7 +245,9 @@ void stepSystem()
     
 }
 
+void updatePosition(float dt){
 
+}
 
 
 // Draw the current particle positions
@@ -256,11 +259,14 @@ void drawSystem()
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
     //std::vector<std::vector<std::vector<Cell*>>> actualgrid; //3D grid of cells
 
+    int index = 0; 
     for (int i = 0; i <= 10; ++i){
             for (int j = 0; j <= 10; ++j){
                 for (int k = 0; k <= 10; ++k){
-                    Cell* cell_pointer = &grid[i][j][k];
+                    Cell* cell_pointer = &particles[index];
                     cell_pointer->draw(gl);
+
+                    index += 1;
                     
                 }
             }
