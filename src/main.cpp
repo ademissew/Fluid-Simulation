@@ -12,9 +12,10 @@
 #include "camera.h"
 #include "timestepper.h"
 #include "cell.h"
-
+#include <math.h> 
 
 using namespace std;
+
 
 namespace
 {
@@ -52,8 +53,9 @@ bool gMousePressed = false;
 GLuint program_color;
 GLuint program_light;
 
-std::vector<std::vector<std::vector<Cell>>> grid; //3D grid of cells
-//std::vector<std::vector<std::vector<Cell*>>> init_grid;
+std::vector<std::vector<std::vector<float>>> grid; //3D grid of cells
+vector<Cells> particles;
+int n = 10;
 
 
 // Function implementations
@@ -184,19 +186,20 @@ void initSystem()
     }
     grid.clear();
     // initializes a 11x11 grid
-    for (int i = -1; i <= 1; ++i){
-        std::vector<std::vector<Cell>> vec;
-        for (int j = -1; j <= 1; ++j){
-            std::vector<Cell> cells;
-            for (int k = -1; k <= 1; ++k){
-                Cell cell = Cell(Vector3f(0,0,0),Vector3f(i,j,k),h,false);
-
-                cells.push_back(cell);
+    for (int i = 0; i < n; ++i){
+        std::vector<std::vector<float>> vec;
+        for (int j = 0; j < n; ++j){
+            std::vector<float> cells;
+            for (int k = 0; k < n; ++k){
+                Cell particle = Cell(Vector3f(0,0,0),Vector3f(i,j,k), .01);
+                cells.push_back(0.0);
+                particles.push_back(particle);
             }
             vec.push_back(cells);
         }
         grid.push_back(vec);
     }
+
                                     std::cout << "sdjfalkdf" << std::endl;
     //actualgrid = *grid; //3D grid of cells
                                     std::cout << grid.size() << std::endl;
@@ -229,29 +232,20 @@ void stepSystem()
     // std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
     //                     std::cout << "hiwfeece" << std::endl;
 
-    for (int i = 0; i <= 2; ++i){
-            for (int j = 0; j <= 2; ++j){
-                for (int k = 0; k <= 2; ++k){
-                    while (simulated_s < elapsed_s) {
-                        // std::cout << typeid(actualgrid[i][j][k]).name() << std::endl;
-                        //std::cout << actualgrid.size() << std::endl;
-                            std::cout << "? length is:" << std::endl;
-        std::cout << grid.size() << std::endl;
-        std::cout << grid[0].size() << std::endl;
-        std::cout << grid[0][0].size() << std::endl;
-
-                        // Cell cell = *cellPointer;
-                        // std::cout << "bleh" << std::endl;
-                        // std::cout << cell.m_vVecState.size() << std::endl;
-
-                        timeStepper -> takeStep(&grid[i][j][k],h);
-                        simulated_s += h;
-                    }
-                }
+    int index = 0;
+    for (int i = 0; i <= 10; ++i){
+        for (int j = 0; j <= 10; ++j){
+            for (int k = 0; k <= 10; ++k){
+                timeStepper -> takeStep(&particles[index],h);
+                index += 1;
             }
         }
+    }
     
 }
+
+
+
 
 // Draw the current particle positions
 void drawSystem()
@@ -262,9 +256,9 @@ void drawSystem()
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
     //std::vector<std::vector<std::vector<Cell*>>> actualgrid; //3D grid of cells
 
-    for (int i = 0; i <= 2; ++i){
-            for (int j = 0; j <= 2; ++j){
-                for (int k = 0; k <= 2; ++k){
+    for (int i = 0; i <= 10; ++i){
+            for (int j = 0; j <= 10; ++j){
+                for (int k = 0; k <= 10; ++k){
                     Cell* cell_pointer = &grid[i][j][k];
                     cell_pointer->draw(gl);
                     
