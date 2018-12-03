@@ -12,10 +12,9 @@
 #include "camera.h"
 #include "timestepper.h"
 #include "cell.h"
-#include <math.h> 
+
 
 using namespace std;
-
 
 namespace
 {
@@ -53,10 +52,9 @@ bool gMousePressed = false;
 GLuint program_color;
 GLuint program_light;
 
-std::vector<std::vector<std::vector<float>>> grid; //3D grid of cells
-vector<Cell> particles;
+std::vector<std::vector<std::vector<Cell>>> grid; //3D grid of cells
+//std::vector<std::vector<std::vector<Cell*>>> init_grid;
 int n = 10;
-
 
 // Function implementations
 static void keyCallback(GLFWwindow* window, int key,
@@ -174,6 +172,50 @@ void drawAxis()
     recorder.draw(GL_LINES);
 }
 
+void solvePressure(){
+    vector<float> pressure;
+    vector<float> divergence;
+    // sets divergences and neighbors in matrix
+    for (int i = 0; i < n; ++i){
+            for (int j = 0; j < n; ++j){
+                for (int k = 0; k < n; ++k){
+                    if(i == 0 || j == 0 || k == 0 || i == n - 1 || j == n - 1 || k == n - 1){ //boundaries of box (top not included)
+                        divergence.push_back(0);
+                        pressure.push_back(0);
+                    } else { // incomressibility
+                        divergence.push_back(-0.5*(grid[i+1][j][k].m_vVecState[1].x() - grid[i-1][j][k].m_vVecState[1].x() +
+                        grid[i][j+1][k].m_vVecState[1].y() - grid[i][j-1][k].m_vVecState[1].y()+
+                        grid[i][j][k+1].m_vVecState[1].z() - grid[i][j][k-1].m_vVecState[1].z()
+                        ));
+                        pressure.push_back(0);
+                    }
+            }
+        }
+    }
+                    
+    for (int i = 0; i < n; ++i){ //adjusted pressure
+            for (int j = 0; j < n; ++j ){
+                for (int k = 0; k < n; ++k){
+                    pressure[grid.size()*grid.size()*i + grid.size()*j + k] = 0.25*(divergence[grid.size()*grid.size()*i + grid.size()*j + k] +
+                    pressure[grid.size()*grid.size()*(i-1) + grid.size()*j + k] + pressure[grid.size()*grid.size()*(i+1) + grid.size()*j + k] +
+                    pressure[grid.size()*grid.size()*i + grid.size()*(j-1) + k] + pressure[grid.size()*grid.size()*i + grid.size()*(j+1) + k] +
+                    pressure[grid.size()*grid.size()*i + grid.size()*j + (k-1)] + pressure[grid.size()*grid.size()*i + grid.size()*j + (k+1)]);                    
+            }
+        }
+    }
+    for (int i = 0; i < n; ++i){ //adjusted pressure
+            for (int j = 0; j < n; ++j ){
+                for (int k = 0; k < n; ++k){
+                    Vector3f vel(grid[i][j][k].m_vVecState[1]);
+                    vel -= -0.5*Vector3f(pressure[grid.size()*grid.size()*(i+1) + grid.size()*j + k] - pressure[grid.size()*grid.size()*(i-1) + grid.size()*j + k],
+                    pressure[grid.size()*grid.size()*i + grid.size()*(j+1) + k] - pressure[grid.size()*grid.size()*i + grid.size()*(j-1) + k],
+                    pressure[grid.size()*grid.size()*i + grid.size()*j + (k+1)] - pressure[grid.size()*grid.size()*i + grid.size()*j + (k+1)])/h;
+                    grid[i][j][k].updateVelocity(vel);                
+            }
+        }
+    }
+}
+
 
 // initialize your particle systems
 void initSystem()
@@ -187,19 +229,18 @@ void initSystem()
     grid.clear();
     // initializes a 11x11 grid
     for (int i = 0; i < n; ++i){
-        std::vector<std::vector<float>> vec;
+        std::vector<std::vector<Cell>> vec;
         for (int j = 0; j < n; ++j){
-            std::vector<float> cells;
+            std::vector<Cell> cells;
             for (int k = 0; k < n; ++k){
-                Cell particle = Cell(Vector3f(0,0,0),Vector3f(i,j,k), .01);
-                cells.push_back(0.0);
-                particles.push_back(particle);
+                Cell cell = Cell(Vector3f(0,0,0),Vector3f(i,j,k),h,false);
+
+                cells.push_back(cell);
             }
             vec.push_back(cells);
         }
         grid.push_back(vec);
     }
-
                                     std::cout << "sdjfalkdf" << std::endl;
     //actualgrid = *grid; //3D grid of cells
                                     std::cout << grid.size() << std::endl;
@@ -232,23 +273,29 @@ void stepSystem()
     // std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
     //                     std::cout << "hiwfeece" << std::endl;
 
-    int index = 0;
-    for (int i = 0; i <= 10; ++i){
-        for (int j = 0; j <= 10; ++j){
-            for (int k = 0; k <= 10; ++k){
-                timeStepper -> takeStep(&particles[index],h);
+    for (int i = 0; i < n; ++i){
+            for (int j = 0; j < n; ++j){
+                for (int k = 0; k < n; ++k){
+                    while (simulated_s < elapsed_s) {
+                        // std::cout << typeid(actualgrid[i][j][k]).name() << std::endl;
+                        //std::cout << actualgrid.size() << std::endl;
+        //                     std::cout << "? length is:" << std::endl;
+        // std::cout << grid.size() << std::endl;
+        // std::cout << grid[0].size() << std::endl;
+        // std::cout << grid[0][0].size() << std::endl;
 
-                index += 1;
+                        // Cell cell = *cellPointer;
+                        // std::cout << "bleh" << std::endl;
+                        // std::cout << cell.m_vVecState.size() << std::endl;
+
+                        timeStepper -> takeStep(&grid[i][j][k],h);
+                        simulated_s += h;
+                    }
+                }
             }
         }
-    }
-    
+        solvePressure();
 }
-
-void updatePosition(float dt){
-
-}
-
 
 // Draw the current particle positions
 void drawSystem()
@@ -259,14 +306,11 @@ void drawSystem()
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
     //std::vector<std::vector<std::vector<Cell*>>> actualgrid; //3D grid of cells
 
-    int index = 0; 
-    for (int i = 0; i <= 10; ++i){
-            for (int j = 0; j <= 10; ++j){
-                for (int k = 0; k <= 10; ++k){
-                    Cell* cell_pointer = &particles[index];
-                    cell_pointer->draw(gl);
-
-                    index += 1;
+    for (int i = 0; i < n; ++i){
+            for (int j = 0; j < n; ++j){
+                for (int k = 0; k < n; ++k){
+                    Cell* cell_pointer = &grid[i][j][k];
+                    cell_pointer->draw(gl,Vector3f(i/(1.0*n),j/(1.0*n),k/(1.0*n)));
                     
                 }
             }
@@ -340,20 +384,27 @@ int main(int argc, char** argv)
     camera.SetDistance(10);
 
     // Setup particle system
-    std::cout << "hi :) " << std::endl;
+    // std::cout << "hi :) " << std::endl;
 
     initSystem();
                                     
-    std::cout << "initizlied length is:" << std::endl;
-        std::cout << grid.size() << std::endl;
+    // std::cout << "initizlied length is:" << std::endl;
+    //     std::cout << grid.size() << std::endl;
 
 
     // Main Loop
     uint64_t freq = glfwGetTimerFrequency();
     resetTime();
+    int i = 0;
     while (!glfwWindowShouldClose(window)) {
         // Clear the rendering window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        if (i == 1) {
+            int w, h;
+            glfwGetWindowSize(window, &w, &h);
+            glfwSetWindowSize(window, w - 1, h);
+        }
+    if (i <= 1) i++;
 
         setViewport(window);
 
@@ -366,14 +417,22 @@ int main(int argc, char** argv)
             // std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
             //                         std::cout << actualgrid.size() << std::endl;
 
-            std::cout << "entering stepsystem" << std::endl;
-                    std::cout << grid.size() << std::endl;
-        std::cout << grid[0].size() << std::endl;
-        std::cout << grid[0][0].size() << std::endl;
+        //     std::cout << "entering stepsystem" << std::endl;
+        //             std::cout << grid.size() << std::endl;
+        // std::cout << grid[0].size() << std::endl;
+        // std::cout << grid[0][0].size() << std::endl;
+        int range = 1;
+        int top = n-1;
+        for (int i = 0; i < range; ++i){
+            for (int j = 0; j < range; ++j){
+                grid[i][j][top].fill();
+                // cout << "wowza" << endl;
+            }
+        }
 
 
         stepSystem();
-        std::cout << "entering drawsystem" << std::endl;
+        // std::cout << "entering drawsystem" << std::endl;
 
         // Draw the simulation
         drawSystem();

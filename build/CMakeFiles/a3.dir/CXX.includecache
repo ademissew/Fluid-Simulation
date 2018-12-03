@@ -129,8 +129,6 @@ timestepper.h
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/timestepper.h
 cell.h
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/cell.h
-math.h
--
 
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particlesystem.h
 vector
