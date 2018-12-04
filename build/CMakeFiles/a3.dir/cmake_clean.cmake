@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/a3.dir/src/timestepper.cpp.o"
   "CMakeFiles/a3.dir/src/particlesystem.cpp.o"
   "CMakeFiles/a3.dir/src/cell.cpp.o"
+  "CMakeFiles/a3.dir/src/particle.cpp.o"
   "a3.pdb"
   "a3"
 )

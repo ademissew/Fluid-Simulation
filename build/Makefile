@@ -230,6 +230,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/particle.o: src/particle.cpp.o
+
+.PHONY : src/particle.o
+
+# target to build an object file
+src/particle.cpp.o:
+	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/particle.cpp.o
+.PHONY : src/particle.cpp.o
+
+src/particle.i: src/particle.cpp.i
+
+.PHONY : src/particle.i
+
+# target to preprocess a source file
+src/particle.cpp.i:
+	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/particle.cpp.i
+.PHONY : src/particle.cpp.i
+
+src/particle.s: src/particle.cpp.s
+
+.PHONY : src/particle.s
+
+# target to generate assembly for a file
+src/particle.cpp.s:
+	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/particle.cpp.s
+.PHONY : src/particle.cpp.s
+
 src/particlesystem.o: src/particlesystem.cpp.o
 
 .PHONY : src/particlesystem.o
@@ -358,6 +385,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/particle.o"
+	@echo "... src/particle.i"
+	@echo "... src/particle.s"
 	@echo "... src/particlesystem.o"
 	@echo "... src/particlesystem.i"
 	@echo "... src/particlesystem.s"

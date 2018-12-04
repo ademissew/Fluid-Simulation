@@ -2,30 +2,36 @@
 #define CELL_H
 
 #include <vector>
+#include "particle.h"
 
-#include "particlesystem.h"
+// #include "particlesystem.h"
 
-class Cell : public ParticleSystem
+class Cell
 {
 public:
-    Cell(Vector3f vel, Vector3f pos, float h, bool filled);
+    Cell(Vector3f pos);
     // evalF is a method defined in the ParticleSystem
     // interface. The use of virtual functions allows timesteppers to work
     // with any particle system (simple, pendulum, cloth), without
     // knowing which particular system it is.
     // Each ParticleSystem subclass must provide an implementation of evalF.
-    std::vector<Vector3f> evalF(std::vector<Vector3f> state) override;
-    void fill();
-    // void unfill();
-    void updateVelocity(Vector3f vel);
+    // std::vector<Vector3f> evalF(std::vector<Vector3f> state) override;
+    void fill(Particle particle);
+    void unfill();
+
+    // void updateVelocity(Vector3f vel);
     // void setState(std::vector<Vector3f> &state);
     // this is called from main.cpp when it's time to draw a new frame.
-    void draw(GLProgram&, Vector3f pos);
+    void draw(GLProgram&, int divisor);
 
     // std::vector<Vector3f> next_state;
+    Particle _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0); //empty particle
+
     private:
-    bool _filled;
-    float t,_h;
+    Vector3f _pos;
+    // Particle _particle;
+    // bool _filled;
+    // float t,_h;
 };
 
 #endif

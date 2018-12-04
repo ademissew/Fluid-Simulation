@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "timestepper.h"
 #include "cell.h"
+#include "particle.h"
 
 
 using namespace std;
@@ -53,6 +54,7 @@ GLuint program_color;
 GLuint program_light;
 
 std::vector<std::vector<std::vector<Cell>>> grid; //3D grid of cells
+vector<Particle> particles;
 //std::vector<std::vector<std::vector<Cell*>>> init_grid;
 int n = 10;
 
@@ -173,47 +175,42 @@ void drawAxis()
 }
 
 void solvePressure(){
-    vector<float> pressure;
-    vector<float> divergence;
-    // sets divergences and neighbors in matrix
-    for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j){
-                for (int k = 0; k < n; ++k){
-                    if(i == 0 || j == 0 || k == 0 || i == n - 1 || j == n - 1 || k == n - 1){ //boundaries of box (top not included)
-                        divergence.push_back(0);
-                        pressure.push_back(0);
-                    } else { // incomressibility
-                        divergence.push_back(-0.5*(grid[i+1][j][k].m_vVecState[1].x() - grid[i-1][j][k].m_vVecState[1].x() +
-                        grid[i][j+1][k].m_vVecState[1].y() - grid[i][j-1][k].m_vVecState[1].y()+
-                        grid[i][j][k+1].m_vVecState[1].z() - grid[i][j][k-1].m_vVecState[1].z()
-                        ));
-                        pressure.push_back(0);
-                    }
-            }
-        }
+    vector<float> pressure(n*n*n,0);
+    vector<float> divergence(n*n*n,0);
+
+    for (Particle particle: particles){
+        int i = particle.m_vVecState[0][0];
+        int j = particle.m_vVecState[0][1];
+        int k = particle.m_vVecState[0][2];
+        int div = 0; // RN ADDED 2 TO ADD BORDERS BUT PARTICLES CANNOT BE IN BOUNDRARIES
+        divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
+            grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
+            grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
+            );
     }
                     
-    for (int i = 0; i < n; ++i){ //adjusted pressure
-            for (int j = 0; j < n; ++j ){
-                for (int k = 0; k < n; ++k){
-                    pressure[grid.size()*grid.size()*i + grid.size()*j + k] = 0.25*(divergence[grid.size()*grid.size()*i + grid.size()*j + k] +
-                    pressure[grid.size()*grid.size()*(i-1) + grid.size()*j + k] + pressure[grid.size()*grid.size()*(i+1) + grid.size()*j + k] +
-                    pressure[grid.size()*grid.size()*i + grid.size()*(j-1) + k] + pressure[grid.size()*grid.size()*i + grid.size()*(j+1) + k] +
-                    pressure[grid.size()*grid.size()*i + grid.size()*j + (k-1)] + pressure[grid.size()*grid.size()*i + grid.size()*j + (k+1)]);                    
-            }
-        }
-    }
-    for (int i = 0; i < n; ++i){ //adjusted pressure
-            for (int j = 0; j < n; ++j ){
-                for (int k = 0; k < n; ++k){
-                    Vector3f vel(grid[i][j][k].m_vVecState[1]);
-                    vel -= -0.5*Vector3f(pressure[grid.size()*grid.size()*(i+1) + grid.size()*j + k] - pressure[grid.size()*grid.size()*(i-1) + grid.size()*j + k],
-                    pressure[grid.size()*grid.size()*i + grid.size()*(j+1) + k] - pressure[grid.size()*grid.size()*i + grid.size()*(j-1) + k],
-                    pressure[grid.size()*grid.size()*i + grid.size()*j + (k+1)] - pressure[grid.size()*grid.size()*i + grid.size()*j + (k+1)])/h;
-                    grid[i][j][k].updateVelocity(vel);                
-            }
-        }
-    }
+    // for (int i = 0; i < n; ++i){ //adjusted pressure
+    //         for (int j = 0; j < n; ++j ){
+    //             for (int k = 0; k < n; ++k){
+    //                 pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
+    //                 pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
+    //                 pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
+    //                 pressure[n*n*i + n*j + (k-1)] + pressure[n*n*i + n*j + (k+1)]);                    
+    //         }
+    //     }
+    // }
+
+    // for (Particle particle: particles){ //adjusted pressure
+    //     int i = particle.m_vVecState[0][0];
+    //     int j = particle.m_vVecState[0][1];
+    //     int k = particle.m_vVecState[0][2];
+        
+    //     Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
+    //     vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
+    //     pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
+    //     pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
+    //     particle.updateVelocity(vel);                
+    // }
 }
 
 
@@ -228,12 +225,12 @@ void initSystem()
     }
     grid.clear();
     // initializes a 11x11 grid
-    for (int i = 0; i < n; ++i){
+    for (int i = 0; i < n+2; ++i){
         std::vector<std::vector<Cell>> vec;
-        for (int j = 0; j < n; ++j){
+        for (int j = 0; j < n+2; ++j){
             std::vector<Cell> cells;
-            for (int k = 0; k < n; ++k){
-                Cell cell = Cell(Vector3f(0,0,0),Vector3f(i,j,k),h,false);
+            for (int k = 0; k < n+2; ++k){
+                Cell cell = Cell(Vector3f(i,j,k));
 
                 cells.push_back(cell);
             }
@@ -241,9 +238,9 @@ void initSystem()
         }
         grid.push_back(vec);
     }
-                                    std::cout << "sdjfalkdf" << std::endl;
+                                    // std::cout << "sdjfalkdf" << std::endl;
     //actualgrid = *grid; //3D grid of cells
-                                    std::cout << grid.size() << std::endl;
+                                    // std::cout << grid.size() << std::endl;
     
 }
 
@@ -251,6 +248,7 @@ void freeSystem() {
     // delete simpleSystem; simpleSystem = nullptr;
     delete timeStepper; timeStepper = nullptr;
     grid.clear();
+    particles.clear();
     // delete cell; cell = nullptr;
     // delete pendulumSystem; pendulumSystem = nullptr;
     // delete clothSystem; clothSystem = nullptr;
@@ -273,27 +271,12 @@ void stepSystem()
     // std::vector<std::vector<std::vector<Cell*>>> actualgrid = *grid; //3D grid of cells
     //                     std::cout << "hiwfeece" << std::endl;
 
-    for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j){
-                for (int k = 0; k < n; ++k){
-                    while (simulated_s < elapsed_s) {
-                        // std::cout << typeid(actualgrid[i][j][k]).name() << std::endl;
-                        //std::cout << actualgrid.size() << std::endl;
-        //                     std::cout << "? length is:" << std::endl;
-        // std::cout << grid.size() << std::endl;
-        // std::cout << grid[0].size() << std::endl;
-        // std::cout << grid[0][0].size() << std::endl;
-
-                        // Cell cell = *cellPointer;
-                        // std::cout << "bleh" << std::endl;
-                        // std::cout << cell.m_vVecState.size() << std::endl;
-
-                        timeStepper -> takeStep(&grid[i][j][k],h);
-                        simulated_s += h;
-                    }
-                }
-            }
+    for (Particle particle: particles){
+        while (simulated_s < elapsed_s) {
+            timeStepper -> takeStep(&particle,h);
+            simulated_s += h;
         }
+    }
         solvePressure();
 }
 
@@ -304,17 +287,13 @@ void drawSystem()
     // particle systems need for drawing themselves
     GLProgram gl(program_light, program_color, &camera);
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
-    //std::vector<std::vector<std::vector<Cell*>>> actualgrid; //3D grid of cells
 
-    for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j){
-                for (int k = 0; k < n; ++k){
-                    Cell* cell_pointer = &grid[i][j][k];
-                    cell_pointer->draw(gl,Vector3f(i/(1.0*n),j/(1.0*n),k/(1.0*n)));
-                    
-                }
-            }
-        }
+    for (Particle particle: particles){
+        Vector3f pos = particle.m_vVecState[0];
+        Cell* cell = &grid[pos.x()][pos.y()][pos.z()];
+        cell->draw(gl,n);
+    }
+
     // set uniforms for floor
     gl.updateMaterial(FLOOR_COLOR);
     gl.updateModelMatrix(Matrix4f::translation(0, -5.0f, 0));
@@ -421,15 +400,15 @@ int main(int argc, char** argv)
         //             std::cout << grid.size() << std::endl;
         // std::cout << grid[0].size() << std::endl;
         // std::cout << grid[0][0].size() << std::endl;
+
+        // EMITTER
         int range = 1;
         int top = n-1;
         for (int i = 0; i < range; ++i){
             for (int j = 0; j < range; ++j){
-                grid[i][j][top].fill();
-                // cout << "wowza" << endl;
+                particles.push_back(Particle(Vector3f(rand()%10,rand()%10,rand()%10),Vector3f(i+1,j+1,top),h));
             }
         }
-
 
         stepSystem();
         // std::cout << "entering drawsystem" << std::endl;

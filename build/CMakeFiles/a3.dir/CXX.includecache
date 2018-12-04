@@ -95,8 +95,8 @@ cstdint
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/cell.h
 vector
 -
-particlesystem.h
-/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particlesystem.h
+particle.h
+/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particle.h
 
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/gl.h
 OpenGL/gl3.h
@@ -129,6 +129,14 @@ timestepper.h
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/timestepper.h
 cell.h
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/cell.h
+particle.h
+/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particle.h
+
+/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particle.h
+vector
+-
+particlesystem.h
+/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particlesystem.h
 
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particlesystem.h
 vector
