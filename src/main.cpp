@@ -182,41 +182,46 @@ void solvePressure(){
         int i = particles[nx].m_vVecState[0][0];
         int j = particles[nx].m_vVecState[0][1];
         int k = particles[nx].m_vVecState[0][2];
+        divergence[n*n*i + n*j + k] = particles[nx].m_vVecState[0].y();
+    }
 
-        // cout << i << " " << j << " " << k << endl;
-        int div = 0; // RN ADDED 2 TO ADD BORDERS BUT PARTICLES CANNOT BE IN BOUNDRARIES
+    for (int i = 1; i < n - 1; i++){
+        for (int j = 1; j < n - 1; j++){
+            for (int k = 1; k < n - 1; k++){
+                divergence[n*n*i + n*j + k] = -0.5*h*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
+                    grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
+                    grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
+                    );
+            }
 
-        divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
-            grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
-            grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
-            );
-    // cout << "hi there" << endl;
+        }
 
     }
-    // cout << "hi there" << endl;
-                    
-    for (int i = 1; i < n-1; ++i){ //adjusted pressure
-            for (int j = 1; j < n-1; ++j ){
-                for (int k = 1; k < n-1; ++k){
-                    pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
-                    pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
-                    pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
-                    pressure[n*n*i + n*j + (k-1)] + pressure[n*n*i + n*j + (k+1)]);                    
+    for (int steps = 0; steps < 20; steps++){               
+        for (int i = 1; i < n-1; ++i){ //adjusted pressure
+                for (int j = 1; j < n-1; ++j ){
+                    for (int k = 1; k < n-1; ++k){
+                        pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
+                        pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
+                        pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
+                        pressure[n*n*i + n*j + (k-1)] + pressure[n*n*i + n*j + (k+1)]);                    
+                }
             }
         }
     }
 
-    for (int hi = 0; hi < particles.size(); hi ++ ){ //adjusted pressure
-        int i = particles[hi].m_vVecState[0][0];
-        int j = particles[hi].m_vVecState[0][1];
-        int k = particles[hi].m_vVecState[0][2];
-        
-        Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
-        vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
-        pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
-        pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
-        // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
-        particles[hi].updateVelocity(vel);                
+
+    for (int i = 1; i < n-1; ++i){ //adjusted pressure
+        for (int j = 1; j < n-1; ++j ){
+            for (int k = 1; k < n-1; ++k){
+                Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
+                vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
+                pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
+                pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
+                // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
+                grid[i][j][k]._particle.updateVelocity(vel);  
+                }
+        }
     }
 }
 
@@ -299,6 +304,7 @@ void drawSystem()
 
     for (int i = 0; i < particles.size(); ++i){
         Vector3f pos = particles[i].m_vVecState[0];
+        // cout << pos[0] << " " << pos[1] << " " << pos[2] << endl;
         Cell* cell = &grid[(int)pos.x()][(int)pos.y()][(int)pos.z()];
         cell->draw(gl);
     }
