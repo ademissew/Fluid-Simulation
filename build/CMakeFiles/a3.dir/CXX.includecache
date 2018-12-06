@@ -86,30 +86,10 @@ Vector3f.h
 Vector4f.h
 ../vecmath/include/Vector4f.h
 
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.cpp
-camera.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.h
-iostream
--
-gl.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/gl.h
-
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.h
 vecmath.h
 -
 cstdint
--
-
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/cell.cpp
-cell.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/cell.h
-timestepper.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.h
-camera.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.h
-vertexrecorder.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.h
-iostream
 -
 
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/cell.h
@@ -152,35 +132,11 @@ cell.h
 particle.h
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particle.h
 
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particle.cpp
-particle.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particle.h
-timestepper.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.h
-camera.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.h
-vertexrecorder.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.h
-iostream
--
-
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particle.h
 vector
 -
 particlesystem.h
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.h
-
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.cpp
-particlesystem.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.h
-gl.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/gl.h
-camera.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/camera.h
-random
--
-cstdio
--
 
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.h
 vector
@@ -192,33 +148,11 @@ cstdint
 iostream
 -
 
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/starter3_util.cpp
-starter3_util.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/starter3_util.h
-gl.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/gl.h
-GLFW/glfw3.h
--
-cstdio
--
-cstring
--
-cassert
--
-
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/starter3_util.h
 cstdint
 -
 gl.h
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/gl.h
-
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.cpp
-timestepper.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.h
-iostream
--
-cstdio
--
 
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/timestepper.h
 vecmath.h
@@ -227,16 +161,6 @@ vector
 -
 particlesystem.h
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particlesystem.h
-
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.cpp
-vertexrecorder.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.h
-cassert
--
-cstdint
--
-gl.h
-/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/gl.h
 
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/vertexrecorder.h
 vector

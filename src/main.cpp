@@ -178,10 +178,11 @@ void solvePressure(){
     vector<float> pressure(n*n*n,0);
     vector<float> divergence(n*n*n,0);
 
-    for (Particle particle: particles){
-        int i = particle.m_vVecState[0][0];
-        int j = particle.m_vVecState[0][1];
-        int k = particle.m_vVecState[0][2];
+    for (int nx = 0; nx < particles.size(); nx++){
+        int i = particles[nx].m_vVecState[0][0];
+        int j = particles[nx].m_vVecState[0][1];
+        int k = particles[nx].m_vVecState[0][2];
+        cout << i << " " << j << " " << k << endl;
         int div = 0; // RN ADDED 2 TO ADD BORDERS BUT PARTICLES CANNOT BE IN BOUNDRARIES
         divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
             grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
@@ -200,16 +201,16 @@ void solvePressure(){
         }
     }
 
-    for (Particle particle: particles){ //adjusted pressure
-        int i = particle.m_vVecState[0][0];
-        int j = particle.m_vVecState[0][1];
-        int k = particle.m_vVecState[0][2];
+    for (int hi = 0; hi < particles.size(); hi ++ ){ //adjusted pressure
+        int i = particles[hi].m_vVecState[0][0];
+        int j = particles[hi].m_vVecState[0][1];
+        int k = particles[hi].m_vVecState[0][2];
         
         Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
         vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
         pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
         pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
-        particle.updateVelocity(vel);                
+        particles[hi].updateVelocity(vel);                
     }
 }
 
@@ -269,7 +270,7 @@ void stepSystem()
 
         }
     }
-    // solvePressure();
+    solvePressure();
 }
 
 // Draw the current particle positions
@@ -282,7 +283,7 @@ void drawSystem()
 
     for (int i = 0; i < particles.size(); ++i){
         Vector3f pos = particles[i].m_vVecState[0];
-        Cell* cell = &grid[pos.x()][pos.y()][pos.z()];
+        Cell* cell = &grid[(int)pos.x()][(int)pos.y()][(int)pos.z()];
         cell->draw(gl);
     }
 
@@ -389,9 +390,9 @@ int main(int argc, char** argv)
         if(b){
             for (int i = 0; i < range; ++i){
                 for (int j = 0; j < range; ++j){
-                    particles.push_back(Particle(Vector3f(0,0,0),Vector3f(top-i,top-j,top),h,n));
+                    particles.push_back(Particle(Vector3f(0,top-1,0),Vector3f(0,0,0),h,n));
                     // particles.push_back(Particle(-1.0*Vector3f(rand()%10,rand()%10,rand()%10),Vector3f(top-i,top-j,top),h,n));
-                    cout << "hi" <<endl;
+                    // cout << "hi" <<endl;
                 }
             }
             b = false;
