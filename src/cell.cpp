@@ -4,29 +4,26 @@
 #include "vertexrecorder.h"
 #include <iostream>
 
-Cell::Cell(Vector3f pos)
+Cell::Cell(Vector3f pos, int n)
 {
     _pos = pos;
+    _n = n;
 }    
-
-// void Cell::updateVelocity(Vector3f vel){
-//     m_vVecState[1] = vel;
-// }
 
 void Cell::fill(Particle particle){
     _particle = particle;
 }
 
 void Cell::unfill(){
-    _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0); //empty particle
+    _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0,1); //empty particle
 
 }
 
-// render the system (ie draw the particles)
-void Cell::draw(GLProgram& gl,int divisor)
+// render the system (ie draw the cell)
+void Cell::draw(GLProgram& gl)
 {
 
-    // TODO 3.2: draw the particle. 
+    // TODO 3.2: draw the cell. 
     //           we provide code that draws a static sphere.
     //           you should replace it with your own
     //           drawing code.
@@ -39,6 +36,6 @@ void Cell::draw(GLProgram& gl,int divisor)
 
     const Vector3f PARTICLE_COLOR(0.4f, 0.7f, 1.0f);
     gl.updateMaterial(PARTICLE_COLOR);
-    gl.updateModelMatrix(Matrix4f::translation(_pos/divisor));
+    gl.updateModelMatrix(Matrix4f::translation(_pos/_n));
     drawSphere(0.075f, 10, 10);
 }

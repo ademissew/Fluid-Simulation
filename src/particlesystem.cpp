@@ -31,6 +31,7 @@ void GLProgram::disableLighting() {
     active_program = program_color;
     glUseProgram(active_program);
 }
+
 void GLProgram::updateMaterial(Vector3f diffuseColor,
     Vector3f ambientColor,
     Vector3f specularColor,

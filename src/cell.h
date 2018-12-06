@@ -9,7 +9,7 @@
 class Cell
 {
 public:
-    Cell(Vector3f pos);
+    Cell(Vector3f pos, int _n);
     // evalF is a method defined in the ParticleSystem
     // interface. The use of virtual functions allows timesteppers to work
     // with any particle system (simple, pendulum, cloth), without
@@ -22,13 +22,14 @@ public:
     // void updateVelocity(Vector3f vel);
     // void setState(std::vector<Vector3f> &state);
     // this is called from main.cpp when it's time to draw a new frame.
-    void draw(GLProgram&, int divisor);
+    void draw(GLProgram&);
 
     // std::vector<Vector3f> next_state;
-    Particle _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0); //empty particle
+    Particle _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0,1); //empty particle
 
     private:
     Vector3f _pos;
+    int _n;
     // Particle _particle;
     // bool _filled;
     // float t,_h;
