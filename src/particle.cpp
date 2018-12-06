@@ -23,7 +23,9 @@ std::vector<Vector3f> Particle::evalF(std::vector<Vector3f> state)
     f.push_back(state[0] + _h*state[1]);
     f.push_back(state[1] + _h*g);
     // std::cout << _h*g[0] << " " << _h*g[1] << " "<< _h*g[2] << std::endl;
-    // std::cout << f[1][0] << " " << f[1][1] << " " << f[1][2] << std::endl;
+    std::cout << f[0][0] << " " << f[0][1] << " " << f[0][2] << std::endl;
+    std::cout << "_______" << std::endl;
+
     // std::cout << " -- "<< std::endl;
 
     // f.push_back(state[1] + 0.5*g*t*t);

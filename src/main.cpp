@@ -258,15 +258,15 @@ void resetTime() {
 void stepSystem()
 {
     // step until simulated_s has caught up with elapsed_s.
-    cout << "bye" << endl;
     // if (particles.size() >= 1){    // }
 
     for (int i = 0; i < particles.size(); ++i){
         while (simulated_s < elapsed_s) {
-            // cout << particle.getState()[1][0] << " " << particle.getState()[1][1] << " " << particle.getState()[1][2] <<endl;
+            // cout << particles[i].getState()[0][0] << " " << particles[i].getState()[0][1] << " " << particles[i].getState()[0][2] <<endl;
             timeStepper -> takeStep2(&particles[i],h,n);
             simulated_s += h;
-            // cout << particle.getState()[1][0] << " " << particle.getState()[1][1] << " " << particle.getState()[1][2] <<endl;
+            // cout << particles[i].getState()[0][0] << " " << particles[i].getState()[0][1] << " " << particles[i].getState()[0][2] <<endl;
+
         }
     }
     // solvePressure();
@@ -282,7 +282,6 @@ void drawSystem()
 
     for (int i = 0; i < particles.size(); ++i){
         Vector3f pos = particles[i].m_vVecState[0];
-        cout << pos[0] << " " << pos[1] << " " << pos[2] << endl;
         Cell* cell = &grid[pos.x()][pos.y()][pos.z()];
         cell->draw(gl);
     }

@@ -6,13 +6,32 @@ std::vector<Vector3f> clamp(std::vector<Vector3f> vec, int _n) {
     std::vector<Vector3f> clamp(vec.size());
     for (int i = 0; i<vec.size(); ++i){
         for (int j = 0; j < 3; ++j){
-            if (vec[i][j] < 0 && i == 0){
+            // if (i == 0){ //position
+            if (vec[i][j] > _n-1){
+                clamp[i][j] = _n - 1;
+            } if (vec[i][j] < 0){
                 clamp[i][j] = 0;
-            } else if (vec[i][j] > _n - 1 && i == 0) {
-                clamp[i][j] = _n-1;            
             } else {
                 clamp[i][j] = vec[i][j];
             }
+            // }
+            //  else { //velocity
+            //     if (vec[i][j] > _n-1){
+            //         clamp[i][j] = _n - 1;
+            //     } if (vec[i][j] < 0){
+            //         clamp[i][j] = 0;
+            //     } else {
+            //         clamp[i][j] = vec[i][j];
+            //     }
+
+            // }
+            // if (vec[i][j] < 0 && i == 0){
+            //     clamp[i][j] = 0;
+            // } else if (vec[i][j] > _n - 1 && i == 0) {
+            //     clamp[i][j] = _n-1;            
+            // } else {
+            //     clamp[i][j] = vec[i][j];
+            // }
         }
     }
     return clamp;
@@ -130,8 +149,10 @@ void RK4::takeStep2(ParticleSystem* particleSystem, float stepSize, int n)
     // std::cout << new_state[1][0] << " " << new_state[1][1] << " " << new_state[1][2] << std::endl;
     // std::cout << " " << std::endl;
     new_state = clamp(new_state,n);
+    // std::cout << new_state[1][0] << " " << new_state[1][1] << " " << new_state[1][2] << std::endl;
+
     particleSystem -> setState(new_state);
-    std::cout << particleSystem->getState()[1][0] << " " << particleSystem->getState()[1][1] << " " << particleSystem->getState()[1][2] <<std::endl;
+    // std::cout << particleSystem->getState()[1][0] << " " << particleSystem->getState()[1][1] << " " << particleSystem->getState()[1][2] <<std::endl;
 
     // // std::cout << new_state[0][0] << " " << new_state[0][1] << " " << new_state[0][2] << std::endl;
     // // std::cout << new_state[1][0] << " " << new_state[1][1] << " " << new_state[1][2] << std::endl;
