@@ -389,9 +389,9 @@ int main(int argc, char** argv)
         if(b){
             for (int i = 0; i < range; ++i){
                 for (int j = 0; j < range; ++j){
-                    particles.push_back(Particle(Vector3f(0,0,0),Vector3f(top-i,top-j,top),h,n));
+                    particles.push_back(Particle(Vector3f(0,0,0),Vector3f(top-i,top-1,top-j),h,n));
                     // particles.push_back(Particle(-1.0*Vector3f(rand()%10,rand()%10,rand()%10),Vector3f(top-i,top-j,top),h,n));
-                    cout << "hi" <<endl;
+                    // cout << "hi" <<endl;
                 }
             }
             b = false;
