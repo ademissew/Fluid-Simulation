@@ -17,24 +17,10 @@ Vector3f g = Vector3f(0.0,-9.8,0.0);
 std::vector<Vector3f> Particle::evalF(std::vector<Vector3f> state)
 {
     std::vector<Vector3f> f;
-    // Vector3f pos = state[0] + _h*state[1];
-    // std::cout <<state[0][0] + _h*state[1][0] << " " <<state[0][1] + _h*state[1][1] << " " <<state[0][2] + _h*state[1][2] << std::endl;
-    //std::cout <<state[0][0]<< " " <<state[0][1] << " " <<state[0][2] << std::endl;
-    //std::cout <<state[1][0]<< " " <<state[1][1] << " " <<state[1][2] << std::endl;
-
-    // std::cout <<_h*state[1][0] << " " <<_h*state[1][1] << " " <<_h*state[1][2] << std::endl;
-
+    
     f.push_back(state[1]);
     f.push_back(g);
-    // std::cout << _h*g[0] << " " << _h*g[1] << " "<< _h*g[2] << std::endl;
-    // std::cout << f[0][0] << " " << f[0][1] << " " << f[0][2] << std::endl;
-    // std::cout << f[1][0] << " " << f[1][1] << " " << f[1][2] << std::endl;
 
-    // std::cout << "_______" << std::endl;
-
-    // std::cout << " -- "<< std::endl;
-
-    // f.push_back(state[1] + 0.5*g*t*t);
     return f;
 }
 

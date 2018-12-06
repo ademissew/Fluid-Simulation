@@ -182,17 +182,22 @@ void solvePressure(){
         int i = particles[nx].m_vVecState[0][0];
         int j = particles[nx].m_vVecState[0][1];
         int k = particles[nx].m_vVecState[0][2];
-        cout << i << " " << j << " " << k << endl;
+
+        // cout << i << " " << j << " " << k << endl;
         int div = 0; // RN ADDED 2 TO ADD BORDERS BUT PARTICLES CANNOT BE IN BOUNDRARIES
+
         divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
             grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
             grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
             );
+    // cout << "hi there" << endl;
+
     }
+    // cout << "hi there" << endl;
                     
-    for (int i = 0; i < n; ++i){ //adjusted pressure
-            for (int j = 0; j < n; ++j ){
-                for (int k = 0; k < n; ++k){
+    for (int i = 1; i < n-1; ++i){ //adjusted pressure
+            for (int j = 1; j < n-1; ++j ){
+                for (int k = 1; k < n-1; ++k){
                     pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
                     pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
                     pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
@@ -210,6 +215,7 @@ void solvePressure(){
         vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
         pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
         pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
+        // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
         particles[hi].updateVelocity(vel);                
     }
 }
@@ -259,18 +265,28 @@ void resetTime() {
 void stepSystem()
 {
     // step until simulated_s has caught up with elapsed_s.
-    // if (particles.size() >= 1){    // }
-
-    for (int i = 0; i < particles.size(); ++i){
-        while (simulated_s < elapsed_s) {
-            // cout << particles[i].getState()[0][0] << " " << particles[i].getState()[0][1] << " " << particles[i].getState()[0][2] <<endl;
+    double holder = simulated_s;
+    while (simulated_s < elapsed_s) {
+        for (int i = 0; i < particles.size(); ++i){
             timeStepper -> takeStep2(&particles[i],h,n);
-            simulated_s += h;
-            // cout << particles[i].getState()[0][0] << " " << particles[i].getState()[0][1] << " " << particles[i].getState()[0][2] <<endl;
-
         }
+        simulated_s += h;
+
     }
+    //  std::cout << particles[i].m_vVecState[0][0]<< " " <<particles[i].m_vVecState[0][1] << " " <<particles[i].m_vVecState[0][2] << std::endl;
+
+    
+    for (int i = 0; i < particles.size(); ++i) {
+        Vector3f pos = particles[i].m_vVecState[0];
+        grid[pos.x()][pos.y()][pos.z()].fill(particles[i]);
+    }
+
     solvePressure();
+
+    for (int i = 0; i < particles.size(); ++i) {
+        Vector3f pos = particles[i].m_vVecState[0];
+        grid[pos.x()][pos.y()][pos.z()].unfill();
+    }
 }
 
 // Draw the current particle positions
@@ -363,7 +379,7 @@ int main(int argc, char** argv)
     uint64_t freq = glfwGetTimerFrequency();
     resetTime();
     int number = 0;
-    bool b = true;
+    // bool b = true;
     while (!glfwWindowShouldClose(window)) {
         
         // Clear the rendering window
@@ -386,16 +402,13 @@ int main(int argc, char** argv)
         
         // EMITTER
         int range = 1;
-        int top = n-1;
-        if(b){
+        int top = n-2;
+        if(particles.size() < 2){
             for (int i = 0; i < range; ++i){
                 for (int j = 0; j < range; ++j){
-                    particles.push_back(Particle(Vector3f(0,top-1,0),Vector3f(0,0,0),h,n));
-                    // particles.push_back(Particle(-1.0*Vector3f(rand()%10,rand()%10,rand()%10),Vector3f(top-i,top-j,top),h,n));
-                    // cout << "hi" <<endl;
+                    particles.push_back(Particle(Vector3f(1,top,1),Vector3f(0,0,0),h,n));
                 }
             }
-            b = false;
         }
 
         // Complete a step (includes advecting and satisfying conditions)
