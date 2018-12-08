@@ -215,11 +215,19 @@ void solvePressure(){
         for (int j = 1; j < n-1; ++j ){
             for (int k = 1; k < n-1; ++k){
                 Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
+                cout << "vel begin" << endl;
+                                cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << vel[1] << " " << vel[2] << endl;
+
                 vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
                 pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
                 pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
-                // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
-                grid[i][j][k]._particle.updateVelocity(vel);  
+                cout << "vel end" << endl;
+                cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
+                grid[i][j][k]._particle.updateVelocity(vel); 
+                // cout << .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h << endl;
+                // grid[i][j][k]._particle.m_vVecState[1][0] -= .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h;
+                // grid[i][j][k]._particle.m_vVecState[1][1] -= .5*(pressure[n*n*(i) + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k]  )/h;
+                // grid[i][j][k]._particle.m_vVecState[1][2] -= .5*(pressure[n*n*(i) + n*(j) + k+1] - pressure[n*n*i + n*(j) + k-1]  )/h;
                 }
         }
     }
@@ -285,8 +293,15 @@ void stepSystem()
         Vector3f pos = particles[i].m_vVecState[0];
         grid[pos.x()][pos.y()][pos.z()].fill(particles[i]);
     }
+    cout << "before pressure solve" << endl;
+    cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
+    cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
 
     solvePressure();
+        cout << "after pressure solve" << endl;
+
+    cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
+    cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
 
     for (int i = 0; i < particles.size(); ++i) {
         Vector3f pos = particles[i].m_vVecState[0];
@@ -407,12 +422,12 @@ int main(int argc, char** argv)
         elapsed_s = (double)(now - start_tick) / freq;
         
         // EMITTER
-        int range = 1;
+        int range = 2;
         int top = n-2;
-        if(particles.size() < 2){
+        if(particles.size() < 10){
             for (int i = 0; i < range; ++i){
                 for (int j = 0; j < range; ++j){
-                    particles.push_back(Particle(Vector3f(1,top,1),Vector3f(0,0,0),h,n));
+                    particles.push_back(Particle(Vector3f(i,top,j),Vector3f(0,0,0),h,n));
                 }
             }
         }
