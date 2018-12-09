@@ -188,10 +188,10 @@ void solvePressure(){
     for (int i = 1; i < n - 1; i++){
         for (int j = 1; j < n - 1; j++){
             for (int k = 1; k < n - 1; k++){
-                divergence[n*n*i + n*j + k] = -0.5*h*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
+                divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
                     grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
                     grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
-                    );
+                    )/n;
             }
 
         }
@@ -218,11 +218,11 @@ void solvePressure(){
                 cout << "vel begin" << endl;
                                 cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << vel[1] << " " << vel[2] << endl;
 
-                vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
+                vel -= 0.5*n*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
                 pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
-                pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
-                cout << "vel end" << endl;
-                cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
+                pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)]);
+                // cout << "vel end" << endl;
+                // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
                 grid[i][j][k]._particle.updateVelocity(vel); 
                 // cout << .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h << endl;
                 // grid[i][j][k]._particle.m_vVecState[1][0] -= .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h;
@@ -231,6 +231,8 @@ void solvePressure(){
                 }
         }
     }
+    std::cout << "____________________" << std::endl;
+
 }
 
 
@@ -291,21 +293,23 @@ void stepSystem()
     
     for (int i = 0; i < particles.size(); ++i) {
         Vector3f pos = particles[i].m_vVecState[0];
-        grid[pos.x()][pos.y()][pos.z()].fill(particles[i]);
+        grid[(int)pos.x()][(int)pos.y()][(int)pos.z()].fill(particles[i]);
     }
-    cout << "before pressure solve" << endl;
-    cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
-    cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
+    std::cout << "____________________" << std::endl;
+
+    // cout << "before pressure solve" << endl;
+    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
+    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
 
     solvePressure();
-        cout << "after pressure solve" << endl;
+    //     cout << "after pressure solve" << endl;
 
-    cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
-    cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
+    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
+    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
 
     for (int i = 0; i < particles.size(); ++i) {
         Vector3f pos = particles[i].m_vVecState[0];
-        grid[pos.x()][pos.y()][pos.z()].unfill();
+        grid[(int)pos.x()][(int)pos.y()][(int)pos.z()].unfill();
     }
 }
 
@@ -345,6 +349,7 @@ void initRendering()
 
 // Main routine.
 // Set up OpenGL, define the callbacks and start the main loop
+int counter = 0;
 int main(int argc, char** argv)
 {
     if (argc != 3) {
@@ -401,7 +406,8 @@ int main(int argc, char** argv)
     resetTime();
     int number = 0;
     // bool b = true;
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window) && counter < 5) {
+    counter++;
         
         // Clear the rendering window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
