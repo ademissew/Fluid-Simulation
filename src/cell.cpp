@@ -8,13 +8,19 @@ Cell::Cell(Vector3f pos, int n)
 {
     _pos = pos;
     _n = n;
+    _filled = false;
 }    
 
-void Cell::fill(Particle particle){
+void Cell::fill(Particle  particle){
     _particle = particle;
+    _filled = true;
+    std::cout << "____________________" << std::endl;
+    std::cout << _particle.m_vVecState[0][0] << " " << _particle.m_vVecState[0][1] << " " << _particle.m_vVecState[0][2] << std::endl;
+
 }
 
 void Cell::unfill(){
+    _filled = false;
     _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0,1); //empty particle
 
 }
