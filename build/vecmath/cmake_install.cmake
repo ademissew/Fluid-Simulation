@@ -1,4 +1,4 @@
-# Install script for directory: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/vecmath
+# Install script for directory: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/vecmath
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

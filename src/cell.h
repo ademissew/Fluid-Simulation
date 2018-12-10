@@ -31,6 +31,7 @@ public:
     private:
     Vector3f _pos;
     int _n;
+    float _pressure;
     // Particle _particle;
     // float t,_h;
 };
