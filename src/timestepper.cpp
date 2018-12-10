@@ -2,76 +2,54 @@
 #include <iostream>
 #include <cstdio>
 
-std::vector<Vector3f> clamp(std::vector<Vector3f> vec, int _n) {
+std::vector<Vector3f> clamp(std::vector<Vector3f> vec, int _n, std::vector<std::vector<std::vector<float>>> grid_x, 
+std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std::vector<float>>> grid_z) {
     std::vector<Vector3f> clamp_vec(vec.size());
     int i = 0;
     bool collision = false;
-    for (int j = 0; j < 3; ++j){
-        if (vec[i][j] > _n-2){
-            clamp_vec[i][j] = _n-2;
-            clamp_vec[i+1][j] = -vec[i+1][j];
+    int x = vec[0].x();
+    int y = vec[0].y();
+    int z = vec[0].z();
+    if (vec[0][0] > _n-1){
+            clamp_vec[0][0] = _n-1;
+            grid_x[_n][y][z] = -grid_x[_n][y][z] *.5;
             collision = true;
-        } else if (vec[i][j] < 1){
-            clamp_vec[i][j] = 1;
-            clamp_vec[i+1][j] = -vec[i+1][j];
+    } else if (vec[0][0] < 0){
+        clamp_vec[0][0] = 0;
+        grid_x[0][y][z] = -grid_x[0][y][z] *.5;
+        collision = true;
+    } else {
+        clamp_vec[0][0] = vec[0][0];
+    }
+    
+    if (vec[0][1] > _n-1){
+            clamp_vec[0][1] = _n-1;
+            grid_y[x][_n][z] = -grid_y[x][_n][z] *.5;
             collision = true;
+    } else if (vec[0][1] < 0){
+        clamp_vec[0][1] = 0;
+        grid_y[x][0][z] = -grid_y[x][0][z] *.5;
+        collision = true;
+    } else {
+        clamp_vec[0][1] = vec[0][1];
+    }
 
-        } else {
-            clamp_vec[i][j] = vec[i][j];
-            clamp_vec[i+1][j] = vec[i+1][j];
-        }
+    if (vec[0][2] > _n-1){
+            clamp_vec[0][2] = _n-1;
+            grid_z[x][y][_n] = -grid_z[x][y][_n] *.5;
+            collision = true;
+    } else if (vec[0][2] < 0){
+        clamp_vec[0][2] = 0;
+        grid_z[x][y][z] = -grid_z[x][y][0] *.5;
+        collision = true;
+    } else {
+        clamp_vec[0][2] = vec[0][2];
     }
-    if (collision){
-        clamp_vec[1] *= .5;
-    }
+
+
     return clamp_vec;
     
 }
-
-void ForwardEuler::takeStep(ParticleSystem* particleSystem, float stepSize)
-{
-
-    std::vector<Vector3f> x = particleSystem -> getState();
-    std::vector<Vector3f> f = particleSystem -> evalF(particleSystem -> getState());
-    std::vector<Vector3f> new_state;
-    for(int i=0; i<f.size(); ++i){
-        new_state.push_back(x[i]+stepSize*f[i]);
-    }
-    particleSystem -> setState(new_state);
-    
-}
-void ForwardEuler::takeStep2(ParticleSystem* particleSystem, float stepSize, int n){
-    std::vector<Vector3f> x = particleSystem -> getState();
-    std::vector<Vector3f> f = particleSystem -> evalF(particleSystem -> getState());
-    std::vector<Vector3f> new_state;
-    for(int i=0; i<f.size(); ++i){
-        new_state.push_back(x[i]+stepSize*f[i]);
-    }
-    //new_state = clamp(new_state,n);
-    particleSystem -> setState(new_state);
-}
-
-
-void Trapezoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
-{
-
-    std::vector<Vector3f> x = particleSystem -> getState();
-    std::vector<Vector3f> f_0 = particleSystem -> evalF(particleSystem -> getState());
-    std::vector<Vector3f> new_state;
-    std::vector<Vector3f> input; 
-    for(int i=0; i<f_0.size(); ++i){
-        input.push_back(x[i]+stepSize*f_0[i]);   
-    }
-    std::vector<Vector3f> f_1 = particleSystem -> evalF(input);
-
-    for(int i=0; i<f_0.size(); ++i){
-        new_state.push_back(x[i]+stepSize*(f_0[i]+f_1[i])/2);     
-    }
-    particleSystem -> setState(new_state);
-}
-void Trapezoidal::takeStep2(ParticleSystem* particleSystem, float stepSize, int n){
-}
-
 
 
 void RK4::takeStep(ParticleSystem* particleSystem, float stepSize)
@@ -79,7 +57,8 @@ void RK4::takeStep(ParticleSystem* particleSystem, float stepSize)
 
 }
 
-void RK4::takeStep2(ParticleSystem* particleSystem, float stepSize, int n){
+void RK4::takeStep2(ParticleSystem* particleSystem, float stepSize, int n, std::vector<std::vector<std::vector<float>>> grid_x, 
+std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std::vector<float>>> grid_z){
     
     std::vector<Vector3f> state = particleSystem->getState();
     std::vector <Vector3f> k1 = particleSystem->evalF(state);
@@ -108,7 +87,7 @@ void RK4::takeStep2(ParticleSystem* particleSystem, float stepSize, int n){
     for (int i = 0; i < state.size(); i++){
         newState.push_back(state[i] + stepSize*(k1[i]+k2[i]+k3[i]+k4[i])/6);
     }
-    newState = clamp(newState,n);
+    newState = clamp(newState,n, grid_x, grid_y, grid_z);
     // std::cout <<"rk4 ends" << std::endl;
     //  std::cout <<newState[0][0]<< " " <<newState[0][1] << " " <<newState[0][2] << std::endl;
     //  std::cout <<newState[1][0]<< " " <<newState[1][1] << " " <<newState[1][2] << std::endl;

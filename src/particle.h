@@ -8,7 +8,8 @@
 class Particle : public ParticleSystem
 {
 public:
-    Particle(Vector3f vel, Vector3f pos, float h, int n);
+    Particle(Vector3f vel, Vector3f pos, float h, int n, std::vector<std::vector<std::vector<float>>> grid_x, 
+std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std::vector<float>>> grid_z);
     // evalF is a method defined in the ParticleSystem
     // interface. The use of virtual functions allows timesteppers to work
     // with any particle system (simple, pendulum, cloth), without
@@ -27,6 +28,9 @@ public:
 
     private:
     float _h;
+    std::vector<std::vector<std::vector<float>>> x_vel; 
+    std::vector<std::vector<std::vector<float>>> y_vel;
+    std::vector<std::vector<std::vector<float>>> z_vel;
 };
 
 #endif

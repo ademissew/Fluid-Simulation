@@ -25,7 +25,6 @@ public:
     void draw(GLProgram&);
 
     // std::vector<Vector3f> next_state;
-    Particle _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0,1); //empty particle
     bool _filled;
 
     private:

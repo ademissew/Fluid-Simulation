@@ -10,31 +10,19 @@ class TimeStepper
 public:
     virtual ~TimeStepper() {}
 	virtual void takeStep(ParticleSystem* particleSystem, float stepSize) = 0;
-	virtual void takeStep2(ParticleSystem* particleSystem, float stepSize,int n) = 0;
+	virtual void takeStep2(ParticleSystem* particleSystem, float stepSize,int n, std::vector<std::vector<std::vector<float>>> grid_x, 
+std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std::vector<float>>> grid_z) = 0;
 	
 
 };
 
 //IMPLEMENT YOUR TIMESTEPPERS
 
-class ForwardEuler : public TimeStepper
-{
-	void takeStep(ParticleSystem* particleSystem, float stepSize) override;
-	void takeStep2(ParticleSystem* particleSystem, float stepSize,int n) override;
-
-};
-
-class Trapezoidal : public TimeStepper
-{
-	void takeStep(ParticleSystem* particleSystem, float stepSize) override;
-	void takeStep2(ParticleSystem* particleSystem, float stepSize,int n) override;
-
-};
-
 class RK4 : public TimeStepper
 {
 	void takeStep(ParticleSystem* particleSystem, float stepSize) override;
-	void takeStep2(ParticleSystem* particleSystem, float stepSize,int n) override;
+	void takeStep2(ParticleSystem* particleSystem, float stepSize,int n, std::vector<std::vector<std::vector<float>>> grid_x, 
+std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std::vector<float>>> grid_z) override;
 
 };
 
