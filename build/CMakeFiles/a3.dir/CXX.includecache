@@ -1546,18 +1546,6 @@ Eigen/Sparse
 Eigen/SparseCholesky
 -
 
-/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particle.cpp
-particle.h
-/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particle.h
-timestepper.h
-/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/timestepper.h
-camera.h
-/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/camera.h
-vertexrecorder.h
-/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/vertexrecorder.h
-iostream
--
-
 /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/src/particle.h
 vector
 -

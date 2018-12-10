@@ -185,7 +185,7 @@ void drawAxis()
 void solvePressure(){
     Eigen::SparseMatrix<double> m(n*n*n, n*n*n);
     Eigen::VectorXd d(n*n*n);
-
+    Eigen::VectorXd p(n*n*n);
 
     for(int i=0; i< n; ++i){ // Sets up matrix
         for (int j=0; j < n; ++j){
@@ -201,17 +201,15 @@ void solvePressure(){
                 } 
                 d(i*n*n+j*n+k) = divergence;
                 int neighbor_particles = 0;
-
                 for (int di = i - 1; di <= i + 1; ++di){
                     for (int dj = j - 1; dj <= j + 1; ++dj){
                         for (int dk = k - 1; dk <= k + 1; ++dk){
                         // all 27
-                            if ((di != i) && (dj != j) && (dk != k)){
+                            if (!(di == i && dj == j && dk == k)){
                                 // just the 26 neighbors
                                 if (di >= 0 && di <= n-1 && dj >= 0 && dj <= n-1 && dk >= 0 &&  dk <= n-1){
-                                    cout << di << " " << dj << " " << dk <<endl;
-                                    cout << i*n*n+j*n+k << " " << (di)*n*n+(dj)*n+dk << endl;
-
+                                    // cout << di << " " << dj << " " << dk <<endl;
+                                    // cout << i*n*n+j*n+k << " " << (di)*n*n+(dj)*n+dk << endl;
                                     m.insert(i*n*n+j*n+k,di*n*n+dj*n+dk) = 1;                                
                                     if(grid[di][dj][dk]._filled){
                                         neighbor_particles--;
@@ -221,11 +219,9 @@ void solvePressure(){
                         }
                     }
                 }
+                // cout << neighbor_particles<< endl;
                 m.insert(i*n*n+j*n+k,i*n*n+j*n+k) = neighbor_particles;
 
-
-
-                
                 // if (i-1 >= 0 && i+1 <= n-1 && k-1 >= 0 && k+1 <= n-1 && j-1 >= 0 && j+1 <= n-1){
                 //     for (int x = -1; x < 2; x = x + 2){
                 //         for (int y = -1; y < 2; y = y + 2){
@@ -245,8 +241,6 @@ void solvePressure(){
             }    
         }
     }
-    // cerr << "yay" << endl;
-
     Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
     m.makeCompressed();
 
@@ -258,24 +252,18 @@ void solvePressure(){
         // decomposition failed
         return;
     }
-    auto p = solver.solve(d);
+    p = solver.solve(d);
     if(solver.info()!=Eigen::Success) {
         // solving failed
         return;
     }
-    cerr << typeid(p).name() << endl;
-    
+
     for (int i = 1; i < grid_x.size()-1; i ++){
         for (int j = 1; j < grid_x[0].size()-1; j ++){
             for (int k = 1; k < grid_x[0][0].size()-1; k++){
-                float x = p(n*n*(i)+n*j+k);
-
-                //float x = p(n*n*(i)+n*j+k);
-
-                
-                //grid_x[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
-                // grid_y[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
-                // grid_z[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
+                grid_x[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
+                grid_y[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
+                grid_z[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
             }
         }
     }
@@ -294,6 +282,7 @@ void initSystem()
     grid_x.clear();
     grid_y.clear();
     grid_z.clear();
+    particles.clear();
     // initializes a 11x11 grid
     for (int i = 0; i < n; ++i){
         std::vector<std::vector<Cell>> vec;
@@ -358,9 +347,30 @@ void stepSystem()
             timeStepper -> takeStep2(&particles[i],h,n, grid_x, grid_y, grid_z);
         }
         simulated_s += h;
-
     }
+
+    // std::cout << "____________________" << std::endl;
+
     //  std::cout << particles[i].m_vVecState[0][0]<< " " <<particles[i].m_vVecState[0][1] << " " <<particles[i].m_vVecState[0][2] << std::endl;
+    
+
+    // cout << "before pressure solve" << endl;
+    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
+    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
+
+    // solvePressure();
+    //     cout << "after pressure solve" << endl;
+
+    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
+    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
+
+    for (int i = 0; i < particles.size(); ++i) {
+        Vector3f pos = particles[i].m_vVecState[0];
+        grid[max((int)pos.x(),0)][max(0,(int)pos.y())][max(0,(int)pos.z())].fill();
+    }
+
+    solvePressure();
+
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j< n; ++j) {
             for (int k = 0; k < n; k++){
@@ -369,22 +379,8 @@ void stepSystem()
         }
     }
     
-    // std::cout << "____________________" << std::endl;
 
-    // cout << "before pressure solve" << endl;
-    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
-    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
 
-    solvePressure();
-    //     cout << "after pressure solve" << endl;
-
-    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
-    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
-
-    for (int i = 0; i < particles.size(); ++i) {
-        Vector3f pos = particles[i].m_vVecState[0];
-        grid[(int)pos.x()][(int)pos.y()][(int)pos.z()].fill(particles[i]);
-    }
 }
 
 // Draw the current particle positions
@@ -397,8 +393,7 @@ void drawSystem()
 
     for (int i = 0; i < particles.size(); ++i){
         Vector3f pos = particles[i].m_vVecState[0];
-        // cout << pos[0] << " " << pos[1] << " " << pos[2] << endl;
-        Cell* cell = &grid[(int)pos.x()][(int)pos.y()][(int)pos.z()];
+        Cell* cell = &grid[max((int)pos.x(),0)][max(0,(int)pos.y())][max(0,(int)pos.z())];
         cell->draw(gl);
     }
 
@@ -480,7 +475,7 @@ int main(int argc, char** argv)
     uint64_t freq = glfwGetTimerFrequency();
     resetTime();
     int number = 0;
-    // bool b = true;
+    bool b = true;
     while (!glfwWindowShouldClose(window)) {
     // counter++;
         
@@ -505,14 +500,16 @@ int main(int argc, char** argv)
         // EMITTER
         int range = 2;
         int top = n-2;
-        if(particles.size() < 10){
+        if(b){
             for (int i = 0; i < range; ++i){
                 for (int j = 0; j < range; ++j){
-                    particles.push_back(Particle(Vector3f(i,top,j),Vector3f(0,0,0),h,n, grid_x, grid_y, grid_z));
+                    for (int k = 0; k < range; ++k){
+                        particles.push_back(Particle(Vector3f(i,top-k,j),Vector3f(0,0,0),h,n, grid_x, grid_y, grid_z));
+                    }
                 }
             }
+            b = false;
         }
-
         // Complete a step (includes advecting and satisfying conditions)
         stepSystem();
 
@@ -524,6 +521,7 @@ int main(int argc, char** argv)
 
         // Check if any input happened during the last frame
         glfwPollEvents();
+
     }
 
     // All OpenGL resource that are created with

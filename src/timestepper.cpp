@@ -87,9 +87,10 @@ std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std:
     for (int i = 0; i < state.size(); i++){
         newState.push_back(state[i] + stepSize*(k1[i]+k2[i]+k3[i]+k4[i])/6);
     }
-    newState = clamp(newState,n, grid_x, grid_y, grid_z);
+    // newState = clamp(newState,n, grid_x, grid_y, grid_z);
     // std::cout <<"rk4 ends" << std::endl;
     //  std::cout <<newState[0][0]<< " " <<newState[0][1] << " " <<newState[0][2] << std::endl;
     //  std::cout <<newState[1][0]<< " " <<newState[1][1] << " " <<newState[1][2] << std::endl;
     particleSystem->setState(newState);
+
 }
