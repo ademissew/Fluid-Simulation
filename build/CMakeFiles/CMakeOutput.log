@@ -1,4 +1,4 @@
-The system is: Darwin - 18.2.0 - x86_64
+The system is: Darwin - 17.7.0 - x86_64
 Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
 Compiler: /Library/Developer/CommandLineTools/usr/bin/cc 
 Build flags: 
@@ -10,7 +10,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is AppleClang, found in "/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/3.12.2/CompilerIdC/a.out"
+The C compiler identification is AppleClang, found in "/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/3.12.2/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /Library/Developer/CommandLineTools/usr/bin/c++ 
@@ -23,60 +23,62 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is AppleClang, found in "/Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/3.12.2/CompilerIdCXX/a.out"
+The CXX compiler identification is AppleClang, found in "/Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/3.12.2/CompilerIdCXX/a.out"
 
 Determining if the C compiler works passed with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_1ecb7/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_1ecb7.dir/build.make CMakeFiles/cmTC_1ecb7.dir/build
-Building C object CMakeFiles/cmTC_1ecb7.dir/testCCompiler.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_1ecb7.dir/testCCompiler.c.o   -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_1ecb7
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1ecb7.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_1ecb7.dir/testCCompiler.c.o  -o cmTC_1ecb7 
+Run Build Command:"/usr/bin/make" "cmTC_e1cd0/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e1cd0.dir/build.make CMakeFiles/cmTC_e1cd0.dir/build
+Building C object CMakeFiles/cmTC_e1cd0.dir/testCCompiler.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_e1cd0.dir/testCCompiler.c.o   -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_e1cd0
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e1cd0.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e1cd0.dir/testCCompiler.c.o  -o cmTC_e1cd0 
 
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_09c3f/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_09c3f.dir/build.make CMakeFiles/cmTC_09c3f.dir/build
-Building C object CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.12/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_09c3f
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_09c3f.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o  -o cmTC_09c3f 
-Apple LLVM version 10.0.0 (clang-1000.10.44.4)
-Target: x86_64-apple-darwin18.2.0
+Run Build Command:"/usr/bin/make" "cmTC_f16eb/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f16eb.dir/build.make CMakeFiles/cmTC_f16eb.dir/build
+Building C object CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o   -c /usr/local/Cellar/cmake/3.12.2/share/cmake/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_f16eb
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f16eb.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o  -o cmTC_f16eb 
+Apple LLVM version 10.0.0 (clang-1000.10.44.2)
+Target: x86_64-apple-darwin17.7.0
 Thread model: posix
 InstalledDir: /Library/Developer/CommandLineTools/usr/bin
- "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -o cmTC_09c3f -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a
+ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.13.0 -o cmTC_f16eb -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a
 @(#)PROGRAM:ld  PROJECT:ld64-409.12
-BUILD 17:47:51 Sep 25 2018
+BUILD 02:04:28 Aug 14 2018
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
 Library search paths:
-	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib
+	/usr/lib
+	/usr/local/lib
 Framework search paths:
-	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/
+	/Library/Frameworks/
+	/System/Library/Frameworks/
 
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_09c3f/fast"]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_09c3f.dir/build.make CMakeFiles/cmTC_09c3f.dir/build]
-  ignore line: [Building C object CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.12/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_09c3f]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_09c3f.dir/link.txt --verbose=1]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o  -o cmTC_09c3f ]
-  ignore line: [Apple LLVM version 10.0.0 (clang-1000.10.44.4)]
-  ignore line: [Target: x86_64-apple-darwin18.2.0]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_f16eb/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f16eb.dir/build.make CMakeFiles/cmTC_f16eb.dir/build]
+  ignore line: [Building C object CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o   -c /usr/local/Cellar/cmake/3.12.2/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_f16eb]
+  ignore line: [/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f16eb.dir/link.txt --verbose=1]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o  -o cmTC_f16eb ]
+  ignore line: [Apple LLVM version 10.0.0 (clang-1000.10.44.2)]
+  ignore line: [Target: x86_64-apple-darwin17.7.0]
   ignore line: [Thread model: posix]
   ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
-  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -o cmTC_09c3f -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
+  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.13.0 -o cmTC_f16eb -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
     arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
     arg [-demangle] ==> ignore
     arg [-lto_library] ==> ignore, skip following value
@@ -85,40 +87,40 @@ Parsed C implicit link information from above output:
     arg [-arch] ==> ignore
     arg [x86_64] ==> ignore
     arg [-macosx_version_min] ==> ignore
-    arg [10.14.0] ==> ignore
-    arg [-syslibroot] ==> ignore
-    arg [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk] ==> ignore
+    arg [10.13.0] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_09c3f] ==> ignore
+    arg [cmTC_f16eb] ==> ignore
     arg [-search_paths_first] ==> ignore
     arg [-headerpad_max_install_names] ==> ignore
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTC_09c3f.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_f16eb.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lSystem] ==> lib [System]
     arg [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
-  Library search paths: [;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
-  Framework search paths: [;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/]
+  Library search paths: [;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
   remove lib [System]
   remove lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
-  collapse library dir [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
-  collapse framework dir [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
   implicit libs: []
-  implicit dirs: [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
-  implicit fwks: [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks]
+  implicit dirs: [/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
 
 
 
 
 Detecting C [-std=c11] compiler features compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_b82e0/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b82e0.dir/build.make CMakeFiles/cmTC_b82e0.dir/build
-Building C object CMakeFiles/cmTC_b82e0.dir/feature_tests.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -std=c11 -o CMakeFiles/cmTC_b82e0.dir/feature_tests.c.o   -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_b82e0
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b82e0.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_b82e0.dir/feature_tests.c.o  -o cmTC_b82e0 
+Run Build Command:"/usr/bin/make" "cmTC_2d4ee/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_2d4ee.dir/build.make CMakeFiles/cmTC_2d4ee.dir/build
+Building C object CMakeFiles/cmTC_2d4ee.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_2d4ee.dir/feature_tests.c.o   -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_2d4ee
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2d4ee.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_2d4ee.dir/feature_tests.c.o  -o cmTC_2d4ee 
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -128,15 +130,15 @@ Linking C executable cmTC_b82e0
 
 
 Detecting C [-std=c99] compiler features compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_765b2/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_765b2.dir/build.make CMakeFiles/cmTC_765b2.dir/build
-Building C object CMakeFiles/cmTC_765b2.dir/feature_tests.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -std=c99 -o CMakeFiles/cmTC_765b2.dir/feature_tests.c.o   -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_765b2
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_765b2.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_765b2.dir/feature_tests.c.o  -o cmTC_765b2 
+Run Build Command:"/usr/bin/make" "cmTC_3ccc9/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_3ccc9.dir/build.make CMakeFiles/cmTC_3ccc9.dir/build
+Building C object CMakeFiles/cmTC_3ccc9.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_3ccc9.dir/feature_tests.c.o   -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_3ccc9
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3ccc9.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_3ccc9.dir/feature_tests.c.o  -o cmTC_3ccc9 
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -146,15 +148,15 @@ Linking C executable cmTC_765b2
 
 
 Detecting C [-std=c90] compiler features compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_392bc/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_392bc.dir/build.make CMakeFiles/cmTC_392bc.dir/build
-Building C object CMakeFiles/cmTC_392bc.dir/feature_tests.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -std=c90 -o CMakeFiles/cmTC_392bc.dir/feature_tests.c.o   -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_392bc
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_392bc.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_392bc.dir/feature_tests.c.o  -o cmTC_392bc 
+Run Build Command:"/usr/bin/make" "cmTC_d4225/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d4225.dir/build.make CMakeFiles/cmTC_d4225.dir/build
+Building C object CMakeFiles/cmTC_d4225.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_d4225.dir/feature_tests.c.o   -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_d4225
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d4225.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d4225.dir/feature_tests.c.o  -o cmTC_d4225 
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -162,57 +164,59 @@ Linking C executable cmTC_392bc
     Feature record: C_FEATURE:0c_static_assert
     Feature record: C_FEATURE:0c_variadic_macros
 Determining if the CXX compiler works passed with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_533ff/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_533ff.dir/build.make CMakeFiles/cmTC_533ff.dir/build
-Building CXX object CMakeFiles/cmTC_533ff.dir/testCXXCompiler.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_533ff.dir/testCXXCompiler.cxx.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_533ff
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_533ff.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_533ff.dir/testCXXCompiler.cxx.o  -o cmTC_533ff 
+Run Build Command:"/usr/bin/make" "cmTC_2f7af/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_2f7af.dir/build.make CMakeFiles/cmTC_2f7af.dir/build
+Building CXX object CMakeFiles/cmTC_2f7af.dir/testCXXCompiler.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_2f7af.dir/testCXXCompiler.cxx.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_2f7af
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2f7af.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_2f7af.dir/testCXXCompiler.cxx.o  -o cmTC_2f7af 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_e07b0/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e07b0.dir/build.make CMakeFiles/cmTC_e07b0.dir/build
-Building CXX object CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.12/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_e07b0
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e07b0.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_e07b0 
-Apple LLVM version 10.0.0 (clang-1000.10.44.4)
-Target: x86_64-apple-darwin18.2.0
+Run Build Command:"/usr/bin/make" "cmTC_64086/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_64086.dir/build.make CMakeFiles/cmTC_64086.dir/build
+Building CXX object CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/Cellar/cmake/3.12.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_64086
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_64086.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_64086 
+Apple LLVM version 10.0.0 (clang-1000.10.44.2)
+Target: x86_64-apple-darwin17.7.0
 Thread model: posix
 InstalledDir: /Library/Developer/CommandLineTools/usr/bin
- "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -o cmTC_e07b0 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a
+ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.13.0 -o cmTC_64086 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a
 @(#)PROGRAM:ld  PROJECT:ld64-409.12
-BUILD 17:47:51 Sep 25 2018
+BUILD 02:04:28 Aug 14 2018
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
 Library search paths:
-	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib
+	/usr/lib
+	/usr/local/lib
 Framework search paths:
-	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/
+	/Library/Frameworks/
+	/System/Library/Frameworks/
 
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_e07b0/fast"]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e07b0.dir/build.make CMakeFiles/cmTC_e07b0.dir/build]
-  ignore line: [Building CXX object CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.12/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_e07b0]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e07b0.dir/link.txt --verbose=1]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_e07b0 ]
-  ignore line: [Apple LLVM version 10.0.0 (clang-1000.10.44.4)]
-  ignore line: [Target: x86_64-apple-darwin18.2.0]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_64086/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_64086.dir/build.make CMakeFiles/cmTC_64086.dir/build]
+  ignore line: [Building CXX object CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/Cellar/cmake/3.12.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_64086]
+  ignore line: [/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_64086.dir/link.txt --verbose=1]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_64086 ]
+  ignore line: [Apple LLVM version 10.0.0 (clang-1000.10.44.2)]
+  ignore line: [Target: x86_64-apple-darwin17.7.0]
   ignore line: [Thread model: posix]
   ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
-  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -o cmTC_e07b0 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
+  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.13.0 -o cmTC_64086 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
     arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
     arg [-demangle] ==> ignore
     arg [-lto_library] ==> ignore, skip following value
@@ -221,41 +225,41 @@ Parsed CXX implicit link information from above output:
     arg [-arch] ==> ignore
     arg [x86_64] ==> ignore
     arg [-macosx_version_min] ==> ignore
-    arg [10.14.0] ==> ignore
-    arg [-syslibroot] ==> ignore
-    arg [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk] ==> ignore
+    arg [10.13.0] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_e07b0] ==> ignore
+    arg [cmTC_64086] ==> ignore
     arg [-search_paths_first] ==> ignore
     arg [-headerpad_max_install_names] ==> ignore
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTC_e07b0.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_64086.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lc++] ==> lib [c++]
     arg [-lSystem] ==> lib [System]
     arg [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
-  Library search paths: [;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
-  Framework search paths: [;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/]
+  Library search paths: [;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
   remove lib [System]
   remove lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
-  collapse library dir [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
-  collapse framework dir [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
   implicit libs: [c++]
-  implicit dirs: [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
-  implicit fwks: [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks]
+  implicit dirs: [/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
 
 
 
 
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d296e/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d296e.dir/build.make CMakeFiles/cmTC_d296e.dir/build
-Building CXX object CMakeFiles/cmTC_d296e.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -std=c++1z -o CMakeFiles/cmTC_d296e.dir/feature_tests.cxx.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_d296e
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d296e.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d296e.dir/feature_tests.cxx.o  -o cmTC_d296e 
+Run Build Command:"/usr/bin/make" "cmTC_0f97b/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0f97b.dir/build.make CMakeFiles/cmTC_0f97b.dir/build
+Building CXX object CMakeFiles/cmTC_0f97b.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_0f97b.dir/feature_tests.cxx.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_0f97b
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f97b.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_0f97b.dir/feature_tests.cxx.o  -o cmTC_0f97b 
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -318,15 +322,15 @@ Linking CXX executable cmTC_d296e
 
 
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ec69b/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ec69b.dir/build.make CMakeFiles/cmTC_ec69b.dir/build
-Building CXX object CMakeFiles/cmTC_ec69b.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -std=c++14 -o CMakeFiles/cmTC_ec69b.dir/feature_tests.cxx.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_ec69b
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ec69b.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ec69b.dir/feature_tests.cxx.o  -o cmTC_ec69b 
+Run Build Command:"/usr/bin/make" "cmTC_60360/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_60360.dir/build.make CMakeFiles/cmTC_60360.dir/build
+Building CXX object CMakeFiles/cmTC_60360.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_60360.dir/feature_tests.cxx.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_60360
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_60360.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_60360.dir/feature_tests.cxx.o  -o cmTC_60360 
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -389,15 +393,15 @@ Linking CXX executable cmTC_ec69b
 
 
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0ce7f/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0ce7f.dir/build.make CMakeFiles/cmTC_0ce7f.dir/build
-Building CXX object CMakeFiles/cmTC_0ce7f.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -std=c++11 -o CMakeFiles/cmTC_0ce7f.dir/feature_tests.cxx.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_0ce7f
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0ce7f.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_0ce7f.dir/feature_tests.cxx.o  -o cmTC_0ce7f 
+Run Build Command:"/usr/bin/make" "cmTC_81ea7/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_81ea7.dir/build.make CMakeFiles/cmTC_81ea7.dir/build
+Building CXX object CMakeFiles/cmTC_81ea7.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_81ea7.dir/feature_tests.cxx.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_81ea7
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_81ea7.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_81ea7.dir/feature_tests.cxx.o  -o cmTC_81ea7 
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -460,15 +464,15 @@ Linking CXX executable cmTC_0ce7f
 
 
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_a2ad1/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a2ad1.dir/build.make CMakeFiles/cmTC_a2ad1.dir/build
-Building CXX object CMakeFiles/cmTC_a2ad1.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -std=c++98 -o CMakeFiles/cmTC_a2ad1.dir/feature_tests.cxx.o -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_a2ad1
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a2ad1.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a2ad1.dir/feature_tests.cxx.o  -o cmTC_a2ad1 
+Run Build Command:"/usr/bin/make" "cmTC_b7607/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b7607.dir/build.make CMakeFiles/cmTC_b7607.dir/build
+Building CXX object CMakeFiles/cmTC_b7607.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_b7607.dir/feature_tests.cxx.o -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_b7607
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7607.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_b7607.dir/feature_tests.cxx.o  -o cmTC_b7607 
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -529,29 +533,29 @@ Linking CXX executable cmTC_a2ad1
     Feature record: CXX_FEATURE:0cxx_variadic_macros
     Feature record: CXX_FEATURE:0cxx_variadic_templates
 Determining if the include file pthread.h exists passed with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ebc65/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ebc65.dir/build.make CMakeFiles/cmTC_ebc65.dir/build
-Building C object CMakeFiles/cmTC_ebc65.dir/CheckIncludeFile.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_ebc65.dir/CheckIncludeFile.c.o   -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTC_ebc65
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ebc65.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ebc65.dir/CheckIncludeFile.c.o  -o cmTC_ebc65 
+Run Build Command:"/usr/bin/make" "cmTC_a3afc/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a3afc.dir/build.make CMakeFiles/cmTC_a3afc.dir/build
+Building C object CMakeFiles/cmTC_a3afc.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_a3afc.dir/CheckIncludeFile.c.o   -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_a3afc
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a3afc.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a3afc.dir/CheckIncludeFile.c.o  -o cmTC_a3afc 
 
 
 Determining if the pthread_create exist passed with the following output:
-Change Dir: /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d87dd/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d87dd.dir/build.make CMakeFiles/cmTC_d87dd.dir/build
-Building C object CMakeFiles/cmTC_d87dd.dir/CheckSymbolExists.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -o CMakeFiles/cmTC_d87dd.dir/CheckSymbolExists.c.o   -c /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_d87dd
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d87dd.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d87dd.dir/CheckSymbolExists.c.o  -o cmTC_d87dd 
+Run Build Command:"/usr/bin/make" "cmTC_0f4aa/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0f4aa.dir/build.make CMakeFiles/cmTC_0f4aa.dir/build
+Building C object CMakeFiles/cmTC_0f4aa.dir/CheckSymbolExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_0f4aa.dir/CheckSymbolExists.c.o   -c /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_0f4aa
+/usr/local/Cellar/cmake/3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f4aa.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_0f4aa.dir/CheckSymbolExists.c.o  -o cmTC_0f4aa 
 
-File /Users/Alenta/Desktop/6.837/project/Fluid-Simulation/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+File /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
 #include <pthread.h>
 
