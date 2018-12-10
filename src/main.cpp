@@ -214,20 +214,25 @@ void solvePressure(){
     for (int i = 1; i < n-1; ++i){ //adjusted pressure
         for (int j = 1; j < n-1; ++j ){
             for (int k = 1; k < n-1; ++k){
-                Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
-                cout << "vel begin" << endl;
-                                cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << vel[1] << " " << vel[2] << endl;
+                // Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
+                // cout << "vel begin" << endl;
+                // cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << vel[1] << " " << vel[2] << endl;
 
-                vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
-                pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
-                pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
-                cout << "vel end" << endl;
-                cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
-                grid[i][j][k]._particle.updateVelocity(vel); 
+                // vel -= -0.5*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
+                // pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
+                // pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)])/h;
+                // cout << "vel end" << endl;
+                // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
+                // grid[i][j][k]._particle.updateVelocity(vel); 
                 // cout << .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h << endl;
-                // grid[i][j][k]._particle.m_vVecState[1][0] -= .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h;
-                // grid[i][j][k]._particle.m_vVecState[1][1] -= .5*(pressure[n*n*(i) + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k]  )/h;
-                // grid[i][j][k]._particle.m_vVecState[1][2] -= .5*(pressure[n*n*(i) + n*(j) + k+1] - pressure[n*n*i + n*(j) + k-1]  )/h;
+
+                cout << "vel begin" << endl;
+                cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << grid[i][j][k]._particle.m_vVecState[1][1] << " " << grid[i][j][k]._particle.m_vVecState[1][2] << endl;
+                grid[i][j][k]._particle.m_vVecState[1][0] -= .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h;
+                grid[i][j][k]._particle.m_vVecState[1][1] -= .5*(pressure[n*n*(i) + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k]  )/h;
+                grid[i][j][k]._particle.m_vVecState[1][2] -= .5*(pressure[n*n*(i) + n*(j) + k+1] - pressure[n*n*i + n*(j) + k-1]  )/h;
+                cout << "vel begin" << endl;
+                cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << grid[i][j][k]._particle.m_vVecState[1][1] << " " << grid[i][j][k]._particle.m_vVecState[1][2] << endl;
                 }
         }
     }
@@ -287,25 +292,24 @@ void stepSystem()
 
     }
     //  std::cout << particles[i].m_vVecState[0][0]<< " " <<particles[i].m_vVecState[0][1] << " " <<particles[i].m_vVecState[0][2] << std::endl;
-
     
     for (int i = 0; i < particles.size(); ++i) {
         Vector3f pos = particles[i].m_vVecState[0];
-        grid[pos.x()][pos.y()][pos.z()].fill(particles[i]);
+        grid[(int)pos.x()][(int)pos.y()][(int)pos.z()].fill(particles[i]);
     }
     cout << "before pressure solve" << endl;
     cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
     cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
 
     solvePressure();
-        cout << "after pressure solve" << endl;
+    cout << "after pressure solve" << endl;
 
     cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
     cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
 
     for (int i = 0; i < particles.size(); ++i) {
         Vector3f pos = particles[i].m_vVecState[0];
-        grid[pos.x()][pos.y()][pos.z()].unfill();
+        grid[(int)pos.x()][(int)pos.y()][(int)pos.z()].unfill();
     }
 }
 
