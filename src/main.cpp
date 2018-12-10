@@ -203,25 +203,48 @@ void solvePressure(){
                     divergence += grid[i][j][k-1]._particle.m_vVecState[1].z()/float(h);
                 } 
                 d(i*n*n+j*n+k) = divergence;
-
                 int neighbor_particles = 0;
-                if (i-1 >= 0 && i+1 <= n-1 && k-1 >= 0 && k+1 <= n-1 && j-1 >= 0 && j+1 <= n-1){
-                    for (int x = -1; x < 2; x = x + 2){
-                        for (int y = -1; y < 2; y = y + 2){
-                            for (int z = -1; z < 2; z = z + 2){
-                                cout << i*n*n+j*n+k << " " << (i+x)*n*n+(j+y)*n+z+k << endl;
 
-                                m.insert(i*n*n+j*n+k,(i+x)*n*n+(j+y)*n+z+k) = 1;                                
-                                if(grid[i+x][j+y][z+k]._filled){
-                                    neighbor_particles--;
+                for (int di = i - 1; di <= i + 1; ++di){
+                    for (int dj = j - 1; dj <= j + 1; ++dj){
+                        for (int dk = k - 1; dk <= k + 1; ++dk){
+                        // all 27
+                            if ((di != i) && (dj != j) && (dk != k)){
+                                // just the 26 neighbors
+                                if (di >= 0 && di <= n-1 && dj >= 0 && dj <= n-1 && dk >= 0 &&  dk <= n-1){
+                                    cout << di << " " << dj << " " << dk <<endl;
+                                    cout << i*n*n+j*n+k << " " << (di)*n*n+(dj)*n+dk << endl;
+
+                                    m.insert(i*n*n+j*n+k,di*n*n+dj*n+dk) = 1;                                
+                                    if(grid[di][dj][dk]._filled){
+                                        neighbor_particles--;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                cout << i*n*n+j*n+k << endl;
-
                 m.insert(i*n*n+j*n+k,i*n*n+j*n+k) = neighbor_particles;
+
+
+
+                
+                // if (i-1 >= 0 && i+1 <= n-1 && k-1 >= 0 && k+1 <= n-1 && j-1 >= 0 && j+1 <= n-1){
+                //     for (int x = -1; x < 2; x = x + 2){
+                //         for (int y = -1; y < 2; y = y + 2){
+                //             for (int z = -1; z < 2; z = z + 2){
+                //                 cout << i*n*n+j*n+k << " " << (i+x)*n*n+(j+y)*n+z+k << endl;
+
+                //                 m.insert(i*n*n+j*n+k,x*n*n+y*n+z) = 1;                                
+                //                 if(grid[x][y][k]._filled){
+                //                     neighbor_particles--;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+                // cout << i*n*n+j*n+k << endl;
+
             }    
         }
     }
