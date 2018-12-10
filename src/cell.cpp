@@ -9,6 +9,7 @@ Cell::Cell(Vector3f pos, int n)
     _pos = pos;
     _n = n;
     _filled = false;
+    _pressure = 0;
 }    
 
 void Cell::fill(Particle  particle){
