@@ -6,6 +6,7 @@
 #include <ctime>
 #include <iostream>
 #include <vector>
+#include <math.h> 
 
 #include "vertexrecorder.h"
 #include "starter3_util.h"
@@ -271,7 +272,6 @@ void solvePressure(){
                 float x = p(n*n*(i)+n*j+k);
 
                 //float x = p(n*n*(i)+n*j+k);
-
                 
                 //grid_x[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
                 // grid_y[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
@@ -358,6 +358,17 @@ void stepSystem()
             timeStepper -> takeStep2(&particles[i],h,n, grid_x, grid_y, grid_z);
         }
         simulated_s += h;
+    }
+
+    for (int i = 0; i < particles.size(); i++){
+        int x = floor(particles[i].m_vVecState[0][0]);
+        int y_top = floor(particles[i].m_vVecState[0][1]);
+        int y_bot = floor(particles[i].m_vVecState[0][1]);
+        int z = floor(particles[i].m_vVecState[0][2]);
+        
+        grid_y[x][y_top][z] -= 9.8;
+        grid_y[x][y_bot][z] -= 9.8;
+
 
     }
     //  std::cout << particles[i].m_vVecState[0][0]<< " " <<particles[i].m_vVecState[0][1] << " " <<particles[i].m_vVecState[0][2] << std::endl;
