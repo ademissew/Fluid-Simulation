@@ -13,7 +13,8 @@
 #include "timestepper.h"
 #include "cell.h"
 #include "particle.h"
-
+#include <Eigen/Dense>
+using Eigen::MatrixXd;
 
 using namespace std;
 
@@ -175,63 +176,104 @@ void drawAxis()
 }
 
 void solvePressure(){
-    vector<float> pressure(n*n*n,0);
-    vector<float> divergence(n*n*n,0);
-
-    for (int nx = 0; nx < particles.size(); nx++){
-        int i = particles[nx].m_vVecState[0][0];
-        int j = particles[nx].m_vVecState[0][1];
-        int k = particles[nx].m_vVecState[0][2];
-        divergence[n*n*i + n*j + k] = particles[nx].m_vVecState[0].y();
-    }
-
-    for (int i = 1; i < n - 1; i++){
-        for (int j = 1; j < n - 1; j++){
-            for (int k = 1; k < n - 1; k++){
-                divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
-                    grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
-                    grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
-                    )/n;
-            }
-
-        }
-
-    }
-    for (int steps = 0; steps < 20; steps++){               
-        for (int i = 1; i < n-1; ++i){ //adjusted pressure
-                for (int j = 1; j < n-1; ++j ){
-                    for (int k = 1; k < n-1; ++k){
-                        pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
-                        pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
-                        pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
-                        pressure[n*n*i + n*j + (k-1)] + pressure[n*n*i + n*j + (k+1)]);                    
-                }
-            }
-        }
-    }
+    MatrixXd d(n*n*n,1);
+    MatrixXd m(n*n*n,n*n*n);    
+    MatrixXd sol(n*n*n,n*n*n);    
 
 
-    for (int i = 1; i < n-1; ++i){ //adjusted pressure
-        for (int j = 1; j < n-1; ++j ){
-            for (int k = 1; k < n-1; ++k){
-                Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
-                cout << "vel begin" << endl;
-                                cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << vel[1] << " " << vel[2] << endl;
-
-                vel -= 0.5*n*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
-                pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
-                pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)]);
-                // cout << "vel end" << endl;
-                // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
-                grid[i][j][k]._particle.updateVelocity(vel); 
-                // cout << .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h << endl;
-                // grid[i][j][k]._particle.m_vVecState[1][0] -= .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h;
-                // grid[i][j][k]._particle.m_vVecState[1][1] -= .5*(pressure[n*n*(i) + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k]  )/h;
-                // grid[i][j][k]._particle.m_vVecState[1][2] -= .5*(pressure[n*n*(i) + n*(j) + k+1] - pressure[n*n*i + n*(j) + k-1]  )/h;
-                }
+    for(int i=0; i< n; ++i){ // Sets up matrix
+        for (int j=0; j < n; ++j){
+            for (int k=0; k < n; ++k){
+                Vector3f vel = grid[i][j][k]._particle.m_vVecState[1];
+                float divergence = -(vel.x()+vel.y()+vel.z())/h ;
+                if (i < n-1) {
+                    divergence += grid[i+1][j][k]._particle.m_vVecState[1].x()/float(h);
+                } if (j < n-1) {
+                    divergence += grid[i][j+1][k]._particle.m_vVecState[1].y()/float(h);
+                } if (k < n-1) {
+                    divergence += grid[i][j][k+1]._particle.m_vVecState[1].z()/float(h);
+                } 
+                d(i*n*n+j*n+k,0) = divergence;
+                int neighbor_particles = 0;
+                for(int x=0; x< n; ++x){
+                    for (int y=0; y< n; ++y){
+                        for (int z=0; z< n; ++z){
+                            if (i-1 == x || i+1 == x || j-1 == y || j+1 == y || k-1 == z || k+1 == z){
+                                m(i*n*n+j*n+k,x*n*n+y*n+z) = 1;                                
+                                if(grid[x][y][z]._filled){
+                                    neighbor_particles--;
+                                }
+                            } else {
+                                m(i*n*n+j*n+k,x*n*n+y*n+z) = 0;
+                            }
+                        }
+                    }
+                }  
+                m(i*n*n+j*n+k,i*n*n+j*n+k) = neighbor_particles;
+            }    
         }
     }
-    std::cout << "____________________" << std::endl;
+    // m = m.inverse();
+    // sol = m.inverse()*d;
+
+
+    // vector<float> pressure(n*n*n,0);
+    // vector<float> divergence(n*n*n,0);
+
+    // for (int nx = 0; nx < particles.size(); nx++){
+    //     int i = particles[nx].m_vVecState[0][0];
+    //     int j = particles[nx].m_vVecState[0][1];
+    //     int k = particles[nx].m_vVecState[0][2];
+    //     divergence[n*n*i + n*j + k] = particles[nx].m_vVecState[0].y();
+    // }
+
+    // for (int i = 1; i < n - 1; i++){
+    //     for (int j = 1; j < n - 1; j++){
+    //         for (int k = 1; k < n - 1; k++){
+    //             divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
+    //                 grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
+    //                 grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
+    //                 )/n;
+    //         }
+
+    //     }
+
+    // }
+    // for (int steps = 0; steps < 20; steps++){               
+    //     for (int i = 1; i < n-1; ++i){ //adjusted pressure
+    //             for (int j = 1; j < n-1; ++j ){
+    //                 for (int k = 1; k < n-1; ++k){
+    //                     pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
+    //                     pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
+    //                     pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
+    //                     pressure[n*n*i + n*j + (k-1)] + pressure[n*n*i + n*j + (k+1)]);                    
+    //             }
+    //         }
+    //     }
+    // }
+
+
+    // for (int i = 1; i < n-1; ++i){ //adjusted pressure
+    //     for (int j = 1; j < n-1; ++j ){
+    //         for (int k = 1; k < n-1; ++k){
+    //             Vector3f vel(grid[i][j][k]._particle.m_vVecState[1]);
+    //             cout << "vel begin" << endl;
+    //                             cout << grid[i][j][k]._particle.m_vVecState[1][0] << " " << vel[1] << " " << vel[2] << endl;
+
+    //             vel -= 0.5*n*Vector3f(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k],
+    //             pressure[n*n*i + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k],
+    //             pressure[n*n*i + n*j + (k+1)] - pressure[n*n*i + n*j + (k+1)]);
+    //             // cout << "vel end" << endl;
+    //             // cout << vel[0] << " " << vel[1] << " " << vel[2] << endl;
+    //             grid[i][j][k]._particle.updateVelocity(vel); 
+    //             // cout << .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h << endl;
+    //             // grid[i][j][k]._particle.m_vVecState[1][0] -= .5*(pressure[n*n*(i+1) + n*j + k] - pressure[n*n*(i-1) + n*j + k]  )/h;
+    //             // grid[i][j][k]._particle.m_vVecState[1][1] -= .5*(pressure[n*n*(i) + n*(j+1) + k] - pressure[n*n*i + n*(j-1) + k]  )/h;
+    //             // grid[i][j][k]._particle.m_vVecState[1][2] -= .5*(pressure[n*n*(i) + n*(j) + k+1] - pressure[n*n*i + n*(j) + k-1]  )/h;
+    //             }
+    //     }
+    // }
+    // std::cout << "____________________" << std::endl;
 
 }
 
@@ -295,7 +337,7 @@ void stepSystem()
         Vector3f pos = particles[i].m_vVecState[0];
         grid[(int)pos.x()][(int)pos.y()][(int)pos.z()].fill(particles[i]);
     }
-    std::cout << "____________________" << std::endl;
+    // std::cout << "____________________" << std::endl;
 
     // cout << "before pressure solve" << endl;
     // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
@@ -349,7 +391,7 @@ void initRendering()
 
 // Main routine.
 // Set up OpenGL, define the callbacks and start the main loop
-int counter = 0;
+// int counter = 0;
 int main(int argc, char** argv)
 {
     if (argc != 3) {
@@ -406,8 +448,8 @@ int main(int argc, char** argv)
     resetTime();
     int number = 0;
     // bool b = true;
-    while (!glfwWindowShouldClose(window) && counter < 5) {
-    counter++;
+    while (!glfwWindowShouldClose(window)) {
+    // counter++;
         
         // Clear the rendering window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

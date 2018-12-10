@@ -26,12 +26,12 @@ public:
 
     // std::vector<Vector3f> next_state;
     Particle _particle = Particle(Vector3f(0,0,0),Vector3f(0,0,0),0,1); //empty particle
+    bool _filled;
 
     private:
     Vector3f _pos;
     int _n;
     // Particle _particle;
-    // bool _filled;
     // float t,_h;
 };
 
