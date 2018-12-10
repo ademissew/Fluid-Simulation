@@ -1543,6 +1543,8 @@ Eigen/Dense
 -
 Eigen/Sparse
 -
+Eigen/SparseCholesky
+-
 
 /Users/Jeff/Documents/MIT/Fall_2018/Fluid-Simulation/src/particle.h
 vector
