@@ -15,6 +15,7 @@
 #include "particle.h"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include <Eigen/SparseCholesky>
 using Eigen::MatrixXd;
 
 using namespace std;
@@ -177,14 +178,14 @@ void drawAxis()
 }
 
 void solvePressure(){
-    Eigen::SparseMatrix<float> m(n*n*n, n*n*n);
-    Eigen::VectorXd d(n*n*n,1);
-    Eigen::VectorXd sol(n*n*n,n*n*n);    
+    Eigen::SparseMatrix<double> m(n*n*n, n*n*n);
+    Eigen::VectorXd d(n*n*n);
 
 
     for(int i=0; i< n; ++i){ // Sets up matrix
         for (int j=0; j < n; ++j){
             for (int k=0; k < n; ++k){
+                cout << i << " " << j << " " << k << endl;
                 Vector3f vel = grid[i][j][k]._particle.m_vVecState[1];
                 float divergence = -(vel.x()+vel.y()+vel.z())/h ;
                 if (i < n-1) {
@@ -201,31 +202,43 @@ void solvePressure(){
                 } if (k > 0) {
                     divergence += grid[i][j][k-1]._particle.m_vVecState[1].z()/float(h);
                 } 
-                d(i*n*n+j*n+k,0) = divergence;
+                d(i*n*n+j*n+k) = divergence;
+
                 int neighbor_particles = 0;
                 if (i-1 >= 0 && i+1 <= n-1 && k-1 >= 0 && k+1 <= n-1 && j-1 >= 0 && j+1 <= n-1){
                     for (int x = -1; x < 2; x = x + 2){
                         for (int y = -1; y < 2; y = y + 2){
                             for (int z = -1; z < 2; z = z + 2){
-                                m.insert(i*n*n+j*n+k,x*n*n+y*n+z) = 1;                                
-                                if(grid[x][y][z]._filled){
+                                cout << i*n*n+j*n+k << " " << (i+x)*n*n+(j+y)*n+z+k << endl;
+
+                                m.insert(i*n*n+j*n+k,(i+x)*n*n+(j+y)*n+z+k) = 1;                                
+                                if(grid[i+x][j+y][z+k]._filled){
                                     neighbor_particles--;
                                 }
                             }
                         }
                     }
                 }
+                cout << i*n*n+j*n+k << endl;
+
                 m.insert(i*n*n+j*n+k,i*n*n+j*n+k) = neighbor_particles;
             }    
         }
     }
-    Eigen::SparseLU<Eigen::SparseMatrix<float>> solver;
-    solver.compute(m);
+    cerr << "yay" << endl;
+
+    Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
+    m.makeCompressed();
+
+    solver.analyzePattern(m);
+
+    solver.factorize(m);
+    cerr << "hi" << endl;
     if(solver.info()!=Eigen::Success) {
         // decomposition failed
         return;
     }
-    sol = solver.solve(d);
+    auto sol = solver.solve(d);
     if(solver.info()!=Eigen::Success) {
         // solving failed
         return;
@@ -233,38 +246,38 @@ void solvePressure(){
     
 
 
-    // vector<float> pressure(n*n*n,0);
-    // vector<float> divergence(n*n*n,0);
+    // // vector<float> pressure(n*n*n,0);
+    // // vector<float> divergence(n*n*n,0);
 
-    // for (int nx = 0; nx < particles.size(); nx++){
-    //     int i = particles[nx].m_vVecState[0][0];
-    //     int j = particles[nx].m_vVecState[0][1];
-    //     int k = particles[nx].m_vVecState[0][2];
-    //     divergence[n*n*i + n*j + k] = particles[nx].m_vVecState[0].y();
-    // }
+    // // for (int nx = 0; nx < particles.size(); nx++){
+    // //     int i = particles[nx].m_vVecState[0][0];
+    // //     int j = particles[nx].m_vVecState[0][1];
+    // //     int k = particles[nx].m_vVecState[0][2];
+    // //     divergence[n*n*i + n*j + k] = particles[nx].m_vVecState[0].y();
+    // // }
 
-    // for (int i = 1; i < n - 1; i++){
-    //     for (int j = 1; j < n - 1; j++){
-    //         for (int k = 1; k < n - 1; k++){
-    //             divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
-    //                 grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
-    //                 grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
-    //                 )/n;
-    //         }
+    // // for (int i = 1; i < n - 1; i++){
+    // //     for (int j = 1; j < n - 1; j++){
+    // //         for (int k = 1; k < n - 1; k++){
+    // //             divergence[n*n*i + n*j + k] = -0.5*(grid[i+1][j][k]._particle.m_vVecState[1].x() - grid[i-1][j][k]._particle.m_vVecState[1].x() +
+    // //                 grid[i][j+1][k]._particle.m_vVecState[1].y() - grid[i][j-1][k]._particle.m_vVecState[1].y() +
+    // //                 grid[i][j][k+1]._particle.m_vVecState[1].z() - grid[i][j][k-1]._particle.m_vVecState[1].z()
+    // //                 )/n;
+    // //         }
 
-    //     }
+    // //     }
 
-    // }
-    // for (int steps = 0; steps < 20; steps++){               
-    //     for (int i = 1; i < n-1; ++i){ //adjusted pressure
-    //             for (int j = 1; j < n-1; ++j ){
-    //                 for (int k = 1; k < n-1; ++k){
-    //                     pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
-    //                     pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
-    //                     pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
-    //                     pressure[n*n*i + n*j + (k-1)] + pressure[n*n*i + n*j + (k+1)]);                    
-    //             }
-    //         }
+    // // }
+    // // for (int steps = 0; steps < 20; steps++){               
+    // //     for (int i = 1; i < n-1; ++i){ //adjusted pressure
+    // //             for (int j = 1; j < n-1; ++j ){
+    // //                 for (int k = 1; k < n-1; ++k){
+    // //                     pressure[n*n*i + n*j + k] = 0.25*(divergence[n*n*i + n*j + k] +
+    // //                     pressure[n*n*(i-1) + n*j + k] + pressure[n*n*(i+1) + n*j + k] +
+    // //                     pressure[n*n*i +n*(j-1) + k] + pressure[n*n*i + n*(j+1) + k] +
+    // //                     pressure[n*n*i + n*j + (k-1)] + pressure[n*n*i + n*j + (k+1)]);                    
+    // //             }
+    // //         }
     //     }
     // }
 
