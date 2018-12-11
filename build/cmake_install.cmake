@@ -1,4 +1,4 @@
-# Install script for directory: /Users/Alenta/Desktop/6.837/alenta_ps3
+# Install script for directory: /Users/Alenta/Desktop/testing/Fluid-Simulation
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,8 +34,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/Alenta/Desktop/6.837/alenta_ps3/build/3rd_party/glfw/cmake_install.cmake")
-  include("/Users/Alenta/Desktop/6.837/alenta_ps3/build/vecmath/cmake_install.cmake")
+  include("/Users/Alenta/Desktop/testing/Fluid-Simulation/build/3rd_party/glfw/cmake_install.cmake")
+  include("/Users/Alenta/Desktop/testing/Fluid-Simulation/build/vecmath/cmake_install.cmake")
 
 endif()
 
@@ -47,5 +47,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/Alenta/Desktop/6.837/alenta_ps3/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/Alenta/Desktop/testing/Fluid-Simulation/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

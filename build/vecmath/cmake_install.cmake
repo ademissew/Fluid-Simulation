@@ -1,4 +1,4 @@
-# Install script for directory: /Users/Alenta/Desktop/6.837/alenta_ps3/vecmath
+# Install script for directory: /Users/Alenta/Desktop/testing/Fluid-Simulation/vecmath
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

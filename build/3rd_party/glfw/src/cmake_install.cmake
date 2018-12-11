@@ -1,4 +1,4 @@
-# Install script for directory: /Users/Alenta/Desktop/6.837/alenta_ps3/3rd_party/glfw/src
+# Install script for directory: /Users/Alenta/Desktop/testing/Fluid-Simulation/3rd_party/glfw/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

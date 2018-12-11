@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/Alenta/Desktop/6.837/alenta_ps3
+CMAKE_SOURCE_DIR = /Users/Alenta/Desktop/testing/Fluid-Simulation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/Alenta/Desktop/6.837/alenta_ps3/build
+CMAKE_BINARY_DIR = /Users/Alenta/Desktop/testing/Fluid-Simulation/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/testing/Fluid-Simulation/build/CMakeFiles /Users/Alenta/Desktop/testing/Fluid-Simulation/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/testing/Fluid-Simulation/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -257,60 +257,6 @@ src/particlesystem.cpp.s:
 	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/particlesystem.cpp.s
 .PHONY : src/particlesystem.cpp.s
 
-src/pendulumsystem.o: src/pendulumsystem.cpp.o
-
-.PHONY : src/pendulumsystem.o
-
-# target to build an object file
-src/pendulumsystem.cpp.o:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/pendulumsystem.cpp.o
-.PHONY : src/pendulumsystem.cpp.o
-
-src/pendulumsystem.i: src/pendulumsystem.cpp.i
-
-.PHONY : src/pendulumsystem.i
-
-# target to preprocess a source file
-src/pendulumsystem.cpp.i:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/pendulumsystem.cpp.i
-.PHONY : src/pendulumsystem.cpp.i
-
-src/pendulumsystem.s: src/pendulumsystem.cpp.s
-
-.PHONY : src/pendulumsystem.s
-
-# target to generate assembly for a file
-src/pendulumsystem.cpp.s:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/pendulumsystem.cpp.s
-.PHONY : src/pendulumsystem.cpp.s
-
-src/simplesystem.o: src/simplesystem.cpp.o
-
-.PHONY : src/simplesystem.o
-
-# target to build an object file
-src/simplesystem.cpp.o:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/simplesystem.cpp.o
-.PHONY : src/simplesystem.cpp.o
-
-src/simplesystem.i: src/simplesystem.cpp.i
-
-.PHONY : src/simplesystem.i
-
-# target to preprocess a source file
-src/simplesystem.cpp.i:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/simplesystem.cpp.i
-.PHONY : src/simplesystem.cpp.i
-
-src/simplesystem.s: src/simplesystem.cpp.s
-
-.PHONY : src/simplesystem.s
-
-# target to generate assembly for a file
-src/simplesystem.cpp.s:
-	$(MAKE) -f CMakeFiles/a3.dir/build.make CMakeFiles/a3.dir/src/simplesystem.cpp.s
-.PHONY : src/simplesystem.cpp.s
-
 src/starter3_util.o: src/starter3_util.cpp.o
 
 .PHONY : src/starter3_util.o
@@ -415,12 +361,6 @@ help:
 	@echo "... src/particlesystem.o"
 	@echo "... src/particlesystem.i"
 	@echo "... src/particlesystem.s"
-	@echo "... src/pendulumsystem.o"
-	@echo "... src/pendulumsystem.i"
-	@echo "... src/pendulumsystem.s"
-	@echo "... src/simplesystem.o"
-	@echo "... src/simplesystem.i"
-	@echo "... src/simplesystem.s"
 	@echo "... src/starter3_util.o"
 	@echo "... src/starter3_util.i"
 	@echo "... src/starter3_util.s"

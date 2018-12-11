@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/Alenta/Desktop/6.837/alenta_ps3
+CMAKE_SOURCE_DIR = /Users/Alenta/Desktop/testing/Fluid-Simulation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/Alenta/Desktop/6.837/alenta_ps3/build
+CMAKE_BINARY_DIR = /Users/Alenta/Desktop/testing/Fluid-Simulation/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/Alenta/Desktop/6.837/alenta_ps3/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles /Users/Alenta/Desktop/6.837/alenta_ps3/build/3rd_party/glfw/CMakeFiles/progress.marks
-	cd /Users/Alenta/Desktop/6.837/alenta_ps3/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/6.837/alenta_ps3/build/CMakeFiles 0
+	cd /Users/Alenta/Desktop/testing/Fluid-Simulation/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/testing/Fluid-Simulation/build/CMakeFiles /Users/Alenta/Desktop/testing/Fluid-Simulation/build/3rd_party/glfw/CMakeFiles/progress.marks
+	cd /Users/Alenta/Desktop/testing/Fluid-Simulation/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Alenta/Desktop/testing/Fluid-Simulation/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/Alenta/Desktop/6.837/alenta_ps3/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/clean
+	cd /Users/Alenta/Desktop/testing/Fluid-Simulation/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,17 +97,17 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/Alenta/Desktop/6.837/alenta_ps3/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/preinstall
+	cd /Users/Alenta/Desktop/testing/Fluid-Simulation/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/Alenta/Desktop/6.837/alenta_ps3/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/preinstall
+	cd /Users/Alenta/Desktop/testing/Fluid-Simulation/build && $(MAKE) -f CMakeFiles/Makefile2 3rd_party/glfw/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/Alenta/Desktop/6.837/alenta_ps3/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/Alenta/Desktop/testing/Fluid-Simulation/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Help Target
@@ -129,6 +129,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/Alenta/Desktop/6.837/alenta_ps3/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/Alenta/Desktop/testing/Fluid-Simulation/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
