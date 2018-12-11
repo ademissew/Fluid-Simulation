@@ -47,10 +47,11 @@ TimeStepper* timeStepper;
 float h;
 char integrator;
 int size = 10;
+int N = (size-2)*(size-2);
 float delta_t;
 float diff;
 float visc;
-float u, v, u_prev, v_prev, dens, dens_prev;
+vector<float> u, v, u_prev, v_prev, dens, dens_prev;
 // float* u = &u1;
 // float* v = &v1;
 // float* u_prev = &u_prev1;
@@ -65,7 +66,7 @@ float u, v, u_prev, v_prev, dens, dens_prev;
 // static dens[size], dens_prev[size]; 
 
 #define IX(i,j) ((i)+(N+2)*(j))
-#define SWAP(x0,x) {float *tmp=x0;x0=x;x=tmp;}
+#define SWAP(x0,x) {vector<float>tmp=x0;x0=x;x=tmp;}
 
 vector<float> s(size*size*size);
 vector<float> density(size*size*size);
@@ -147,7 +148,7 @@ static void mouseCallback(GLFWwindow* window, int button, int action, int mods)
     }
 }
 
-void set_bnd( int N, int b, float * x )
+void set_bnd( int N, int b, vector<float> x )
 {
 int i;
 for ( i=1 ; i<=N ; i++ ) {
@@ -161,13 +162,13 @@ x[IX(0 ,N+1)] = 0.5*(x[IX(1,N+1)]+x[IX(0 ,N )]);
 x[IX(N+1,0 )] = 0.5*(x[IX(N,0 )]+x[IX(N+1,1)]);
 x[IX(N+1,N+1)] = 0.5*(x[IX(N,N+1)]+x[IX(N+1,N )]);
 }
-void add_source ( int N, float * x, float * s, float dt )
+void add_source ( int N, vector<float> x, vector<float> s, float dt )
 {
 int i, size=(N+2)*(N+2);
 for ( i=0 ; i<size ; i++ ) x[i] += dt*s[i];
 }
 
-void diffuse ( int N, int b, float * x, float * x0, float diff, float dt )
+void diffuse ( int N, int b, vector<float> x, vector<float> x0, float diff, float dt )
 {
 int i, j, k;
 float a=dt*diff*N*N;
@@ -181,7 +182,7 @@ x[IX(i,j)] = (x0[IX(i,j)] + a*(x[IX(i-1,j)]+x[IX(i+1,j)]+
 set_bnd( N, b, x );
 }
 }
-void project ( int N, float * u, float * v, float * p, float * div )
+void project ( int N, vector<float>u,vector<float>v, vector<float> p, vector<float> div )
 {
 int i, j, k;
 float h;
@@ -213,7 +214,7 @@ v[IX(i,j)] -= 0.5*(p[IX(i,j+1)]-p[IX(i,j-1)])/h;
 set_bnd( N, 1, u ); 
 set_bnd( N, 2, v );
 }
-void advect ( int N, int b, float * d, float * d0, float * u, float * v, float dt )
+void advect ( int N, int b, vector<float> d, vector<float> d0, vector<float> u, vector<float> v, float dt )
 {
 int i, j, i0, j0, i1, j1;
 float x, y, s0, t0, s1, t1, dt0;
@@ -230,7 +231,7 @@ d[IX(i,j)] = s0*(t0*d0[IX(i0,j0)]+t1*d0[IX(i0,j1)])+
 }
 set_bnd( N, b, d );
 }
-void dens_step ( int N, float * x, float * x0, float * u, float * v, float diff,
+void dens_step ( int N, vector<float> x, vector<float> x0, vector<float> u, vector<float> v, float diff,
 float dt )
 {
 add_source ( N, x, x0, dt );
@@ -238,7 +239,7 @@ SWAP ( x0, x ); diffuse ( N, 0, x, x0, diff, dt );
 SWAP ( x0, x ); advect ( N, 0, x, x0, u, v, dt );
 }
 
-void vel_step ( int N, float * u, float * v, float * u0, float * v0,
+void vel_step ( int N, vector<float> u, vector<float> v, vector<float> u0, vector<float> v0,
 float visc, float dt )
 {
 add_source ( N, u, u0, dt ); add_source ( N, v, v0, dt );
@@ -249,9 +250,6 @@ SWAP ( u0, u ); SWAP ( v0, v );
 advect ( N, 1, u, u0, u0, v0, dt ); advect ( N, 2, v, v0, u0, v0, dt );
 project ( N, u, v, u0, v0 );
 }
-
-
-
 
 
 
@@ -340,12 +338,12 @@ void initSystem()
     float diff = 0.001002f;
     float visc = 0.001002f;
 
-    u = *new float[n*n];
-    v = *new float[n*n];
-    u_prev = *new float[n*n];
-    v_prev = *new float[n*n];
-    dens = *new float[n*n];
-    dens_prev = *new float[n*n];
+    u = vector<float>(size*size,0);
+    v = vector<float>(size*size,0);
+    u_prev =vector<float>(size*size,0);
+    v_prev = vector<float>(size*size,0);
+    dens = vector<float>(size*size,0);
+    dens_prev = vector<float>(size*size,0);
 
     s = vector<float>(size*size*size,0);
     density = vector<float>(size*size*size,0);
@@ -359,8 +357,8 @@ void initSystem()
 }
 
 void freeSystem() {
-    u = 0.0f; v = 0.0f; u_prev = 0.0f; v_prev = 0.0f; 
-    dens = 0.0f; dens_prev = 0.0f;
+    u.clear(); v.clear(); u_prev.clear(); v_prev.clear(); 
+    dens.clear(); dens_prev.clear();
 
     s.clear();
     density.clear();
@@ -540,16 +538,16 @@ void resetTime() {
 //     set_bnd(condition,input);
 // }
 
-void swap(vector<float> a,vector<float> b){
-    vector<float> temp = a;
-    b = a;
-    a = b;
-}
+// void swap(vector<float> a,vector<float> b){
+//     vector<float> temp = a;
+//     b = a;
+//     a = b;
+// }
 
 void stepSystem()
 {
-    vel_step ( (size+2)*(size+2), u, &v, &u_prev, &v_prev, visc, delta_t );
-    dens_step ( (size+2)*(size+2), &dens, &dens_prev, &u, &v, diff, delta_t );
+    vel_step ( (size+2)*(size+2), u, v, u_prev, v_prev, visc, delta_t );
+    dens_step ( (size+2)*(size+2), dens, dens_prev, u, v, diff, delta_t );
     // draw_dens ( N, dens );
     // diffuseSystem(1, x_vel0, x_vel, 4);
     // diffuseSystem(2, y_vel0, y_vel, 4);
