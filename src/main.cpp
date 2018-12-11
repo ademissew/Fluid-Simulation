@@ -212,8 +212,8 @@ void initSystem()
     }
     int size = 10;
     float delta_t = h;
-    float diff = 5.0;
-    float visc = 5.0;
+    float diff = 0.001002f;
+    float visc = 0.001002f;
 
     s = vector<float>(size*size*size,0);
     density = vector<float>(size*size*size,0);
@@ -338,35 +338,101 @@ void inforceIncompressibility(vector<float> velx,vector<float> vely,vector<float
     set_bnd(3,velz);
 }
 
-void advectFluid(int condition, vector<float> input, vector<float> initial_input,  vector<float> velx, vector<float> vely, vector<float> velz){
-    int i, j, k, i0, j0, k0, i1, j1, k1;
-    float x, y, z, s0, t0, s1, t1, u0, u1, dt0;
-    dt0 = delta_t*size;
-    for ( i=1 ; i<=size ; i++ ) {
-        for ( j=1 ; j<=size ; j++ ) {
-            for ( k=1 ; k<=size ; k++ ) {
-                x = i-dt0*velx[value(i,j,k)]; 
-                y = j-dt0*vely[value(i,j,k)];
-                z = k-dt0*velz[value(i,j,k)];
-                if (x<0.5) x=0.5; if (x>size+0.5) x=size+ 0.5; i0=(int)x; i1=i0+1;
-                if (y<0.5) y=0.5; if (y>size+0.5) y=size+ 0.5; j0=(int)y; j1=j0+1;
-                if (k<0.5) z=0.5; if (k>size+0.5) z=size+ 0.5; k0=(int)z; k1=k0+1;
-
-                s1 = x-i0; s0 = 1-s1; t1 = y-j0; t0 = 1-t1; u1 = z-k0; u0 = 1-u1;
-
-                input[value(i,j,k)] = s0 * ( t0 * (u0 * initial_input[value(i0, j0, k0)]
-                                +u1 * initial_input[value(i0, j0, k1)])
-                                +( t1 * (u0 * initial_input[value(i0, j1, k0)]
-                                +u1 * initial_input[value(i0, j1, k1)])))
-                                +s1 * ( t0 * (u0 * initial_input[value(i1, j0, k0)]
-                                +u1 * initial_input[value(i1, j0, k1)])
-                                +( t1 * (u0 * initial_input[value(i1, j1, k0)]
-                                +u1 * initial_input[value(i1, j1, k1)])));
+void advectFluid(int condition, vector<float> input, vector<float> initial_input,  vector<float> velx, vector<float> vely, vector<float> velz)
+{
+    float i0, i1, j0, j1, k0, k1;
+    
+    float dtx = delta_t * (size - 2);
+    float dty = delta_t * (size - 2);
+    float dtz = delta_t * (size - 2);
+    
+    float s0, s1, t0, t1, u0, u1;
+    float tmp1, tmp2, tmp3, x, y, z;
+    
+    float Nfloat = size;
+    float ifloat, jfloat, kfloat;
+    int i, j, k;
+    
+    for(k = 1, kfloat = 1; k < size - 1; k++, kfloat++) {
+        for(j = 1, jfloat = 1; j < size - 1; j++, jfloat++) { 
+            for(i = 1, ifloat = 1; i < size - 1; i++, ifloat++) {
+                tmp1 = dtx * velx[value(i, j, k)];
+                tmp2 = dty * vely[value(i, j, k)];
+                tmp3 = dtz * velz[value(i, j, k)];
+                x    = ifloat - tmp1; 
+                y    = jfloat - tmp2;
+                z    = kfloat - tmp3;
+                
+                if(x < 0.5f) x = 0.5f; 
+                if(x > Nfloat + 0.5f) x = Nfloat + 0.5f; 
+                i0 = floorf(x); 
+                i1 = i0 + 1.0f;
+                if(y < 0.5f) y = 0.5f; 
+                if(y > Nfloat + 0.5f) y = Nfloat + 0.5f; 
+                j0 = floorf(y);
+                j1 = j0 + 1.0f; 
+                if(z < 0.5f) z = 0.5f;
+                if(z > Nfloat + 0.5f) z = Nfloat + 0.5f;
+                k0 = floorf(z);
+                k1 = k0 + 1.0f;
+                
+                s1 = x - i0; 
+                s0 = 1.0f - s1; 
+                t1 = y - j0; 
+                t0 = 1.0f - t1;
+                u1 = z - k0;
+                u0 = 1.0f - u1;
+                
+                int i0i = i0;
+                int i1i = i1;
+                int j0i = j0;
+                int j1i = j1;
+                int k0i = k0;
+                int k1i = k1;
+                
+                input[value(i, j, k)] = 
+                
+                    s0 * ( t0 * (u0 * initial_input[value(i0i, j0i, k0i)]
+                                +u1 * initial_input[value(i0i, j0i, k1i)])
+                        +( t1 * (u0 * initial_input[value(i0i, j1i, k0i)]
+                                +u1 * initial_input[value(i0i, j1i, k1i)])))
+                   +s1 * ( t0 * (u0 * initial_input[value(i1i, j0i, k0i)]
+                                +u1 * initial_input[value(i1i, j0i, k1i)])
+                        +( t1 * (u0 * initial_input[value(i1i, j1i, k0i)]
+                                +u1 * initial_input[value(i1i, j1i, k1i)])));
             }
         }
     }
-    set_bnd (condition, input);
+    set_bnd(condition,input);
 }
+//{    int i, j, k, i0, j0, k0, i1, j1, k1;
+//     float x, y, z, s0, t0, s1, t1, u0, u1, dt0;
+//     dt0 = delta_t*size;
+//     for ( i=1 ; i<=size ; i++ ) {
+//         for ( j=1 ; j<=size ; j++ ) {
+//             for ( k=1 ; k<=size ; k++ ) {
+//                 x = i-dt0*velx[value(i,j,k)]; 
+//                 y = j-dt0*vely[value(i,j,k)];
+//                 z = k-dt0*velz[value(i,j,k)];
+//                 if (x<0.5) x=0.5; if (x>size+0.5) x=size+ 0.5; i0=(int)x; i1=i0+1;
+//                 if (y<0.5) y=0.5; if (y>size+0.5) y=size+ 0.5; j0=(int)y; j1=j0+1;
+//                 if (k<0.5) z=0.5; if (k>size+0.5) z=size+ 0.5; k0=(int)z; k1=k0+1;
+
+//                 s1 = x-i0; s0 = 1-s1; t1 = y-j0; t0 = 1-t1; u1 = z-k0; u0 = 1-u1;
+
+//                 input[value(i,j,k)] = s0 * ( t0 * (u0 * initial_input[value(i0, j0, k0)]
+//                                 +u1 * initial_input[value(i0, j0, k1)])
+//                                 +( t1 * (u0 * initial_input[value(i0, j1, k0)]
+//                                 +u1 * initial_input[value(i0, j1, k1)])))
+//                                 +s1 * ( t0 * (u0 * initial_input[value(i1, j0, k0)]
+//                                 +u1 * initial_input[value(i1, j0, k1)])
+//                                 +( t1 * (u0 * initial_input[value(i1, j1, k0)]
+//                                 +u1 * initial_input[value(i1, j1, k1)])));
+//             }
+//         }
+//     }
+//     set_bnd (condition, input);
+// }
 
 void stepSystem()
 {
@@ -398,22 +464,23 @@ void drawSystem()
     // particle systems need for drawing themselves
     GLProgram gl(program_light, program_color, &camera);
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
-    int k = 0;
+    // int k = 0;
     for (int i = 0; i<size; ++i){
         for (int j = 0; j<size; ++j){
-            float d = density[value(i,j,k)];
-            if(d>0){
-                const Vector3f PARTICLE_COLOR = Vector3f(0.4f, 0.7f, 1.0f)*density[value(i,j,k)];
-                gl.updateMaterial(PARTICLE_COLOR);
-                gl.updateModelMatrix(Matrix4f::translation(Vector3f(i,j,k)/size));
-                drawSphere(0.045f, 10, 10);
-            } else {
-                const Vector3f PARTICLE_COLOR = Vector3f(0.4f, 0.7f, 1.0f)*0.1;
-                gl.updateMaterial(PARTICLE_COLOR);
-                gl.updateModelMatrix(Matrix4f::translation(Vector3f(i,j,k)/size));
-                drawSphere(0.045f, 10, 10);
+            for (int k = 0; k < size; ++k){
+                float d = density[value(i,j,k)];
+                if(d>0){
+                    const Vector3f PARTICLE_COLOR = Vector3f(0.4f, 0.7f, 1.0f)*density[value(i,j,k)];
+                    gl.updateMaterial(PARTICLE_COLOR);
+                    gl.updateModelMatrix(Matrix4f::translation(Vector3f(i,j,k)/size));
+                    drawSphere(0.045f, 10, 10);
+                } else {
+                    const Vector3f PARTICLE_COLOR = Vector3f(0.4f, 0.7f, 1.0f)*0.1;
+                    gl.updateMaterial(PARTICLE_COLOR);
+                    gl.updateModelMatrix(Matrix4f::translation(Vector3f(i,j,k)/size));
+                    drawSphere(0.045f, 10, 10);
+                }
             }
-            
         }
     }
 
@@ -495,11 +562,12 @@ int main(int argc, char** argv)
     resetTime();
     int number = 0;
     int size = 10;
-    for (int i = 0; i < 2; ++i){
-        for(int j = 0; j < 2; ++j){
-            for (int k = 0; k <2; ++k){
+    int k = 1;
+    for (int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            for(int k = 0; k<size; ++k){
                 addFluid(i,j,k,(rand()%10));
-                adjustVelocity(i,j,k,2,-9.8,4);
+                adjustVelocity(i,j,k,(rand()%20)-10,(rand()%20)-10,(rand()%20)-10);
             }
         }
     }
