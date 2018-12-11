@@ -65,7 +65,7 @@ std::vector<std::vector<std::vector<float>>> grid_z; //3D grid of cells
 vector<Particle> particles;
 float delta_h;
 
-int n = 10;
+int n = 15;
 
 // Function implementations
 static void keyCallback(GLFWwindow* window, int key,
@@ -200,7 +200,7 @@ void solvePressure(){
                 } if (k -1 >= 0) {
                     divergence += (grid_z[i][j][k+1] - grid_z[i][j][k]);
                 } 
-                d(i*n*n+j*n+k) = divergence;
+                d(i*n*n+j*n+k) = -divergence;
                 int neighbor_particles = 0;
                 for (int di = i - 1; di <= i + 1; ++di){
                     for (int dj = j - 1; dj <= j + 1; ++dj){
@@ -209,8 +209,6 @@ void solvePressure(){
                             if (!(di == i && dj == j && dk == k)){
                                 // just the 26 neighbors
                                 if (di >= 0 && di <= n-1 && dj >= 0 && dj <= n-1 && dk >= 0 &&  dk <= n-1){
-                                    // cout << di << " " << dj << " " << dk <<endl;
-                                    // cout << i*n*n+j*n+k << " " << (di)*n*n+(dj)*n+dk << endl;
                                     m.insert(i*n*n+j*n+k,di*n*n+dj*n+dk) = 1;                                
                                     if(grid[di][dj][dk]._filled){
                                         neighbor_particles--;
@@ -220,24 +218,7 @@ void solvePressure(){
                         }
                     }
                 }
-                // cout << neighbor_particles<< endl;
                 m.insert(i*n*n+j*n+k,i*n*n+j*n+k) = neighbor_particles;
-
-                // if (i-1 >= 0 && i+1 <= n-1 && k-1 >= 0 && k+1 <= n-1 && j-1 >= 0 && j+1 <= n-1){
-                //     for (int x = -1; x < 2; x = x + 2){
-                //         for (int y = -1; y < 2; y = y + 2){
-                //             for (int z = -1; z < 2; z = z + 2){
-                //                 cout << i*n*n+j*n+k << " " << (i+x)*n*n+(j+y)*n+z+k << endl;
-
-                //                 m.insert(i*n*n+j*n+k,x*n*n+y*n+z) = 1;                                
-                //                 if(grid[x][y][k]._filled){
-                //                     neighbor_particles--;
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
-                // cout << i*n*n+j*n+k << endl;
 
             }    
         }
@@ -257,27 +238,25 @@ void solvePressure(){
         // solving failed
         return;
     }
-
     for (int i = 1; i < grid_x.size()-1; i ++){
         for (int j = 1; j < grid_x[0].size()-1; j ++){
             for (int k = 1; k < grid_x[0][0].size()-1; k++){
-                
-                
-                if (i==0 || j == 0 || k == 0 || (i == grid_x.size()-1) || (i == grid_x.size()-1) || (i == grid_x.size()-1)){
-                    grid_x[i][j][k] =- float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
-                    grid_y[i][j][k] =- float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
-                    grid_z[i][j][k] =- float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
+                if (!(grid[i][j][k]._filled)){
+                    p[n*n*i + n*j + k] = 0;
                 }
-                else{
-                    grid_x[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
-                    grid_y[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
-                    grid_z[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
-                }
-                
             }
         }
     }
 
+    for (int i = 1; i < grid_x.size()-1; i ++){
+        for (int j = 1; j < grid_x[0].size()-1; j ++){
+            for (int k = 1; k < grid_x[0][0].size()-1; k++){
+                grid_x[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
+                grid_y[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
+                grid_z[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
+            }
+        }
+    }
 }
 
 
@@ -317,9 +296,9 @@ void initSystem()
             std::vector<float> cells_z;
 
             for (int k = 0; k < n+1; ++k){
-                cells_x.push_back(0);
-                cells_y.push_back(0);
-                cells_z.push_back(0);
+                cells_x.push_back(rand()%20);
+                cells_y.push_back(-rand()%20);
+                cells_z.push_back(rand()%20);
             }
             vec_x.push_back(cells_x);
             vec_y.push_back(cells_y);
@@ -350,31 +329,25 @@ void resetTime() {
 //       update the external forces before each time step
 void stepSystem()
 {
+
     // step until simulated_s has caught up with elapsed_s.
     for (int i = 0; i < particles.size(); i++){
         int x = floor(particles[i].m_vVecState[0][0]);
-        int y_top = floor(particles[i].m_vVecState[0][1]);
         int y_bot = floor(particles[i].m_vVecState[0][1]);
         int z = floor(particles[i].m_vVecState[0][2]);
-        if (! (y_bot < 0)){
-            grid_y[x][y_top][z] -= 9.8;
-            grid_y[x][y_bot][z] -= 9.8;
+        if ((y_bot > 0)){
+            grid_y[min(max((int)floor(x),1),n-1)][min(max(1,(int)floor(y_bot)),n-1)][min(max(1,(int)floor(z)),n-1)] -= 9.8*h;
         }
-        
     }
-    double holder = simulated_s;
-    while (simulated_s < elapsed_s) {
-        for (int i = 0; i < particles.size(); ++i){
-            timeStepper -> takeStep2(&particles[i],h,n, grid_x, grid_y, grid_z);
-            // cout << particles[i].m_vVecState[0].x() << " " << particles[i].m_vVecState[0].y() << " " << particles[i].m_vVecState[0].z() << endl;
-        }
-        simulated_s += h;
-    }
-    
+
+
+
+
     for (int i = 0; i < particles.size(); ++i) {
         Vector3f pos = particles[i].m_vVecState[0];
-        grid[max((int)pos.x(),0)][max(0,(int)pos.y())][max(0,(int)pos.z())].fill();
+        grid[min(max((int)floor(pos.x()),1),n-1)][min(max(1,(int)floor(pos.y())),n-1)][min(max(1,(int)floor(pos.z())),n-1)].fill();
     }
+
     solvePressure();
 
     for (int i = 0; i < n; ++i) {
@@ -384,7 +357,10 @@ void stepSystem()
             }
         }
     }
-    
+
+    for (int i = 0; i < particles.size(); ++i){
+        timeStepper -> takeStep2(&particles[i],h,n, grid_x, grid_y, grid_z);
+    }
 }
 
 // Draw the current particle positions
@@ -394,12 +370,14 @@ void drawSystem()
     // particle systems need for drawing themselves
     GLProgram gl(program_light, program_color, &camera);
     gl.updateLight(LIGHT_POS, LIGHT_COLOR.xyz()); // once per frame
+    cerr << "bye" << endl;
 
     for (int i = 0; i < particles.size(); ++i){
         Vector3f pos = particles[i].m_vVecState[0];
-        Cell* cell = &grid[max((int)pos.x(),0)][max(0,(int)pos.y())][max(0,(int)pos.z())];
+        Cell* cell = &grid[min(max((int)floor(pos.x()),1),n-1)][min(max(1,(int)floor(pos.y())),n-1)][min(max(1,(int)floor(pos.z())),n-1)];
         cell->draw(gl);
     }
+    cerr << "byeee" << endl;
 
     // set uniforms for floor
     gl.updateMaterial(FLOOR_COLOR);
@@ -468,7 +446,7 @@ int main(int argc, char** argv)
     }
 
     camera.SetDimensions(600, 600);
-    camera.SetPerspective(50);
+    camera.SetPerspective(60);
     camera.SetDistance(10);
 
     // Setup system
@@ -502,7 +480,7 @@ int main(int argc, char** argv)
         elapsed_s = (double)(now - start_tick) / freq;
         
         // EMITTER
-        int range = 3;
+        int range = 5;
         int top = n-2;
         if(b){
             for (int i = 0; i < range; ++i){
