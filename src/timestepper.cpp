@@ -1,7 +1,7 @@
 #include "timestepper.h"
 #include <iostream>
 #include <cstdio>
-
+using namespace std;
 std::vector<Vector3f> clamp(std::vector<Vector3f> vec, int _n, std::vector<std::vector<std::vector<float>>> grid_x, 
 std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std::vector<float>>> grid_z) {
     std::vector<Vector3f> clamp_vec(vec.size());
@@ -59,38 +59,57 @@ void RK4::takeStep(ParticleSystem* particleSystem, float stepSize)
 
 void RK4::takeStep2(ParticleSystem* particleSystem, float stepSize, int n, std::vector<std::vector<std::vector<float>>> grid_x, 
 std::vector<std::vector<std::vector<float>>> grid_y,std::vector<std::vector<std::vector<float>>> grid_z){
-    
-    std::vector<Vector3f> state = particleSystem->getState();
-    std::vector <Vector3f> k1 = particleSystem->evalF(state);
-    // std::cout <<"rk4 begins" << std::endl;
-    //  std::cout <<state[0][0]<< " " <<state[0][1] << " " <<state[0][2] << std::endl;
-    //  std::cout <<state[1][0]<< " " <<state[1][1] << " " <<state[1][2] << std::endl;
-    std::vector<Vector3f> carry;
-    for (int i = 0; i < state.size(); i++){
-        carry.push_back(state[i]+(stepSize*k1[i])/2);
-    }
-    std::vector<Vector3f> k2 = particleSystem -> evalF(carry);
 
-    std::vector<Vector3f> carry2;
-    for (int i = 0; i < state.size(); i++){
-        carry2.push_back(state[i] + stepSize*(k2[i])/2);
-    }
-    std::vector<Vector3f> k3 = particleSystem -> evalF(carry2);
+    std::vector <Vector3f> state = particleSystem -> getState();
+    std::vector <Vector3f> newState;
+    int x = max(0.0f,state[0].x());
+    int y = max(0.0f,state[0].y());
+    int z = max(0.0f,state[0].z());
+    int size = n-1;
+    x = min(size, x);
+    y = min(size, y);
+    z = min(size, z);
+    std::cerr << "bleiih" << std::endl;
+
+    Vector3f pos = Vector3f(state[0][0] + grid_x[x][y][z]*stepSize,state[0][1] + grid_y[x][y][z]*stepSize, state[0][2] + grid_z[x][y][z]*stepSize);
+    newState.push_back(pos);
+std::cerr << "blehhhhh" << std::endl;
+
+    particleSystem -> setState(newState);
+
+
+
+    // std::vector<Vector3f> state = particleSystem->getState();
+    // std::vector <Vector3f> k1 = particleSystem->evalF(state);
+    // // std::cout <<"rk4 begins" << std::endl;
+    // //  std::cout <<state[0][0]<< " " <<state[0][1] << " " <<state[0][2] << std::endl;
+    // //  std::cout <<state[1][0]<< " " <<state[1][1] << " " <<state[1][2] << std::endl;
+    // std::vector<Vector3f> carry;
+    // for (int i = 0; i < state.size(); i++){
+    //     carry.push_back(state[i]+(stepSize*k1[i])/2);
+    // }
+    // std::vector<Vector3f> k2 = particleSystem -> evalF(carry);
+
+    // std::vector<Vector3f> carry2;
+    // for (int i = 0; i < state.size(); i++){
+    //     carry2.push_back(state[i] + stepSize*(k2[i])/2);
+    // }
+    // std::vector<Vector3f> k3 = particleSystem -> evalF(carry2);
     
-    std::vector<Vector3f> carry3;
-    for (int i = 0; i < state.size(); i++){
-        carry3.push_back(state[i] + stepSize*k3[i]);
-    }
-    std::vector<Vector3f> k4 = particleSystem -> evalF(carry3);
+    // std::vector<Vector3f> carry3;
+    // for (int i = 0; i < state.size(); i++){
+    //     carry3.push_back(state[i] + stepSize*k3[i]);
+    // }
+    // std::vector<Vector3f> k4 = particleSystem -> evalF(carry3);
     
-    std::vector<Vector3f> newState;
-    for (int i = 0; i < state.size(); i++){
-        newState.push_back(state[i] + stepSize*(k1[i]+k2[i]+k3[i]+k4[i])/6);
-    }
-    // newState = clamp(newState,n, grid_x, grid_y, grid_z);
-    // std::cout <<"rk4 ends" << std::endl;
-     std::cout <<newState[0][0]<< " " <<newState[0][1] << " " <<newState[0][2] << std::endl;
-    //  std::cout <<newState[1][0]<< " " <<newState[1][1] << " " <<newState[1][2] << std::endl;
-    particleSystem->setState(newState);
+    // std::vector<Vector3f> newState;
+    // for (int i = 0; i < state.size(); i++){
+    //     newState.push_back(state[i] + stepSize*(k1[i]+k2[i]+k3[i]+k4[i])/6);
+    // }
+    // // newState = clamp(newState,n, grid_x, grid_y, grid_z);
+    // // std::cout <<"rk4 ends" << std::endl;
+    //  std::cout <<newState[0][0]<< " " <<newState[0][1] << " " <<newState[0][2] << std::endl;
+    // //  std::cout <<newState[1][0]<< " " <<newState[1][1] << " " <<newState[1][2] << std::endl;
+    // particleSystem->setState(newState);
 
 }

@@ -33,7 +33,7 @@ std::vector<Vector3f> Particle::evalF(std::vector<Vector3f> state)
     y = min(size, y);
     z = min(size, z);
 
-    f.push_back(state[0]);
+    f.push_back(state[1]);
     f.push_back(g);
     return f;
 }

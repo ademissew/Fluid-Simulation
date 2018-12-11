@@ -248,7 +248,6 @@ void solvePressure(){
     solver.analyzePattern(m);
 
     solver.factorize(m);
-    // cerr << "hi" << endl;
     if(solver.info()!=Eigen::Success) {
         // decomposition failed
         return;
@@ -262,9 +261,19 @@ void solvePressure(){
     for (int i = 1; i < grid_x.size()-1; i ++){
         for (int j = 1; j < grid_x[0].size()-1; j ++){
             for (int k = 1; k < grid_x[0][0].size()-1; k++){
-                grid_x[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
-                grid_y[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
-                grid_z[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
+                
+                
+                if (i==0 || j == 0 || k == 0 || (i == grid_x.size()-1) || (i == grid_x.size()-1) || (i == grid_x.size()-1)){
+                    grid_x[i][j][k] =- float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
+                    grid_y[i][j][k] =- float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
+                    grid_z[i][j][k] =- float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
+                }
+                else{
+                    grid_x[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i-1)+n*j+k));
+                    grid_y[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*(j-1)+k));
+                    grid_z[i][j][k] -= float(h)*(p(n*n*(i)+n*j+k)-p(n*n*(i)+n*j+k-1));
+                }
+                
             }
         }
     }
@@ -347,9 +356,11 @@ void stepSystem()
         int y_top = floor(particles[i].m_vVecState[0][1]);
         int y_bot = floor(particles[i].m_vVecState[0][1]);
         int z = floor(particles[i].m_vVecState[0][2]);
+        if (! (y_bot < 0)){
+            grid_y[x][y_top][z] -= 9.8;
+            grid_y[x][y_bot][z] -= 9.8;
+        }
         
-        grid_y[x][y_top][z] -= 9.8;
-        grid_y[x][y_bot][z] -= 9.8;
     }
     double holder = simulated_s;
     while (simulated_s < elapsed_s) {
@@ -359,29 +370,11 @@ void stepSystem()
         }
         simulated_s += h;
     }
-
-
-
-    // std::cout << "____________________" << std::endl;
-
-    //  std::cout << particles[i].m_vVecState[0][0]<< " " <<particles[i].m_vVecState[0][1] << " " <<particles[i].m_vVecState[0][2] << std::endl;
     
-
-    // cout << "before pressure solve" << endl;
-    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
-    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
-
-    // solvePressure();
-    //     cout << "after pressure solve" << endl;
-
-    // cout << particles[0].m_vVecState[1][0] << " " << particles[0].m_vVecState[1][1] << " " << particles[0].m_vVecState[1][2] << endl;
-    // cout << particles[1].m_vVecState[1][0] << " " << particles[1].m_vVecState[1][1] << " " << particles[1].m_vVecState[1][2] << endl;
-
     for (int i = 0; i < particles.size(); ++i) {
         Vector3f pos = particles[i].m_vVecState[0];
         grid[max((int)pos.x(),0)][max(0,(int)pos.y())][max(0,(int)pos.z())].fill();
     }
-
     solvePressure();
 
     for (int i = 0; i < n; ++i) {
@@ -392,8 +385,6 @@ void stepSystem()
         }
     }
     
-
-
 }
 
 // Draw the current particle positions
@@ -511,7 +502,7 @@ int main(int argc, char** argv)
         elapsed_s = (double)(now - start_tick) / freq;
         
         // EMITTER
-        int range = 2;
+        int range = 3;
         int top = n-2;
         if(b){
             for (int i = 0; i < range; ++i){
