@@ -227,7 +227,6 @@ void initSystem()
 }
 
 void freeSystem() {
-    // delete simpleSystem; simpleSystem = nullptr;
     s.clear();
     density.clear();
     x_vel.clear();
@@ -405,34 +404,12 @@ void advectFluid(int condition, vector<float> input, vector<float> initial_input
     }
     set_bnd(condition,input);
 }
-//{    int i, j, k, i0, j0, k0, i1, j1, k1;
-//     float x, y, z, s0, t0, s1, t1, u0, u1, dt0;
-//     dt0 = delta_t*size;
-//     for ( i=1 ; i<=size ; i++ ) {
-//         for ( j=1 ; j<=size ; j++ ) {
-//             for ( k=1 ; k<=size ; k++ ) {
-//                 x = i-dt0*velx[value(i,j,k)]; 
-//                 y = j-dt0*vely[value(i,j,k)];
-//                 z = k-dt0*velz[value(i,j,k)];
-//                 if (x<0.5) x=0.5; if (x>size+0.5) x=size+ 0.5; i0=(int)x; i1=i0+1;
-//                 if (y<0.5) y=0.5; if (y>size+0.5) y=size+ 0.5; j0=(int)y; j1=j0+1;
-//                 if (k<0.5) z=0.5; if (k>size+0.5) z=size+ 0.5; k0=(int)z; k1=k0+1;
 
-//                 s1 = x-i0; s0 = 1-s1; t1 = y-j0; t0 = 1-t1; u1 = z-k0; u0 = 1-u1;
-
-//                 input[value(i,j,k)] = s0 * ( t0 * (u0 * initial_input[value(i0, j0, k0)]
-//                                 +u1 * initial_input[value(i0, j0, k1)])
-//                                 +( t1 * (u0 * initial_input[value(i0, j1, k0)]
-//                                 +u1 * initial_input[value(i0, j1, k1)])))
-//                                 +s1 * ( t0 * (u0 * initial_input[value(i1, j0, k0)]
-//                                 +u1 * initial_input[value(i1, j0, k1)])
-//                                 +( t1 * (u0 * initial_input[value(i1, j1, k0)]
-//                                 +u1 * initial_input[value(i1, j1, k1)])));
-//             }
-//         }
-//     }
-//     set_bnd (condition, input);
-// }
+void swap(vector<float> a,vector<float> b){
+    vector<float> temp = a;
+    b = a;
+    a = b;
+}
 
 void stepSystem()
 {
@@ -440,7 +417,12 @@ void stepSystem()
     diffuseSystem(2, y_vel0, y_vel, 4);
     diffuseSystem(3, z_vel0, z_vel, 4);
 
+    
+
     inforceIncompressibility(x_vel0, y_vel0, z_vel0, x_vel, y_vel, 4);
+    swap(x_vel,x_vel0);
+    swap(y_vel,y_vel0);
+    swap(z_vel,z_vel0);
 
     advectFluid(1, x_vel, x_vel0, x_vel0, y_vel0, z_vel0);
     advectFluid(2, y_vel, y_vel0, x_vel0, y_vel0, z_vel0);
@@ -449,12 +431,10 @@ void stepSystem()
     inforceIncompressibility(x_vel, y_vel, z_vel, x_vel0, y_vel0, 4);
     
     diffuseSystem(0, s, density, 4);
-
+    
     advectFluid(0, density, s, x_vel, y_vel, y_vel);
 
 }
-
-
 
 
 // Draw the current particle positions
@@ -483,8 +463,6 @@ void drawSystem()
             }
         }
     }
-
-    // simpleSystem->draw(gl);
 
     // set uniforms for floor
     gl.updateMaterial(FLOOR_COLOR);
@@ -562,13 +540,11 @@ int main(int argc, char** argv)
     resetTime();
     int number = 0;
     int size = 10;
-    int k = 1;
+    int k = size-1;
     for (int i = 0; i < size; ++i){
         for(int j = 0; j < size; ++j){
-            for(int k = 0; k<size; ++k){
-                addFluid(i,j,k,(rand()%10));
-                adjustVelocity(i,j,k,(rand()%20)-10,(rand()%20)-10,(rand()%20)-10);
-            }
+            addFluid(i,j,k,(rand()%4)+1);
+            adjustVelocity(i,j,k,(rand()%5)+5,(rand()%5)+5,0);
         }
     }
     while (!glfwWindowShouldClose(window)) {
