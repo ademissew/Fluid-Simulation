@@ -50,6 +50,22 @@ int size = 10;
 float delta_t;
 float diff;
 float visc;
+float u, v, u_prev, v_prev, dens, dens_prev;
+// float* u = &u1;
+// float* v = &v1;
+// float* u_prev = &u_prev1;
+// float* v_prev = &v_prev1;
+// float* dens = &dens1;
+// float* dens_prev = &dens_prev1;
+
+
+
+
+// static u[size], v[size], u_prev[size], v_p rev[size];
+// static dens[size], dens_prev[size]; 
+
+#define IX(i,j) ((i)+(N+2)*(j))
+#define SWAP(x0,x) {float *tmp=x0;x0=x;x=tmp;}
 
 vector<float> s(size*size*size);
 vector<float> density(size*size*size);
@@ -131,6 +147,114 @@ static void mouseCallback(GLFWwindow* window, int button, int action, int mods)
     }
 }
 
+void set_bnd( int N, int b, float * x )
+{
+int i;
+for ( i=1 ; i<=N ; i++ ) {
+x[IX(0 ,i)] = b==1 ? x[IX(1,i)]*-1.0 : x[IX(1,i)];
+x[IX(N+1,i)] = b==1 ? x[IX(N,i)]*-1.0 : x[IX(N,i)];
+x[IX(i,0 )] = b==2 ? x[IX(i,1)] *-1.0: x[IX(i,1)];
+x[IX(i,N+1)] = b==2 ? x[IX(i,N)]*-1.0 : x[IX(i,N)];
+}
+x[IX(0 ,0 )] = 0.5*(x[IX(1,0 )]+x[IX(0 ,1)]);
+x[IX(0 ,N+1)] = 0.5*(x[IX(1,N+1)]+x[IX(0 ,N )]);
+x[IX(N+1,0 )] = 0.5*(x[IX(N,0 )]+x[IX(N+1,1)]);
+x[IX(N+1,N+1)] = 0.5*(x[IX(N,N+1)]+x[IX(N+1,N )]);
+}
+void add_source ( int N, float * x, float * s, float dt )
+{
+int i, size=(N+2)*(N+2);
+for ( i=0 ; i<size ; i++ ) x[i] += dt*s[i];
+}
+
+void diffuse ( int N, int b, float * x, float * x0, float diff, float dt )
+{
+int i, j, k;
+float a=dt*diff*N*N;
+for ( k=0 ; k<20 ; k++ ) {
+for ( i=1 ; i<=N ; i++ ) {
+for ( j=1 ; j<=N ; j++ ) {
+x[IX(i,j)] = (x0[IX(i,j)] + a*(x[IX(i-1,j)]+x[IX(i+1,j)]+
+ x[IX(i,j-1)]+x[IX(i,j+1)]))/(1+4*a);
+}
+}
+set_bnd( N, b, x );
+}
+}
+void project ( int N, float * u, float * v, float * p, float * div )
+{
+int i, j, k;
+float h;
+h = 1.0/N;
+for ( i=1 ; i<=N ; i++ ) {
+for ( j=1 ; j<=N ; j++ ) {
+div[IX(i,j)] = -0.5*h*(u[IX(i+1,j)]-u[IX(i-1,j)]+
+v[IX(i,j+1)]-v[IX(i,j-1)]);
+p[IX(i,j)] = 0;
+}
+}
+set_bnd( N, 0, div ); 
+set_bnd( N, 0, p );
+for ( k=0 ; k<20 ; k++ ) {
+for ( i=1 ; i<=N ; i++ ) {
+for ( j=1 ; j<=N ; j++ ) {
+p[IX(i,j)] = (div[IX(i,j)]+p[IX(i-1,j)]+p[IX(i+1,j)]+
+ p[IX(i,j-1)]+p[IX(i,j+1)])/4;
+}
+}
+set_bnd( N, 0, p );
+}
+for ( i=1 ; i<=N ; i++ ) {
+for ( j=1 ; j<=N ; j++ ) {
+u[IX(i,j)] -= 0.5*(p[IX(i+1,j)]-p[IX(i-1,j)])/h;
+v[IX(i,j)] -= 0.5*(p[IX(i,j+1)]-p[IX(i,j-1)])/h;
+}
+}
+set_bnd( N, 1, u ); 
+set_bnd( N, 2, v );
+}
+void advect ( int N, int b, float * d, float * d0, float * u, float * v, float dt )
+{
+int i, j, i0, j0, i1, j1;
+float x, y, s0, t0, s1, t1, dt0;
+dt0 = dt*N;
+for ( i=1 ; i<=N ; i++ ) {
+for ( j=1 ; j<=N ; j++ ) {
+x = i-dt0*u[IX(i,j)]; y = j-dt0*v[IX(i,j)];
+if (x<0.5) x=0.5; if (x>N+0.5) x=N+ 0.5; i0=(int)x; i1=i0+1;
+if (y<0.5) y=0.5; if (y>N+0.5) y=N+ 0.5; j0=(int)y; j1=j0+1;
+s1 = x-i0; s0 = 1-s1; t1 = y-j0; t0 = 1-t1;
+d[IX(i,j)] = s0*(t0*d0[IX(i0,j0)]+t1*d0[IX(i0,j1)])+
+ s1*(t0*d0[IX(i1,j0)]+t1*d0[IX(i1,j1)]);
+}
+}
+set_bnd( N, b, d );
+}
+void dens_step ( int N, float * x, float * x0, float * u, float * v, float diff,
+float dt )
+{
+add_source ( N, x, x0, dt );
+SWAP ( x0, x ); diffuse ( N, 0, x, x0, diff, dt );
+SWAP ( x0, x ); advect ( N, 0, x, x0, u, v, dt );
+}
+
+void vel_step ( int N, float * u, float * v, float * u0, float * v0,
+float visc, float dt )
+{
+add_source ( N, u, u0, dt ); add_source ( N, v, v0, dt );
+SWAP ( u0, u ); diffuse ( N, 1, u, u0, visc, dt );
+SWAP ( v0, v ); diffuse ( N, 2, v, v0, visc, dt );
+project ( N, u, v, u0, v0 );
+SWAP ( u0, u ); SWAP ( v0, v );
+advect ( N, 1, u, u0, u0, v0, dt ); advect ( N, 2, v, v0, u0, v0, dt );
+project ( N, u, v, u0, v0 );
+}
+
+
+
+
+
+
 static void motionCallback(GLFWwindow* window, double x, double y)
 {
     if (!gMousePressed) {
@@ -211,9 +335,17 @@ void initSystem()
     default: printf("Unrecognized integrator\n"); exit(-1);
     }
     int size = 10;
+    int n = size-2;
     float delta_t = h;
     float diff = 0.001002f;
     float visc = 0.001002f;
+
+    u = *new float[n*n];
+    v = *new float[n*n];
+    u_prev = *new float[n*n];
+    v_prev = *new float[n*n];
+    dens = *new float[n*n];
+    dens_prev = *new float[n*n];
 
     s = vector<float>(size*size*size,0);
     density = vector<float>(size*size*size,0);
@@ -227,6 +359,9 @@ void initSystem()
 }
 
 void freeSystem() {
+    u = 0.0f; v = 0.0f; u_prev = 0.0f; v_prev = 0.0f; 
+    dens = 0.0f; dens_prev = 0.0f;
+
     s.clear();
     density.clear();
     x_vel.clear();
@@ -245,165 +380,165 @@ void resetTime() {
 
 // TODO: To add external forces like wind or turbulances,
 //       update the external forces before each time step
-void set_bnd(int condition, vector<float> input){
-    for (int b = 1; b<size-1; b++){
-        for(int a = 1; a<size-1; a++){
-            if (condition == 3){ // means flip when hitting x boundaries
-                input[value(b,a,0)] = -input[value(b,a,1)];
-                input[value(b,a,size-1)] = -input[value(b,a,size-2)];
-            } else {
-                input[value(b,a,0)] = input[value(b,a,1)];
-                input[value(b,a,size-1)] = input[value(b,a,size-2)];
-            } if (condition == 2){// means flip when hitting y boundaries
-                input[value(b,0,a)] = -input[value(b,1,a)];
-                input[value(b,size-1,a)] = -input[value(b,size-2,a)];
-            } else{
-                input[value(b,0,a)] = input[value(b,1,a)];
-                input[value(b,size-1,a)] = input[value(b,size-2,a)];
-            } if (condition == 1){ // means flip when hitting z boundaries
-                input[value(0,b,a)] = -input[value(1,b,a)];
-                input[value(size-1,b,a)] = -input[value(size-2,b,a)];
-            } else {
-                input[value(0,b,a)] = input[value(1,b,a)];
-                input[value(size-1,b,a)] = input[value(size-2,b,a)];
-            }
-        }
-    }
-    // avg at corner
-    input[value(0,0,0)] = (input[value(1,0,0)]+input[value(0,1,0)]+input[value(0,1,0)])/3.0f;
-    input[value(0,0,size-1)] = (input[value(1,0,size-1)]+input[value(0,1,size-1)]+input[value(0,0,size)])/3.0f;
-    input[value(0,size-1,0)] = (input[value(1,size-1,0)]+input[value(0,size-1,0)]+input[value(0,size-1,1)])/3.0f;
-    input[value(0,size-1,size-1)] = (input[value(1,size-1,size-1)]+input[value(0,size-2,size-1)]+input[value(0,size-1,size-2)])/3.0f;
-    input[value(size-1,0,0)] = (input[value(size-2,0,0)]+input[value(size-1,1,0)]+input[value(size-1,0,1)])/3.0f;
-    input[value(size-1,0,size-1)] = (input[value(size-2,0,size-1)]+input[value(size-1,1,size-1)]+input[value(size-1,0,size-2)])/3.0f;
-    input[value(size-1,size-1,0)] = (input[value(size-2,size-1,0)]+input[value(size-1,size-2,1)]+input[value(size-1,size-1,1)])/3.0f;
-    input[value(size-1,size-1,size-1)] = (input[value(size-2,size-1,size-1)]+input[value(size-1,size-2,size-1)]+input[value(size-1,size-1,size-2)])/3.0f;
+// void set_bnd(int condition, vector<float> input){
+//     for (int b = 1; b<size-1; b++){
+//         for(int a = 1; a<size-1; a++){
+//             if (condition == 3){ // means flip when hitting x boundaries
+//                 input[value(b,a,0)] = -input[value(b,a,1)];
+//                 input[value(b,a,size-1)] = -input[value(b,a,size-2)];
+//             } else {
+//                 input[value(b,a,0)] = input[value(b,a,1)];
+//                 input[value(b,a,size-1)] = input[value(b,a,size-2)];
+//             } if (condition == 2){// means flip when hitting y boundaries
+//                 input[value(b,0,a)] = -input[value(b,1,a)];
+//                 input[value(b,size-1,a)] = -input[value(b,size-2,a)];
+//             } else{
+//                 input[value(b,0,a)] = input[value(b,1,a)];
+//                 input[value(b,size-1,a)] = input[value(b,size-2,a)];
+//             } if (condition == 1){ // means flip when hitting z boundaries
+//                 input[value(0,b,a)] = -input[value(1,b,a)];
+//                 input[value(size-1,b,a)] = -input[value(size-2,b,a)];
+//             } else {
+//                 input[value(0,b,a)] = input[value(1,b,a)];
+//                 input[value(size-1,b,a)] = input[value(size-2,b,a)];
+//             }
+//         }
+//     }
+//     // avg at corner
+//     input[value(0,0,0)] = (input[value(1,0,0)]+input[value(0,1,0)]+input[value(0,1,0)])/3.0f;
+//     input[value(0,0,size-1)] = (input[value(1,0,size-1)]+input[value(0,1,size-1)]+input[value(0,0,size)])/3.0f;
+//     input[value(0,size-1,0)] = (input[value(1,size-1,0)]+input[value(0,size-1,0)]+input[value(0,size-1,1)])/3.0f;
+//     input[value(0,size-1,size-1)] = (input[value(1,size-1,size-1)]+input[value(0,size-2,size-1)]+input[value(0,size-1,size-2)])/3.0f;
+//     input[value(size-1,0,0)] = (input[value(size-2,0,0)]+input[value(size-1,1,0)]+input[value(size-1,0,1)])/3.0f;
+//     input[value(size-1,0,size-1)] = (input[value(size-2,0,size-1)]+input[value(size-1,1,size-1)]+input[value(size-1,0,size-2)])/3.0f;
+//     input[value(size-1,size-1,0)] = (input[value(size-2,size-1,0)]+input[value(size-1,size-2,1)]+input[value(size-1,size-1,1)])/3.0f;
+//     input[value(size-1,size-1,size-1)] = (input[value(size-2,size-1,size-1)]+input[value(size-1,size-2,size-1)]+input[value(size-1,size-1,size-2)])/3.0f;
 
-}
+// }
 
-void solveSystem(int condition, vector<float> input, vector<float> initial_input,float p, float q, int rounds){
-    float c_inv = 1.0/q;
-    for (int round = 0; round < rounds; ++round){
-        for(int i = 1; i < size-1; ++i){
-            for(int j = 1; j< size-1; ++j){
-                for(int k = 1; k<size-1; ++k){
-                    input[value(i,j,k)] = (
-                        initial_input[value(i,j,k)] +
-                        p * c_inv * (
-                        input[value(i-1,j,k)] + input[value(i+1,j,k)] +
-                        input[value(i,j-1,k)] + input[value(i,j+1,k)] +
-                        input[value(i,j,k-1)] + input[value(i,j,k+1)])
-                    );
-                }
-            }
-        }
-        set_bnd(condition, input);
+// void solveSystem(int condition, vector<float> input, vector<float> initial_input,float p, float q, int rounds){
+//     float c_inv = 1.0/q;
+//     for (int round = 0; round < rounds; ++round){
+//         for(int i = 1; i < size-1; ++i){
+//             for(int j = 1; j< size-1; ++j){
+//                 for(int k = 1; k<size-1; ++k){
+//                     input[value(i,j,k)] = (
+//                         initial_input[value(i,j,k)] +
+//                         p * c_inv * (
+//                         input[value(i-1,j,k)] + input[value(i+1,j,k)] +
+//                         input[value(i,j-1,k)] + input[value(i,j+1,k)] +
+//                         input[value(i,j,k-1)] + input[value(i,j,k+1)])
+//                     );
+//                 }
+//             }
+//         }
+//         set_bnd(condition, input);
 
-    }
+//     }
 
-}
+// }
 
-void diffuseSystem(int condition, vector<float> input, vector<float> initial_input,int rounds){
-    float diffusion_value = delta_t*diff*(size-2)*(size-2);
-    solveSystem(condition,input, initial_input, diffusion_value,1+6*diffusion_value,rounds);
-}
+// void diffuseSystem(int condition, vector<float> input, vector<float> initial_input,int rounds){
+//     float diffusion_value = delta_t*diff*(size-2)*(size-2);
+//     solveSystem(condition,input, initial_input, diffusion_value,1+6*diffusion_value,rounds);
+// }
 
-void inforceIncompressibility(vector<float> velx,vector<float> vely,vector<float> velz,vector<float> velx0,vector<float> vely0,int rounds){
-    for(int i = 1; i < size-1; ++i){
-        for(int j = 1; j< size-1; ++j){
-            for(int k = 1; k<size-1; ++k){
-                vely0[value(i,j,k)] = -0.5*(
-                    velx[value(i+1,j,k)] - velx[value(i-1,j,k)]+
-                    vely[value(i,j+1,k)] - vely[value(i,j-1,k)]+
-                    velz[value(i,j,k+1)] - velz[value(i,j,k-1)]) / size;
-                velx0[value(i,j,k)] = 0;
-            }
-        }
-    }
-    set_bnd(0,vely0);
-    set_bnd(0,velx0);
-    solveSystem(0,velx0,vely0,1,6,rounds);
-    for(int i = 1; i < size-1; ++i){
-        for(int j = 1; j< size-1; ++j){
-            for(int k = 1; k<size-1; ++k){
-                velx[value(i,j,k)] = -0.5 * size * (velx0[value(i+1,j,k)]-velx0[value(i-1,j,k)]);
-                vely[value(i,j,k)] = -0.5 * size * (velx0[value(i,j+1,k)]-velx0[value(i,j-1,k)]);
-                velz[value(i,j,k)] = -0.5 * size * (velx0[value(i,j,k+1)]-velx0[value(i-1,j,k-1)]);
-            }
-        }
-    }
-    set_bnd(1,velx);
-    set_bnd(2,vely);
-    set_bnd(3,velz);
-}
+// void inforceIncompressibility(vector<float> velx,vector<float> vely,vector<float> velz,vector<float> velx0,vector<float> vely0,int rounds){
+//     for(int i = 1; i < size-1; ++i){
+//         for(int j = 1; j< size-1; ++j){
+//             for(int k = 1; k<size-1; ++k){
+//                 vely0[value(i,j,k)] = -0.5*(
+//                     velx[value(i+1,j,k)] - velx[value(i-1,j,k)]+
+//                     vely[value(i,j+1,k)] - vely[value(i,j-1,k)]+
+//                     velz[value(i,j,k+1)] - velz[value(i,j,k-1)]) / size;
+//                 velx0[value(i,j,k)] = 0;
+//             }
+//         }
+//     }
+//     set_bnd(0,vely0);
+//     set_bnd(0,velx0);
+//     solveSystem(0,velx0,vely0,1,6,rounds);
+//     for(int i = 1; i < size-1; ++i){
+//         for(int j = 1; j< size-1; ++j){
+//             for(int k = 1; k<size-1; ++k){
+//                 velx[value(i,j,k)] = -0.5 * size * (velx0[value(i+1,j,k)]-velx0[value(i-1,j,k)]);
+//                 vely[value(i,j,k)] = -0.5 * size * (velx0[value(i,j+1,k)]-velx0[value(i,j-1,k)]);
+//                 velz[value(i,j,k)] = -0.5 * size * (velx0[value(i,j,k+1)]-velx0[value(i-1,j,k-1)]);
+//             }
+//         }
+//     }
+//     set_bnd(1,velx);
+//     set_bnd(2,vely);
+//     set_bnd(3,velz);
+// }
 
-void advectFluid(int condition, vector<float> input, vector<float> initial_input,  vector<float> velx, vector<float> vely, vector<float> velz)
-{
-    float i0, i1, j0, j1, k0, k1;
+// void advectFluid(int condition, vector<float> input, vector<float> initial_input,  vector<float> velx, vector<float> vely, vector<float> velz)
+// {
+//     float i0, i1, j0, j1, k0, k1;
     
-    float dtx = delta_t * (size - 2);
-    float dty = delta_t * (size - 2);
-    float dtz = delta_t * (size - 2);
+//     float dtx = delta_t * (size - 2);
+//     float dty = delta_t * (size - 2);
+//     float dtz = delta_t * (size - 2);
     
-    float s0, s1, t0, t1, u0, u1;
-    float tmp1, tmp2, tmp3, x, y, z;
+//     float s0, s1, t0, t1, u0, u1;
+//     float tmp1, tmp2, tmp3, x, y, z;
     
-    float Nfloat = size;
-    float ifloat, jfloat, kfloat;
-    int i, j, k;
+//     float Nfloat = size;
+//     float ifloat, jfloat, kfloat;
+//     int i, j, k;
     
-    for(k = 1, kfloat = 1; k < size - 1; k++, kfloat++) {
-        for(j = 1, jfloat = 1; j < size - 1; j++, jfloat++) { 
-            for(i = 1, ifloat = 1; i < size - 1; i++, ifloat++) {
-                tmp1 = dtx * velx[value(i, j, k)];
-                tmp2 = dty * vely[value(i, j, k)];
-                tmp3 = dtz * velz[value(i, j, k)];
-                x    = ifloat - tmp1; 
-                y    = jfloat - tmp2;
-                z    = kfloat - tmp3;
+//     for(k = 1, kfloat = 1; k < size - 1; k++, kfloat++) {
+//         for(j = 1, jfloat = 1; j < size - 1; j++, jfloat++) { 
+//             for(i = 1, ifloat = 1; i < size - 1; i++, ifloat++) {
+//                 tmp1 = dtx * velx[value(i, j, k)];
+//                 tmp2 = dty * vely[value(i, j, k)];
+//                 tmp3 = dtz * velz[value(i, j, k)];
+//                 x    = ifloat - tmp1; 
+//                 y    = jfloat - tmp2;
+//                 z    = kfloat - tmp3;
                 
-                if(x < 0.5f) x = 0.5f; 
-                if(x > Nfloat + 0.5f) x = Nfloat + 0.5f; 
-                i0 = floorf(x); 
-                i1 = i0 + 1.0f;
-                if(y < 0.5f) y = 0.5f; 
-                if(y > Nfloat + 0.5f) y = Nfloat + 0.5f; 
-                j0 = floorf(y);
-                j1 = j0 + 1.0f; 
-                if(z < 0.5f) z = 0.5f;
-                if(z > Nfloat + 0.5f) z = Nfloat + 0.5f;
-                k0 = floorf(z);
-                k1 = k0 + 1.0f;
+//                 if(x < 0.5f) x = 0.5f; 
+//                 if(x > Nfloat + 0.5f) x = Nfloat + 0.5f; 
+//                 i0 = floorf(x); 
+//                 i1 = i0 + 1.0f;
+//                 if(y < 0.5f) y = 0.5f; 
+//                 if(y > Nfloat + 0.5f) y = Nfloat + 0.5f; 
+//                 j0 = floorf(y);
+//                 j1 = j0 + 1.0f; 
+//                 if(z < 0.5f) z = 0.5f;
+//                 if(z > Nfloat + 0.5f) z = Nfloat + 0.5f;
+//                 k0 = floorf(z);
+//                 k1 = k0 + 1.0f;
                 
-                s1 = x - i0; 
-                s0 = 1.0f - s1; 
-                t1 = y - j0; 
-                t0 = 1.0f - t1;
-                u1 = z - k0;
-                u0 = 1.0f - u1;
+//                 s1 = x - i0; 
+//                 s0 = 1.0f - s1; 
+//                 t1 = y - j0; 
+//                 t0 = 1.0f - t1;
+//                 u1 = z - k0;
+//                 u0 = 1.0f - u1;
                 
-                int i0i = i0;
-                int i1i = i1;
-                int j0i = j0;
-                int j1i = j1;
-                int k0i = k0;
-                int k1i = k1;
+//                 int i0i = i0;
+//                 int i1i = i1;
+//                 int j0i = j0;
+//                 int j1i = j1;
+//                 int k0i = k0;
+//                 int k1i = k1;
                 
-                input[value(i, j, k)] = 
+//                 input[value(i, j, k)] = 
                 
-                    s0 * ( t0 * (u0 * initial_input[value(i0i, j0i, k0i)]
-                                +u1 * initial_input[value(i0i, j0i, k1i)])
-                        +( t1 * (u0 * initial_input[value(i0i, j1i, k0i)]
-                                +u1 * initial_input[value(i0i, j1i, k1i)])))
-                   +s1 * ( t0 * (u0 * initial_input[value(i1i, j0i, k0i)]
-                                +u1 * initial_input[value(i1i, j0i, k1i)])
-                        +( t1 * (u0 * initial_input[value(i1i, j1i, k0i)]
-                                +u1 * initial_input[value(i1i, j1i, k1i)])));
-            }
-        }
-    }
-    set_bnd(condition,input);
-}
+//                     s0 * ( t0 * (u0 * initial_input[value(i0i, j0i, k0i)]
+//                                 +u1 * initial_input[value(i0i, j0i, k1i)])
+//                         +( t1 * (u0 * initial_input[value(i0i, j1i, k0i)]
+//                                 +u1 * initial_input[value(i0i, j1i, k1i)])))
+//                    +s1 * ( t0 * (u0 * initial_input[value(i1i, j0i, k0i)]
+//                                 +u1 * initial_input[value(i1i, j0i, k1i)])
+//                         +( t1 * (u0 * initial_input[value(i1i, j1i, k0i)]
+//                                 +u1 * initial_input[value(i1i, j1i, k1i)])));
+//             }
+//         }
+//     }
+//     set_bnd(condition,input);
+// }
 
 void swap(vector<float> a,vector<float> b){
     vector<float> temp = a;
@@ -413,26 +548,27 @@ void swap(vector<float> a,vector<float> b){
 
 void stepSystem()
 {
-    diffuseSystem(1, x_vel0, x_vel, 4);
-    diffuseSystem(2, y_vel0, y_vel, 4);
-    diffuseSystem(3, z_vel0, z_vel, 4);
+    vel_step ( (size+2)*(size+2), u, &v, &u_prev, &v_prev, visc, delta_t );
+    dens_step ( (size+2)*(size+2), &dens, &dens_prev, &u, &v, diff, delta_t );
+    // draw_dens ( N, dens );
+    // diffuseSystem(1, x_vel0, x_vel, 4);
+    // diffuseSystem(2, y_vel0, y_vel, 4);
+    // diffuseSystem(3, z_vel0, z_vel, 4);
 
+    // inforceIncompressibility(x_vel0, y_vel0, z_vel0, x_vel, y_vel, 4);
+    // swap(x_vel,x_vel0);
+    // swap(y_vel,y_vel0);
+    // swap(z_vel,z_vel0);
+
+    // advectFluid(1, x_vel, x_vel0, x_vel0, y_vel0, z_vel0);
+    // advectFluid(2, y_vel, y_vel0, x_vel0, y_vel0, z_vel0);
+    // advectFluid(3, z_vel, z_vel0, x_vel0, y_vel0, z_vel0);
+
+    // inforceIncompressibility(x_vel, y_vel, z_vel, x_vel0, y_vel0, 4);
     
-
-    inforceIncompressibility(x_vel0, y_vel0, z_vel0, x_vel, y_vel, 4);
-    swap(x_vel,x_vel0);
-    swap(y_vel,y_vel0);
-    swap(z_vel,z_vel0);
-
-    advectFluid(1, x_vel, x_vel0, x_vel0, y_vel0, z_vel0);
-    advectFluid(2, y_vel, y_vel0, x_vel0, y_vel0, z_vel0);
-    advectFluid(3, z_vel, z_vel0, x_vel0, y_vel0, z_vel0);
-
-    inforceIncompressibility(x_vel, y_vel, z_vel, x_vel0, y_vel0, 4);
+    // diffuseSystem(0, s, density, 4);
     
-    diffuseSystem(0, s, density, 4);
-    
-    advectFluid(0, density, s, x_vel, y_vel, y_vel);
+    // advectFluid(0, density, s, x_vel, y_vel, y_vel);
 
 }
 
